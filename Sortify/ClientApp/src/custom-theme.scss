@@ -58,3 +58,14 @@ $SortifyWEB-theme: mat-light-theme($SortifyWEB-primary, $SortifyWEB-accent, $Sor
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($SortifyWEB-theme);
+
+// Custom font family
+@font-face {
+    font-family: "Circular Spotify Tx T Black";
+    src: url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.eot");
+    src: url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.eot?#iefix") format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.woff2") format("woff2"),
+    url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.woff") format("woff"),
+    url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.ttf") format("truetype"),
+    url("https://db.onlinewebfonts.com/t/01173b246d9d9ea808ea75a26b3b61bb.svg#Circular Spotify Tx T Black") format("svg");
+}
