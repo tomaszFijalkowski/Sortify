@@ -1,20 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Provide sufficient contrast against white background */
-a
-  color: #0366d6
-
-code
-  color: #e01a76
-
-.btn-primary 
-  color: #fff
-  background-color: #1b6ec2
-  border-color: #1861ac
+@import 'variables.sass';
 
 body
   margin: 0
   font-family: Roboto, "Helvetica Neue", sans-serif
+
+
+// background image
 
 .background-img
   background: url('assets/background.jpg') no-repeat center center fixed
@@ -24,17 +15,28 @@ body
   background-size: cover
   height: 100vh
 
+
+// progress-bar
+
 .mat-progress-bar
   position: absolute !important
+
+
+// images and icons
 
 img, i, .mat-icon
   user-select: none
 
+
+// selection
+
 ::selection
-  color: #fff
-  background: #444b
+  color: $white
+  background: $gray
+
 
 // scrollbar
+
 ::-webkit-scrollbar
   width: 5px
 
@@ -42,8 +44,8 @@ img, i, .mat-icon
   margin-bottom: 3px
 
 ::-webkit-scrollbar-thumb
-  background: #383838
+  background: $gray
   border-radius: 5px
 
 ::-webkit-scrollbar-thumb:hover
-  background: #444
+  background: $gray-hover

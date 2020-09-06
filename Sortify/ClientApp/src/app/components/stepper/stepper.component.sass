@@ -1,3 +1,4 @@
+@import '../../../variables.sass';
 
 .container
   text-align: center
@@ -13,32 +14,32 @@ h1
 .description
   font-size: 1.5rem
 
-.green-color
-  color: #1db954
-
 button
   margin: 24px 20px 0 20px
   font-size: 14px
   line-height: 1
   border-radius: 500px
   padding: 16px 48px 18px
-  transition-property: background-color,border-color,color,box-shadow,filter
+  transition-property: background-color, border-color, color, box-shadow, filter
   transition-duration: .3s
   border-width: 0
   letter-spacing: 2px
   min-width: 160px
   text-transform: uppercase
   white-space: normal
-  background-color: #444
+  background-color: $gray
   outline: 0
 
 button:hover
-  background-color: #1ed760
+  background-color: $green-hover
+
+
+// stepper
 
 ::ng-deep .mat-stepper-horizontal
   border-radius: 5px
-  background-color: #282828
-  color: #fff
+  background-color: $gray-dark-background
+  color: $white
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)
   width: inherit
 
@@ -48,8 +49,8 @@ button:hover
 
 ::ng-deep .mat-horizontal-stepper-header-container
   border-radius: 5px 5px 0 0
-  background-color:#282828
-  color: #fff
+  background-color: $gray-dark-background
+  color: $white
 
 ::ng-deep .mat-horizontal-content-container
   height: 790px
@@ -61,18 +62,19 @@ button:hover
 
 ::ng-deep .mat-step-header .mat-step-icon
   user-select: none
-  background-color: #444
+  background-color: $gray
 
 ::ng-deep .mat-step-header .mat-step-icon-selected,
 .mat-step-header .mat-step-icon-state-done,
 .mat-step-header .mat-step-icon-state-edit
-  background-color: #1db954
+  background-color: $green
 
 ::ng-deep .mat-step-header .mat-step-label.mat-step-label-active
-  color: #fff
+  color: $white
 
 ::ng-deep .mat-stepper-horizontal-line
-  background-color: #444
+  background-color: $gray
+
 
 // table
 
@@ -90,38 +92,38 @@ button:hover
   overflow: overlay
 
 .mat-table
-  color: #fff
+  color: $white
   background: none
 
 .mat-row
   height: auto
   border-radius: 5px
   margin-bottom: 12px
-  background: #181818
+  background: $gray-dark-row
   cursor: pointer
 
 .mat-row-short
   margin-right: 12px
 
 .mat-row:hover:not(.mat-row-selected)
-  background: #333
+  background: $gray-dark-row-hover
 
 .mat-row:last-of-type
   margin-bottom: 3px
 
 .mat-row-selected
-  background-color: #1db954
+  background-color: $green
 
 .mat-header-row
   display: none
 
 .mat-cell
-  color: #fff
+  color: $white
   padding: 0
 
 .mat-column-playlist-image
   border-radius: 5px 0 0 5px
-  background: #181818
+  background: $gray-dark-row
   max-width: 100px
   min-height: 100px
 
@@ -130,7 +132,7 @@ button:hover
   object-fit: cover
 
 .mat-column-playlist-image i
-  color: #282828
+  color: $gray-dark-background
   font-size: 76px
   margin: auto
 
@@ -149,26 +151,28 @@ button:hover
 
 .playlist-details-owner
   grid-area: 2 / 1 / 3 / 2
-  color: #ffffffb3
+  color: $white-dim
 
 .owner-text
   font-family: "Circular Spotify Tx T Black"
-  color: #fff
+  color: $white
 
 .divider
   padding: 0 4px 0 1px
   user-select: none
 
+
 // paginator
 
 .mat-paginator
-  color: #888
+  color: $gray-light
   background: none
 
 .mat-paginator-hidden
   visibility: hidden
-  color: #888
+  color: $gray-light
   background: none
+
 
 // select
 
@@ -177,25 +181,26 @@ button:hover
   user-select: none
 
 ::ng-deep .mat-select-panel .mat-option
-  color: #fff
+  color: $white
 
 ::ng-deep .mat-select-panel .mat-option
-  background: #383838
+  background: $gray
 
 ::ng-deep .mat-select-panel .mat-option:hover
-  background: #444
+  background: $gray-hover
 
 ::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple),
-  background: #484848
+  background: $gray-selected
 
 ::ng-deep .mat-icon-button[disabled][disabled],
-  color: #444
+  color: $gray
 
 ::ng-deep .mat-select-value
-  color: #fff
+  color: $white
 
 ::ng-deep .mat-select-arrow
-  color: #888
+  color: $gray-light
+
 
 // form field
 
@@ -211,16 +216,19 @@ button:hover
 
 .mat-form-field .mat-icon
   margin-right: 6px
-  color: #888
+  color: $gray-light
 
 ::ng-deep .mat-form-field-label
-  color: #fff !important
+  color: $white !important
 
 ::ng-deep .mat-form-field-underline
-  background-color: #444 !important
+  background-color: $gray !important
 
 ::ng-deep .mat-form-field-empty .mat-form-field-label
-  color: #fff !important
+  color: $white !important
 
-::ng-deep .mat-form-field .mat-focused
-  color: red !important
+// ::ng-deep .mat-form-field .mat-focused
+//   color: red !important
+
+// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline
+//   color: red !important
