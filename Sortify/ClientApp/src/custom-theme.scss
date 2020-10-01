@@ -61,17 +61,17 @@ $SortifyWEB-theme: mat-light-theme($SortifyWEB-primary, $SortifyWEB-accent, $Sor
 // Custom font family
 @font-face {
     font-family: "CircularSpotifyTxT-Light";
-    src: url(assets/font/CircularSpotifyTxT-Light.woff2) format("woff2");
+    src: url('/assets/font/CircularSpotifyTxT-Light.woff2') format("woff2");
 }
 
 @font-face {
     font-family: "CircularSpotifyTxT-Med";
-    src: url(assets/font/CircularSpotifyTxT-Med.woff2) format("woff2");
+    src: url('/assets/font/CircularSpotifyTxT-Med.woff2') format("woff2");
 }
 
 @font-face {
     font-family: "CircularSpotifyTxT-Black";
-    src: url(assets/font/CircularSpotifyTxT-Black.woff2) format("woff2");
+    src: url('/assets/font/CircularSpotifyTxT-Black.woff2') format("woff2");
 }
 
 $custom-typography: mat-typography-config(
