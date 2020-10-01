@@ -23,6 +23,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { SortablejsModule } from 'ngx-sortablejs';
 
 
 @NgModule({
@@ -49,7 +52,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatPaginatorModule,
     MatCheckboxModule,
     MatProgressBarModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule,
+    MatTooltipModule,
+    SortablejsModule.forRoot({
+      animation: 150,
+    }),
   ],
   providers: [
     {
