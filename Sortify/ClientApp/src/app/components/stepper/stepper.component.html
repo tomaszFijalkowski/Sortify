@@ -1,86 +1,129 @@
 <div class="background-img">
-    <div class="container">
-        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <div class="container">
+    <mat-horizontal-stepper #stepper>
 
-            <mat-step>
-                <ng-template matStepLabel>Select the source {{selectionCount}}</ng-template>
-                <mat-form-field appearance="outline">
-                  <mat-icon matPrefix>search</mat-icon>
-                  <mat-label>Filter</mat-label>
-                  <input matInput (keyup)="applyFilter($event)">
-                </mat-form-field>
-                <div class="table-container">
+      <!-- Select the source step -->
 
-                  <div *ngIf="dataSource.filteredData.length === 0" class="no-results-found">
-                    No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
-                  </div>
+      <mat-step>
+        <ng-template matStepLabel>Select the source {{selectionCountText}}</ng-template>
+        <mat-form-field appearance="outline">
+          <mat-icon matPrefix>search</mat-icon>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)">
+        </mat-form-field>
+        <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
+          matTooltipPosition="left" disabled="{{selection.selected.length === 0}}">
+          <mat-icon>backspace</mat-icon>
+        </button>
+        <div class="table-container">
 
-                  <mat-table [dataSource]="dataSource">
-                    <ng-container matColumnDef="playlist-image">
-                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                      <mat-cell *matCellDef="let playlist">
-                        <img *ngIf="playlist.image !== null; else noImage" src="{{playlist.image.url}}" width="100px" height="100px" alt="{{playlist.name}} cover">
-                        <ng-template #noImage><i class="material-icons">album</i></ng-template>
-                      </mat-cell>
-                    </ng-container>
+          <div *ngIf="dataSource.filteredData.length === 0" class="no-results-found">
+            No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
+          </div>
 
-                    <ng-container matColumnDef="playlist-details">
-                      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                      <mat-cell *matCellDef="let playlist">
-                        <div class="playlist-details-container">
-                          <div class="playlist-details-name">{{playlist.name}}</div>
-                          <div class="playlist-details-owner">Created by <span class="owner-text">{{playlist.owner}}
-                            </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
-                        </div>
-                      </mat-cell>
-                    </ng-container>
+          <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="playlist-image">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let playlist">
+                <img *ngIf="playlist.image !== null; else noImage" src="{{playlist.image.url}}" width="100px"
+                  height="100px" alt="{{playlist.name}} cover">
+                <ng-template #noImage><i class="material-icons">album</i></ng-template>
+              </mat-cell>
+            </ng-container>
 
-                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                    <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
-                      [ngClass]="{'mat-row-selected': this.selection.selected.includes(row.id), 'mat-row-short': this.paginator.pageSize > 5}"
-                      (click)="$event.stopPropagation(); $event ? selection.toggle(row.id) : null"></mat-row>
-                  </mat-table>
+            <ng-container matColumnDef="playlist-details">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell *matCellDef="let playlist">
+                <div class="playlist-details-container">
+                  <div class="playlist-details-name">{{playlist.name}}</div>
+                  <div class="playlist-details-owner">Created by <span class="owner-text">{{playlist.owner}}
+                    </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
                 </div>
+              </mat-cell>
+            </ng-container>
 
-                <mat-paginator [ngClass]="{'mat-paginator-hidden': dataSource.filteredData.length === 0}" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
+              [ngClass]="{'mat-row-selected': this.selection.selected.includes(row.id), 'mat-row-short': this.paginator.pageSize > 5}"
+              (click)="$event.stopPropagation(); $event ? selection.toggle(row.id) : null"></mat-row>
+          </mat-table>
+        </div>
 
-                <div>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
-            </mat-step>
+        <mat-paginator [ngClass]="{'mat-paginator-hidden': dataSource.filteredData.length === 0}"
+          [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
-            <mat-step [stepControl]="sortFormGroup">
-              <form [formGroup]="sortFormGroup">
-                <ng-template matStepLabel>Choose the sorting</ng-template>
-                <mat-form-field>
-                  <mat-label>Address</mat-label>
-                  <input matInput formControlName="sortCtrl" required>
-                </mat-form-field>
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
-              </form>
-            </mat-step>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
 
-            <mat-step [stepControl]="outputFormGroup">
-              <form [formGroup]="outputFormGroup">
-                <ng-template matStepLabel>Set the output</ng-template>
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
-              </form>
-            </mat-step>
+      <!-- Choose the sorting step -->
 
-            <mat-step>
-              <ng-template matStepLabel>Save it</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-              </div>
-            </mat-step>
-          </mat-horizontal-stepper>
-    </div>
+      <mat-step>
+        <ng-template matStepLabel>Choose the sorting</ng-template>
+        <div class="chip-list-header">Basic properties</div>
+        <mat-chip-list>
+          <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
+            <mat-chip [attr.data-name]="item.name" [attr.data-order]="item.order"
+              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of basicProperties"
+              (click)="addItemOnClick($event)">
+              {{item.name}}
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+
+        <div class="chip-list-header">Audio features</div>
+        <mat-chip-list>
+          <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
+            <mat-chip [attr.data-name]="item.name" [attr.data-order]="item.order"
+              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of audioFeatures"
+              (click)="addItemOnClick($event)">
+              {{item.name}}
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+
+        <div class="chip-list-header">Sort by</div>
+        <mat-chip-list>
+          <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
+            [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
+              'dropzone-highlight-red': dropzoneIsHighlightedRed}">
+            <mat-chip [attr.data-name]="item.name" [attr.data-order]="item.order"
+              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
+              {{item.name}}
+              <mat-icon matChipRemove (click)="removeItemOnClick($event)">cancel</mat-icon>
+            </mat-chip>
+          </div>
+        </mat-chip-list>
+
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <!-- Set the output step -->
+
+      <mat-step [stepControl]="outputFormGroup">
+        <form [formGroup]="outputFormGroup">
+          <ng-template matStepLabel>Set the output</ng-template>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Save it step -->
+
+      <mat-step>
+        <ng-template matStepLabel>Save it</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
 </div>
