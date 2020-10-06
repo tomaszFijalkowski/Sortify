@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,6 +8,7 @@ import { Playlist } from 'src/app/models/get-playlists.response';
 import { Options, SortableEvent } from 'sortablejs';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortableItem } from 'src/app/models/sortable-item';
+import { NumberingStyle } from 'src/app/models/numbering-style';
 
 
 @Component({
@@ -16,8 +17,10 @@ import { SortableItem } from 'src/app/models/sortable-item';
   styleUrls: ['./stepper.component.sass']
 })
 
-export class StepperComponent implements OnInit {
+export class StepperComponent implements OnInit, AfterViewInit {
   // Select the source step
+  sourceFormGroup: FormGroup;
+
   displayedColumns: string[] = ['playlist-image', 'playlist-details'];
   dataSource = new MatTableDataSource<Playlist>();
   selection = new SelectionModel<string>(true, []);
@@ -26,6 +29,8 @@ export class StepperComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // Choose the sorting step
+  sortingFormGroup: FormGroup;
+
   basicProperties: SortableItem[] = [
     new SortableItem('Artist name', 0, SortableGroup.BasicProperties),
     new SortableItem('Album name', 1, SortableGroup.BasicProperties),
@@ -86,7 +91,18 @@ export class StepperComponent implements OnInit {
   dropzoneIsHighlightedRed: boolean;
 
   // Set the output step
+  readonly nameMaxLength = 100;
+  readonly descriptionMaxLength = 300;
+
   outputFormGroup: FormGroup;
+
+  readonly numberingStyles =
+     [new NumberingStyle(['1', '2', '3', '4']), new NumberingStyle(['01', '02', '03', '04']),
+      new NumberingStyle(['i', 'ii', 'iii', 'iv']), new NumberingStyle(['I', 'II', 'III', 'IV']),
+      new NumberingStyle(['a', 'b', 'c', 'd']), new NumberingStyle(['A', 'B', 'C', 'D'])];
+
+  selectedNumberingPlacement: String;
+  selectedNumberingStyle: NumberingStyle;
 
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
@@ -94,11 +110,23 @@ export class StepperComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.buildFormGroups();
     this.setupDataSource();
     this.observeSelectionCount();
+  }
 
+  ngAfterViewInit() {
+    this.selectedNumberingPlacement = 'before';
+    this.changeDetector.detectChanges();
+  }
+
+  private buildFormGroups(): void {
     this.outputFormGroup = this.formBuilder.group({
-      outputCtrl: ['', Validators.required]
+      name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      numberingPlacement: new FormControl(''),
+      numberingStyle: new FormControl(''),
+      description: new FormControl('', [Validators.maxLength(300)]),
+      isSecret: new FormControl(false)
     });
   }
 
@@ -109,7 +137,7 @@ export class StepperComponent implements OnInit {
   }
 
   private observeSelectionCount(): void {
-    this.selection.changed.subscribe(x => {
+    this.selection.changed.subscribe(() => {
       const count = this.selection.selected.length;
       this.selectionCountText = count > 0 ? `(${count})` : '';
     });

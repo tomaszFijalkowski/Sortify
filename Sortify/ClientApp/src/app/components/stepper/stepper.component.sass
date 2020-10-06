@@ -11,12 +11,20 @@ h1
   font-size: 2.5rem
   letter-spacing: 1px
 
+.header
+  font-family: "CircularSpotifyTxT-Black"
+  font-size: 1.5em
+  text-align: left
+
 .description
   font-size: 1.5rem
 
+
+// button
+
 .mat-button
   font-family: "CircularSpotifyTxT-Med"
-  margin: 24px 20px 0 20px
+  margin: 20px 20px 0 20px
   font-size: 14px
   line-height: 1
   border-radius: 500px
@@ -98,7 +106,8 @@ h1
 
 .mat-row
   height: auto
-  border-radius: 5px
+  border-radius: 10px 5px 5px 10px
+  border: none
   margin-bottom: 12px
   background: $gray-dark-row
   cursor: pointer
@@ -167,11 +176,14 @@ h1
 
 // paginator
 
-.mat-paginator
-  color: $white-dim
+::ng-deep .mat-paginator
+  color: $gray-light
   background: none
 
-.mat-paginator-hidden
+::ng-deep .mat-paginator .mat-icon-button:hover:not(:disabled)
+  color: $white-dim
+
+.paginator-hidden
   visibility: hidden
 
 
@@ -203,54 +215,29 @@ h1
   color: $gray-light
 
 
-// form field
+// filter
 
-.mat-form-field
-  font-size: 14px
-  width: 350.5px
-  min-width: 33%
-  max-width: 100%
+.filter-field
+  width: 350px
   float: left
 
-::ng-deep .mat-form-field-wrapper
-  padding-bottom: 6px
-
-.mat-form-field .mat-icon
-  margin-right: 6px
+.filter-field .mat-icon
+  margin-right: 12px
   color: $gray-light
 
-::ng-deep .mat-form-field-label
-  color: $white !important
 
-::ng-deep .mat-form-field-underline
-  background-color: $gray !important
-
-::ng-deep .mat-form-field-empty .mat-form-field-label
-  color: $white !important
+// clear button
 
 .clear-button
-  color: $white-dim
-  margin: 12px -6px 0
+  color: $gray-light
+  margin: 10px -6px 0 0
   float: right
 
 .clear-button:hover:not(:disabled)
-  color: $green-hover
-
-// ::ng-deep .mat-form-field .mat-focused
-//   color: red !important
-
-// ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline
-//   color: red !important
-
-.mat-icon-button
+  color: $white-dim
 
 
 // sorting chips
-
-.chip-list-header
-  font-family: "CircularSpotifyTxT-Black"
-  font-size: 1.5em
-  text-align: left
 
 ::ng-deep .mat-chip-list-wrapper
   margin: 6px -4px 24px -4px !important
@@ -279,3 +266,98 @@ h1
   transform: translateZ(1px)
   backface-visibility: hidden
   font-family: "CircularSpotifyTxT-Med"
+
+
+// playlist details
+
+.playlist-details
+  margin-top: 1.34375em
+
+.prefix, .suffix
+  width: 24px
+  font-size: 24px
+  text-align: center
+  color: $gray-light
+
+.prefix
+  margin-right: 12px
+
+.suffix
+  margin-left: 8px
+
+::ng-deep .make-secret-container label
+  margin: 1.34375em 0
+
+
+// button toggle
+
+.mat-button-toggle-group-appearance-standard
+  margin-bottom: 1.34375em
+  margin-right: 1.34375em
+  border-radius: 5px 5px 0 0
+  border-color: $gray-dark-row-hover $gray-dark-row-hover $gray-light $gray-dark-row-hover
+  background: $gray-dark-row-hover
+  height: 59.5px
+  width: 115px
+
+.mat-button-toggle-appearance-standard
+  background: $gray-dark-row-hover
+  border-radius: 5px 5px 0 0
+
+::ng-deep .mat-button-toggle-label-content
+  line-height: 53.25px !important
+  padding: 0 14.25px !important
+  border-radius: 5px 5px 0 0
+  color: $gray-light
+
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle,
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle
+  border: 2px solid #0000
+
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle-checked .mat-button-toggle-label-content,
+::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle-checked .mat-button-toggle-label-content
+  background-color: $gray
+  color: $white
+
+
+// form-field
+
+.mat-input-element
+  font-size: 16px
+
+.mat-grid-tile .mat-form-field
+  height: 100%
+  width: 100%
+
+::ng-deep .mat-grid-tile .mat-form-field-wrapper,
+::ng-deep .mat-form-field-wrapper .mat-form-field-flex
+  height: 100%
+
+::ng-deep .mat-form-field-label,
+::ng-deep .mat-form-field-empty .mat-form-field-label
+  color: $white
+
+::ng-deep .mat-focused .mat-form-field-required-marker
+  color: $green-hover
+
+::ng-deep .mat-form-field-flex
+  border-radius: 5px 5px 0 0 !important
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline,
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline,
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline::before,
+  background-color: $gray-light
+  transform: none
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex
+  background: $gray-dark-row-hover
+
+.numbering-style-separator
+  padding: 0 4px
+  color: #fff8
+
+
+// checkbox
+
+::ng-deep .mat-checkbox-frame
+  border-color: $gray-light

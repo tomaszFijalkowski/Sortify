@@ -1,12 +1,17 @@
 <div class="background-img">
   <div class="container">
     <mat-horizontal-stepper #stepper>
+      <!-- <ng-template matStepperIcon="edit" let-index="index"> {{index + 1}} </ng-template> -->
+
+      <ng-template matStepperIcon="edit">
+        <mat-icon>check</mat-icon>
+      </ng-template>
 
       <!-- Select the source step -->
 
-      <mat-step>
+      <mat-step [completed]="selection.selected.length > 0">
         <ng-template matStepLabel>Select the source {{selectionCountText}}</ng-template>
-        <mat-form-field appearance="outline">
+        <mat-form-field class="filter-field" appearance="fill">
           <mat-icon matPrefix>search</mat-icon>
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)">
@@ -49,7 +54,7 @@
           </mat-table>
         </div>
 
-        <mat-paginator [ngClass]="{'mat-paginator-hidden': dataSource.filteredData.length === 0}"
+        <mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0}"
           [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 
         <div>
@@ -59,9 +64,9 @@
 
       <!-- Choose the sorting step -->
 
-      <mat-step>
+      <mat-step [completed]="sortBy.length > 0">
         <ng-template matStepLabel>Choose the sorting</ng-template>
-        <div class="chip-list-header">Basic properties</div>
+        <div class="header">Basic properties</div>
         <mat-chip-list>
           <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
             <mat-chip [attr.data-name]="item.name" [attr.data-order]="item.order"
@@ -72,7 +77,7 @@
           </div>
         </mat-chip-list>
 
-        <div class="chip-list-header">Audio features</div>
+        <div class="header">Audio features</div>
         <mat-chip-list>
           <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
             <mat-chip [attr.data-name]="item.name" [attr.data-order]="item.order"
@@ -83,7 +88,7 @@
           </div>
         </mat-chip-list>
 
-        <div class="chip-list-header">Sort by</div>
+        <div class="header">Sort by</div>
         <mat-chip-list>
           <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
             [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
@@ -107,23 +112,79 @@
       <mat-step [stepControl]="outputFormGroup">
         <form [formGroup]="outputFormGroup">
           <ng-template matStepLabel>Set the output</ng-template>
+          <div class="header">Playlist details</div>
+
+          <!-- TODO cols="3" for low res -->
+          <mat-grid-list class="playlist-details" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">
+
+            <mat-grid-tile colspan="3" rowspan="1">
+              <mat-form-field appearance="fill">
+                <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
+                  class="prefix" matPrefix>{{ selectedNumberingStyle }}.</div>
+                <mat-label>Name</mat-label>
+                <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
+                  class="suffix" matSuffix>{{ selectedNumberingStyle }}</div>
+                <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
+                  <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
+                    {{ name.value?.length || 0 }}/{{ nameMaxLength }}
+                  </mat-hint>
+                <mat-error *ngIf="outputFormGroup.get('name').hasError('required')">
+                  <strong>You must give your playlist a name</strong>
+                </mat-error>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="3" rowspan="2">
+              <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
+                  matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
+                <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
+                  {{ description.value?.length || 0 }}/{{ descriptionMaxLength }}
+                </mat-hint>
+              </mat-form-field>
+            </mat-grid-tile>
+
+            <mat-grid-tile colspan="3" rowspan="1">
+              <div>
+                <mat-button-toggle-group [(value)]="selectedNumberingPlacement" formControlName="numberingPlacement">
+                  <mat-button-toggle value="before">
+                    <mat-icon>format_list_numbered</mat-icon>
+                  </mat-button-toggle>
+                  <mat-button-toggle value="after">
+                    <mat-icon>format_list_numbered_rtl</mat-icon>
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+
+              <mat-form-field class="select-field" appearance="fill">
+                <mat-label>Numbering</mat-label>
+                <mat-select [(value)]="selectedNumberingStyle" formControlName="numberingStyle">
+                  <mat-option>
+                    None
+                  </mat-option>
+                  <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{ numberingStyle.display[0] }}">
+                    <ng-container *ngFor="let item of numberingStyle.display; let i = index">
+                      {{ item + (selectedNumberingPlacement === 'before' ? '.' : '') }}
+                      <span *ngIf="i < numberingStyle.display.length - 1" class="numbering-style-separator">,</span>
+                    </ng-container>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+            <!-- TODO colspan="3" for low res -->
+          <div class="make-secret-container">
+            <mat-checkbox formControlName="isSecret">Make secret</mat-checkbox>
+          </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-button>Save</button>
           </div>
         </form>
       </mat-step>
 
-      <!-- Save it step -->
-
-      <mat-step>
-        <ng-template matStepLabel>Save it</ng-template>
-        <p>You are now done.</p>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
-      </mat-step>
     </mat-horizontal-stepper>
   </div>
 </div>

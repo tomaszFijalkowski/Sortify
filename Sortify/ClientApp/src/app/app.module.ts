@@ -11,6 +11,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { StartComponent } from './components/start/start.component';
@@ -25,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { SortablejsModule } from 'ngx-sortablejs';
 
 
@@ -45,6 +47,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatStepperModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -55,6 +58,7 @@ import { SortablejsModule } from 'ngx-sortablejs';
     MatIconModule,
     MatChipsModule,
     MatTooltipModule,
+    MatGridListModule,
     SortablejsModule.forRoot({
       animation: 150,
     }),
