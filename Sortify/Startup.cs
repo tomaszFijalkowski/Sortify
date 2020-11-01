@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sortify.Extensions;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Sortify
 {
@@ -23,7 +24,11 @@ namespace Sortify
         {
             services.AddSwagger()
                     .AddAutoMapper()
-                    .AddControllers();
+                    .AddControllers()
+                    .AddJsonOptions(options => {
+                            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                            options.JsonSerializerOptions.IgnoreNullValues = true;
+                        });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
