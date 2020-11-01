@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -8,8 +8,11 @@ import { Playlist } from 'src/app/models/get-playlists.response';
 import { Options, SortableEvent } from 'sortablejs';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortableItem } from 'src/app/models/sortable-item';
-import { NumberingStyle } from 'src/app/models/numbering-style';
+import { CreatePlaylistsRequest, SortByItem } from 'src/app/models/create-playlists.request';
+import { PlaylistService } from 'src/app/services/playlist.service';
+import 'lodash';
 
+declare const _: any;
 
 @Component({
   selector: 'app-stepper',
@@ -18,9 +21,7 @@ import { NumberingStyle } from 'src/app/models/numbering-style';
 })
 
 export class StepperComponent implements OnInit, AfterViewInit {
-  // Select the source step
-  sourceFormGroup: FormGroup;
-
+  // Select the source step (1)
   displayedColumns: string[] = ['playlist-image', 'playlist-details'];
   dataSource = new MatTableDataSource<Playlist>();
   selection = new SelectionModel<string>(true, []);
@@ -28,29 +29,27 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  // Choose the sorting step
-  sortingFormGroup: FormGroup;
-
+  // Choose the sorting step (2)
   basicProperties: SortableItem[] = [
-    new SortableItem('Artist name', 0, SortableGroup.BasicProperties),
-    new SortableItem('Album name', 1, SortableGroup.BasicProperties),
-    new SortableItem('Album release date', 2, SortableGroup.BasicProperties),
-    new SortableItem('Track duration', 3, SortableGroup.BasicProperties),
-    new SortableItem('Track name', 4, SortableGroup.BasicProperties),
-    new SortableItem('Track number', 5, SortableGroup.BasicProperties),
-    new SortableItem('Track popularity', 6, SortableGroup.BasicProperties)
+    new SortableItem('Artist name', 'asc', 0, SortableGroup.BasicProperties),
+    new SortableItem('Album name', 'asc', 1, SortableGroup.BasicProperties),
+    new SortableItem('Album release date', 'asc', 2, SortableGroup.BasicProperties),
+    new SortableItem('Track duration', 'asc', 3, SortableGroup.BasicProperties),
+    new SortableItem('Track name', 'asc', 4, SortableGroup.BasicProperties),
+    new SortableItem('Track number', 'asc', 5, SortableGroup.BasicProperties),
+    new SortableItem('Track popularity', 'asc', 6, SortableGroup.BasicProperties)
   ];
 
   audioFeatures: SortableItem[] = [
-    new SortableItem('Acousticness', 0, SortableGroup.AudioFeatures),
-    new SortableItem('Danceability', 1, SortableGroup.AudioFeatures),
-    new SortableItem('Energy', 2, SortableGroup.AudioFeatures),
-    new SortableItem('Instrumentalness', 3, SortableGroup.AudioFeatures),
-    new SortableItem('Liveness', 4, SortableGroup.AudioFeatures),
-    new SortableItem('Loudness', 5, SortableGroup.AudioFeatures),
-    new SortableItem('Speechiness', 6, SortableGroup.AudioFeatures),
-    new SortableItem('Tempo', 7, SortableGroup.AudioFeatures),
-    new SortableItem('Valence', 8, SortableGroup.AudioFeatures)
+    new SortableItem('Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
+    new SortableItem('Danceability', 'asc', 1, SortableGroup.AudioFeatures),
+    new SortableItem('Energy', 'asc', 2, SortableGroup.AudioFeatures),
+    new SortableItem('Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
+    new SortableItem('Liveness', 'asc', 4, SortableGroup.AudioFeatures),
+    new SortableItem('Loudness', 'asc', 5, SortableGroup.AudioFeatures),
+    new SortableItem('Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
+    new SortableItem('Tempo', 'asc', 7, SortableGroup.AudioFeatures),
+    new SortableItem('Valence', 'asc', 8, SortableGroup.AudioFeatures)
   ];
 
   sortBy: SortableItem[] = [];
@@ -90,44 +89,51 @@ export class StepperComponent implements OnInit, AfterViewInit {
   dropzoneIsHighlightedGreen: boolean;
   dropzoneIsHighlightedRed: boolean;
 
-  // Set the output step
+  // Set the output step (3)
+  formGroup: FormGroup;
+
+  readonly splitByTracksMinNumber = 20;
+  readonly splitByTracksMaxNumber = 10000;
+  readonly splitByPlaylistsMinNumber = 2;
+  readonly splitByPlaylistsMaxNumber = 100;
+
+  splitByTracksSelected = false;
+  splitByPlaylistsSelected = false;
+
+  @ViewChild('splitByTracksInput', {static: true}) splitByTracksInput: ElementRef;
+  @ViewChild('splitByPlaylistsInput', {static: true}) splitByPlaylistsInput: ElementRef;
+
   readonly nameMaxLength = 100;
   readonly descriptionMaxLength = 300;
+  readonly numberingStyles = ['arabic', 'paddedArabic', 'roman', 'capitalRoman', 'alphabet', 'capitalAlphabet'];
+  readonly numberingStyleDisplays = {
+    'arabic': ['1', '2', '3', '4'],
+    'paddedArabic': ['01', '02', '03', '04'],
+    'roman': ['i', 'ii', 'iii', 'iv'],
+    'capitalRoman': ['I', 'II', 'III', 'IV'],
+    'alphabet': ['a', 'b', 'c', 'd'],
+    'capitalAlphabet': ['A', 'B', 'C', 'D']
+  };
 
-  outputFormGroup: FormGroup;
+  selectedNumberingPlacement: 'before' | 'after';
+  selectedNumberingStyle: string;
 
-  readonly numberingStyles =
-     [new NumberingStyle(['1', '2', '3', '4']), new NumberingStyle(['01', '02', '03', '04']),
-      new NumberingStyle(['i', 'ii', 'iii', 'iv']), new NumberingStyle(['I', 'II', 'III', 'IV']),
-      new NumberingStyle(['a', 'b', 'c', 'd']), new NumberingStyle(['A', 'B', 'C', 'D'])];
-
-  selectedNumberingPlacement: String;
-  selectedNumberingStyle: NumberingStyle;
-
+  // General setup
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
+    private playlistService: PlaylistService,
     private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
-    this.buildFormGroups();
     this.setupDataSource();
     this.observeSelectionCount();
+    this.buildFormGroup();
   }
 
   ngAfterViewInit() {
     this.selectedNumberingPlacement = 'before';
     this.changeDetector.detectChanges();
-  }
-
-  private buildFormGroups(): void {
-    this.outputFormGroup = this.formBuilder.group({
-      name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-      numberingPlacement: new FormControl(''),
-      numberingStyle: new FormControl(''),
-      description: new FormControl('', [Validators.maxLength(300)]),
-      isSecret: new FormControl(false)
-    });
   }
 
   private setupDataSource(): void {
@@ -143,6 +149,23 @@ export class StepperComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private buildFormGroup(): void {
+    this.formGroup = this.formBuilder.group({
+      splitByTracksNumber: new FormControl(200,
+        [Validators.required, Validators.min(this.splitByTracksMinNumber), Validators.max(this.splitByTracksMaxNumber)]),
+      splitByPlaylistsNumber: new FormControl(2,
+        [Validators.required, Validators.min(this.splitByPlaylistsMinNumber), Validators.max(this.splitByPlaylistsMaxNumber)]),
+      dontBreak: new FormControl({value: false, disabled: true}),
+      breakType: new FormControl({value: 'album', disabled: true}),
+      name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
+      numberingPlacement: new FormControl('before'),
+      numberingStyle: new FormControl({value: null, disabled: true}),
+      description: new FormControl(null, [Validators.maxLength(300)]),
+      isSecret: new FormControl(false)
+    });
+  }
+
+  // Select the source step (1)
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -152,6 +175,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
     this.selection.clear();
   }
 
+  // Choose the sorting step (2)
   private toggleDropzoneBorder(sortableEvent: SortableEvent, flag: boolean): void {
     const draggedItem = sortableEvent.item;
 
@@ -204,10 +228,10 @@ export class StepperComponent implements OnInit, AfterViewInit {
   private removeSortableItem(item: SortableItem): void {
     switch (item.initialGroup) {
       case SortableGroup.BasicProperties:
-        this.moveSortableItem(item, this.sortBy, this.basicProperties);
+        this.moveSortableItem(item, this.sortBy, this.basicProperties, true);
         break;
       case SortableGroup.AudioFeatures:
-        this.moveSortableItem(item, this.sortBy, this.audioFeatures);
+        this.moveSortableItem(item, this.sortBy, this.audioFeatures, true);
         break;
     }
   }
@@ -221,28 +245,116 @@ export class StepperComponent implements OnInit, AfterViewInit {
   private addSortableItem(item: SortableItem): void {
     switch (item.initialGroup) {
       case SortableGroup.BasicProperties:
-        this.moveSortableItem(item, this.basicProperties, this.sortBy);
+        this.moveSortableItem(item, this.basicProperties, this.sortBy, false);
         break;
       case SortableGroup.AudioFeatures:
-        this.moveSortableItem(item, this.audioFeatures, this.sortBy);
+        this.moveSortableItem(item, this.audioFeatures, this.sortBy, false);
         break;
     }
   }
 
   private createSortableItem(element: HTMLElement): SortableItem {
     const name = element.dataset['name'];
-    const order = Number(element.dataset['order']);
+    const order = 'asc'; // TODO
+    const initialIndex = Number(element.dataset['initialindex']);
     const initialGroup = SortableGroup[element.dataset['initialgroup']];
-    return new SortableItem(name, order, initialGroup);
+    return new SortableItem(name, order, initialIndex, initialGroup);
   }
 
-  private moveSortableItem(item: SortableItem, from: SortableItem[], to: SortableItem[]): void {
+  private moveSortableItem(item: SortableItem, from: SortableItem[], to: SortableItem[], sort: Boolean): void {
     const index = from.findIndex(x => x.name === item.name);
     if (index > -1) {
       from.splice(index, 1);
     }
     to.push(item);
-    to.sort((a, b) => a.order - b.order);
+
+    if (sort) {
+      to.sort((a, b) => a.initialIndex - b.initialIndex);
+    }
     this.changeDetector.detectChanges();
+  }
+
+  // Set the output step (3)
+  selectSplitOnClick(splitOn: 'tracks' | 'playlists'): void {
+    switch (splitOn) {
+      case 'tracks':
+        if (!this.splitByTracksSelected) {
+          this.splitByTracksInput.nativeElement.focus();
+        }
+        this.splitByTracksSelected = !this.splitByTracksSelected;
+        this.splitByPlaylistsSelected = false;
+        break;
+      case 'playlists':
+        if (!this.splitByPlaylistsSelected) {
+          this.splitByPlaylistsInput.nativeElement.focus();
+        }
+        this.splitByPlaylistsSelected = !this.splitByPlaylistsSelected;
+        this.splitByTracksSelected = false;
+        break;
+    }
+
+    this.toggleDontBreakCheckbox();
+    this.toggleNumberingSelect();
+  }
+
+  private toggleDontBreakCheckbox(): void {
+    if (this.splitByTracksSelected || this.splitByPlaylistsSelected) {
+      this.formGroup.controls['dontBreak'].enable();
+      this.formGroup.controls['breakType'].enable();
+    } else {
+      this.formGroup.controls['dontBreak'].disable();
+      this.formGroup.controls['breakType'].disable();
+      this.formGroup.patchValue({
+        dontBreak: false
+      });
+    }
+  }
+
+  private toggleNumberingSelect(): void {
+    if (this.splitByTracksSelected || this.splitByPlaylistsSelected) {
+      this.formGroup.controls['numberingStyle'].enable();
+    } else {
+      this.formGroup.controls['numberingStyle'].disable();
+      this.formGroup.patchValue({
+        numberingStyle: null
+      });
+      this.selectedNumberingStyle = null;
+    }
+  }
+
+  onSplitByTracksInputBlur(value: number): void {
+    this.formGroup.patchValue({
+      splitByTracksNumber: this.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
+    });
+  }
+
+  onSplitByPlaylistsInputBlur(value: number): void {
+    this.formGroup.patchValue({
+      splitByPlaylistsNumber: this.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
+    });
+  }
+
+  private clamp(value: number, min: number, max: number): number {
+    return Math.max(min, Math.min(value, max));
+  }
+
+  save(): void {
+    const request = new CreatePlaylistsRequest(
+      this.selection.selected,
+      this.sortBy.map(x => new SortByItem(_.upperFirst(_.camelCase(x.name)), x.order)),
+      this.formGroup.get('dontBreak').value,
+      this.formGroup.get('dontBreak').value ? this.formGroup.get('breakType').value : null,
+      this.formGroup.get('name').value,
+      this.selectedNumberingStyle ? this.formGroup.get('numberingPlacement').value : null,
+      this.formGroup.get('numberingStyle').value,
+      this.formGroup.get('description').value,
+      this.formGroup.get('isSecret').value,
+      this.splitByTracksSelected ? this.formGroup.get('splitByTracksNumber').value : null,
+      this.splitByPlaylistsSelected ? this.formGroup.get('splitByPlaylistsNumber').value : null,
+    );
+
+    this.playlistService.createPlaylists(request).subscribe(response => {
+      console.log('response', response);
+    });
   }
 }
