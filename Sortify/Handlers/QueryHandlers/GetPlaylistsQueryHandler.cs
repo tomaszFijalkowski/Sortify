@@ -41,7 +41,7 @@ namespace Sortify.Handlers.QueryHandlers
             } 
             catch (Exception ex)
             {
-                var exception = ex;
+                var exception = ex; // TODO log exception
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Unexpected exception occured");
                 return await Task.FromResult(result);
             }
