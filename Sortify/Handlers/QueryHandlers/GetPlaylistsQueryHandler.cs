@@ -32,7 +32,12 @@ namespace Sortify.Handlers.QueryHandlers
                     return await Task.FromResult(result);
                 }
 
-                var spotify = new SpotifyClient(query.AccessToken, "Bearer");
+                var config = SpotifyClientConfig
+                  .CreateDefault(query.AccessToken)
+                  .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 3, RetryAfter = TimeSpan.FromMilliseconds(500) });
+
+                var spotify = new SpotifyClient(config);
+
                 var playlists = await spotify.Playlists.CurrentUsers();
                 var response = new GetPlaylistsResponse
                 {
