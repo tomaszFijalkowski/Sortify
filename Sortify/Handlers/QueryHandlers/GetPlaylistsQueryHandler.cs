@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
 using SpotifyAPI.Web;
@@ -10,10 +11,12 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class GetPlaylistsQueryHandler : IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse>
     {
+        private readonly ILogger<GetPlaylistsQueryHandler> logger;
         private readonly IMapper mapper;
 
-        public GetPlaylistsQueryHandler(IMapper mapper)
+        public GetPlaylistsQueryHandler(ILogger<GetPlaylistsQueryHandler> logger, IMapper mapper)
         {
+            this.logger = logger;
             this.mapper = mapper;
         }
 
@@ -25,7 +28,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (query?.AccessToken == null)
                 {
-                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Parameter is missing in the request");
+                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("One or more parameters are missing in the request.");
                     return await Task.FromResult(result);
                 }
 
@@ -41,8 +44,8 @@ namespace Sortify.Handlers.QueryHandlers
             } 
             catch (Exception ex)
             {
-                var exception = ex; // TODO log exception
-                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Unexpected exception occured");
+                logger.LogError(ex, "An unexpected error occurred.");
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Something went wrong, please try again later.");
                 return await Task.FromResult(result);
             }
         }

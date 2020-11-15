@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Responses;
 using System;
@@ -8,10 +9,12 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class CreatePlaylistsCommandHandler : ICommandHandler<CreatePlaylistsCommand>
     {
+        private readonly ILogger<CreatePlaylistsCommandHandler> logger;
         private readonly IMapper mapper;
 
-        public CreatePlaylistsCommandHandler(IMapper mapper)
+        public CreatePlaylistsCommandHandler(ILogger<CreatePlaylistsCommandHandler> logger, IMapper mapper)
         {
+            this.logger = logger;
             this.mapper = mapper;
         }
 
@@ -23,7 +26,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (HasNoRequiredParameters(command))
                 {
-                    result = OperationResult.Failure("One or more parameters are missing in the request");
+                    result = OperationResult.Failure("One or more parameters are missing in the request.");
                     return await Task.FromResult(result);
                 }
 
@@ -32,8 +35,8 @@ namespace Sortify.Handlers.QueryHandlers
             } 
             catch (Exception ex)
             {
-                var exception = ex; // TODO log exception
-                result = OperationResult.Failure("Unexpected exception occured");
+                logger.LogError(ex, "An unexpected error occurred.");
+                result = OperationResult.Failure("Something went wrong, please try again later.");
                 return await Task.FromResult(result);
             }
         }
