@@ -2,6 +2,7 @@ export class CreatePlaylistsRequest {
   constructor(
     public playlistIds: string[],
     public sortBy: SortByItem[],
+    public sortByAudioFeatures: boolean,
     public dontBreak: boolean,
     public breakType: string,
     public name: string,

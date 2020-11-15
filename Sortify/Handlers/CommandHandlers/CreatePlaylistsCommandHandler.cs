@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Sortify.Contracts.Models;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Responses;
 using SpotifyAPI.Web;
@@ -43,6 +44,10 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var tracks = await GetTracksFromAllPlaylists(command.PlaylistIds);
 
+                if (command.SortByAudioFeatures)
+                {
+                    tracks = await GetTracksWithAudioFeatures(tracks);
+                }
                 result = OperationResult.Success();
                 return await Task.FromResult(result);
             } 
@@ -59,26 +64,26 @@ namespace Sortify.Handlers.QueryHandlers
             return command.AccessToken == null || command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
         }
 
-        private async Task<List<PlaylistTrack<IPlayableItem>>> GetTracksFromAllPlaylists(IEnumerable<string> playlistIds)
+        private async Task<IList<Track>> GetTracksFromAllPlaylists(IEnumerable<string> playlistIds)
         {
-            var tracks = new List<PlaylistTrack<IPlayableItem>>();
+            var tracks = new List<Track>();
 
             foreach (var playlistId in playlistIds)
             {
                 tracks.AddRange(await GetTracksFromPlaylist(playlistId));
             }
 
-            var distinctTracks = tracks.GroupBy(x => ((FullTrack)x.Track).Id)
+            var distinctTracks = tracks.GroupBy(x => x.Id)
                                        .Select(x => x.First())
                                        .ToList();
 
             return distinctTracks;
         }
 
-        private async Task<List<PlaylistTrack<IPlayableItem>>> GetTracksFromPlaylist(string playlistId)
+        private async Task<IList<Track>> GetTracksFromPlaylist(string playlistId)
         {
             var index = 0;
-            var playlistTracks = new List<PlaylistTrack<IPlayableItem>>();
+            var playlistTracks = new List<Track>();
 
             int playlistSize;
             do
@@ -91,13 +96,39 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var requestedTracks = await spotify.Playlists.GetItems(playlistId, request);
                 playlistSize = requestedTracks.Total.GetValueOrDefault();
-                playlistTracks.AddRange(requestedTracks.Items);
+                playlistTracks.AddRange(requestedTracks.Items.Select(x => mapper.Map<Track>(x.Track)));
 
                 index++;
             }
             while (playlistTracks.Count < playlistSize);
 
             return playlistTracks;
+        }
+
+        private async Task<IList<Track>> GetTracksWithAudioFeatures(IList<Track> tracks)
+        {
+            var index = 0;
+            var audioFeatures = new List<TrackAudioFeatures>();
+
+            while (audioFeatures.Count < tracks.Count)
+            {
+                var request = new TracksAudioFeaturesRequest(tracks.Skip(index * maxItemsPerRequest)
+                                                                   .Take(maxItemsPerRequest)
+                                                                   .Select(x => x.Id)
+                                                                   .ToList());
+
+                var requestedAudioFeatures = await spotify.Tracks.GetSeveralAudioFeatures(request);
+                audioFeatures.AddRange(requestedAudioFeatures.AudioFeatures);
+
+                index++;
+            }
+
+            foreach (var tuple in tracks.Zip(audioFeatures, (track, audioFeatures) => (track, audioFeatures)))
+            {
+                tuple.track.AudioFeatures = tuple.audioFeatures;
+            }
+
+            return tracks;
         }
     }
 }

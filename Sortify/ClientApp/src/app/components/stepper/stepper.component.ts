@@ -52,6 +52,8 @@ export class StepperComponent implements OnInit, AfterViewInit {
     new SortableItem('Valence', 'asc', 8, SortableGroup.AudioFeatures)
   ];
 
+  initialAudioFeaturesLength = this.audioFeatures.length;
+
   sortBy: SortableItem[] = [];
 
   basicPropertiesOptions: Options = {
@@ -342,6 +344,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
     const request = new CreatePlaylistsRequest(
       this.selection.selected,
       this.sortBy.map(x => new SortByItem(_.upperFirst(_.camelCase(x.name)), x.order)),
+      this.audioFeatures.length < this.initialAudioFeaturesLength,
       this.formGroup.get('dontBreak').value,
       this.formGroup.get('dontBreak').value ? this.formGroup.get('breakType').value : null,
       this.formGroup.get('name').value,

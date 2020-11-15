@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Sortify.Contracts.Models;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
 using SpotifyAPI.Web;

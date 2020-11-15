@@ -11,6 +11,8 @@ namespace Sortify.Contracts.Requests.Commands
 
         public IList<SortByItem> SortBy { get; set; }
 
+        public bool SortByAudioFeatures { get; set; }
+
         public int? SplitByTracksNumber { get; set; }
 
         public int? SplitByPlaylistsNumber { get; set; }
