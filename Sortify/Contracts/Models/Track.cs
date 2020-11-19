@@ -12,14 +12,14 @@ namespace Sortify.Contracts.Models
 
         public string AlbumReleaseDate { get; set; }
 
-        public int TrackDuration { get; set; }
+        public int Duration { get; set; }
 
-        public string TrackName { get; set; }
+        public string Name { get; set; }
 
         public int TrackNumber { get; set; }
 
-        public int TrackPopularity { get; set; }
+        public int Popularity { get; set; }
 
-        public TrackAudioFeatures AudioFeatures { get; set; }
+        public AudioFeatures AudioFeatures { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 export class CreatePlaylistsRequest {
   constructor(
     public playlistIds: string[],
-    public sortBy: SortByItem[],
+    public sortBy: string[],
     public sortByAudioFeatures: boolean,
     public dontBreak: boolean,
     public breakType: string,
@@ -12,12 +12,5 @@ export class CreatePlaylistsRequest {
     public isSecret: boolean,
     public splitByTracksNumber?: number,
     public splitByPlaylistsNumber?: number) {
-  }
-}
-
-export class SortByItem {
-  constructor(
-    public name: string,
-    public order: 'asc' | 'desc') {
   }
 }

@@ -34,17 +34,13 @@ namespace Sortify
                     dest => dest.AlbumName,
                     opt => opt.MapFrom(src => src.Album.Name))
                 .ForMember(
-                    dest => dest.TrackDuration,
+                    dest => dest.Duration,
                     opt => opt.MapFrom(src => src.DurationMs))
-                .ForMember(
-                    dest => dest.TrackName,
-                    opt => opt.MapFrom(src => src.Name))
-                .ForMember(
-                    dest => dest.TrackPopularity,
-                    opt => opt.MapFrom(src => src.Popularity))
                 .ForMember(
                     dest => dest.AudioFeatures,
                     opt => opt = null);
+
+            CreateMap<TrackAudioFeatures, AudioFeatures>();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Sortify.Contracts.Requests.Commands
 
         public IList<string> PlaylistIds { get; set; }
 
-        public IList<SortByItem> SortBy { get; set; }
+        public IList<string> SortBy { get; set; }
 
         public bool SortByAudioFeatures { get; set; }
 
@@ -30,12 +30,5 @@ namespace Sortify.Contracts.Requests.Commands
         public string Description { get; set; }
 
         public bool IsSecret { get; set; }
-    }
-
-    public class SortByItem
-    {
-        public string Name { get; set; }
-
-        public string Order { get; set; }
     }
 }

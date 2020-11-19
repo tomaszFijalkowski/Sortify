@@ -8,7 +8,7 @@ import { Playlist } from 'src/app/models/get-playlists.response';
 import { Options, SortableEvent } from 'sortablejs';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortableItem } from 'src/app/models/sortable-item';
-import { CreatePlaylistsRequest, SortByItem } from 'src/app/models/create-playlists.request';
+import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import 'lodash';
 
@@ -31,25 +31,25 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   // Choose the sorting step (2)
   basicProperties: SortableItem[] = [
-    new SortableItem('Artist name', 'asc', 0, SortableGroup.BasicProperties),
-    new SortableItem('Album name', 'asc', 1, SortableGroup.BasicProperties),
-    new SortableItem('Album release date', 'asc', 2, SortableGroup.BasicProperties),
-    new SortableItem('Track duration', 'asc', 3, SortableGroup.BasicProperties),
-    new SortableItem('Track name', 'asc', 4, SortableGroup.BasicProperties),
-    new SortableItem('Track number', 'asc', 5, SortableGroup.BasicProperties),
-    new SortableItem('Track popularity', 'asc', 6, SortableGroup.BasicProperties)
+    new SortableItem('Artist name', 'ArtistName', 'asc', 0, SortableGroup.BasicProperties),
+    new SortableItem('Album name', 'AlbumName', 'asc', 1, SortableGroup.BasicProperties),
+    new SortableItem('Album release date', 'AlbumReleaseDate', 'asc', 2, SortableGroup.BasicProperties),
+    new SortableItem('Track duration', 'Duration', 'asc', 3, SortableGroup.BasicProperties),
+    new SortableItem('Track name', 'Name', 'asc', 4, SortableGroup.BasicProperties),
+    new SortableItem('Track number', 'TrackNumber', 'asc', 5, SortableGroup.BasicProperties),
+    new SortableItem('Track popularity', 'Popularity', 'asc', 6, SortableGroup.BasicProperties)
   ];
 
   audioFeatures: SortableItem[] = [
-    new SortableItem('Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
-    new SortableItem('Danceability', 'asc', 1, SortableGroup.AudioFeatures),
-    new SortableItem('Energy', 'asc', 2, SortableGroup.AudioFeatures),
-    new SortableItem('Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
-    new SortableItem('Liveness', 'asc', 4, SortableGroup.AudioFeatures),
-    new SortableItem('Loudness', 'asc', 5, SortableGroup.AudioFeatures),
-    new SortableItem('Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
-    new SortableItem('Tempo', 'asc', 7, SortableGroup.AudioFeatures),
-    new SortableItem('Valence', 'asc', 8, SortableGroup.AudioFeatures)
+    new SortableItem('Acousticness', 'AudioFeatures.Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
+    new SortableItem('Danceability', 'AudioFeatures.Danceability', 'asc', 1, SortableGroup.AudioFeatures),
+    new SortableItem('Energy', 'AudioFeatures.Energy', 'asc', 2, SortableGroup.AudioFeatures),
+    new SortableItem('Instrumentalness', 'AudioFeatures.Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
+    new SortableItem('Liveness', 'AudioFeatures.Liveness', 'asc', 4, SortableGroup.AudioFeatures),
+    new SortableItem('Loudness', 'AudioFeatures.Loudness', 'asc', 5, SortableGroup.AudioFeatures),
+    new SortableItem('Speechiness', 'AudioFeatures.Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
+    new SortableItem('Tempo', 'AudioFeatures.Tempo', 'asc', 7, SortableGroup.AudioFeatures),
+    new SortableItem('Valence', 'AudioFeatures.Valence', 'asc', 8, SortableGroup.AudioFeatures)
   ];
 
   initialAudioFeaturesLength = this.audioFeatures.length;
@@ -257,10 +257,11 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   private createSortableItem(element: HTMLElement): SortableItem {
     const name = element.dataset['name'];
+    const value = element.dataset['value'];
     const order = 'asc'; // TODO
     const initialIndex = Number(element.dataset['initialindex']);
     const initialGroup = SortableGroup[element.dataset['initialgroup']];
-    return new SortableItem(name, order, initialIndex, initialGroup);
+    return new SortableItem(name, value, order, initialIndex, initialGroup);
   }
 
   private moveSortableItem(item: SortableItem, from: SortableItem[], to: SortableItem[], sort: Boolean): void {
@@ -343,7 +344,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
   save(): void {
     const request = new CreatePlaylistsRequest(
       this.selection.selected,
-      this.sortBy.map(x => new SortByItem(_.upperFirst(_.camelCase(x.name)), x.order)),
+      this.sortBy.map(x => `${ x.value } ${ x.order }`),
       this.audioFeatures.length < this.initialAudioFeaturesLength,
       this.formGroup.get('dontBreak').value,
       this.formGroup.get('dontBreak').value ? this.formGroup.get('breakType').value : null,

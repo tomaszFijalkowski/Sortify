@@ -69,7 +69,7 @@
         <div class="header">Basic properties</div>
         <mat-chip-list>
           <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
-            <mat-chip [attr.data-name]="item.name" [attr.data-initialIndex]="item.initialIndex"
+            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
               [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of basicProperties"
               (click)="addItemOnClick($event)">
               {{item.name}}
@@ -80,7 +80,7 @@
         <div class="header">Audio features</div>
         <mat-chip-list>
           <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
-            <mat-chip [attr.data-name]="item.name" [attr.data-initialIndex]="item.initialIndex"
+            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
               [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of audioFeatures"
               (click)="addItemOnClick($event)">
               {{item.name}}
@@ -93,7 +93,7 @@
           <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
             [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
               'dropzone-highlight-red': dropzoneIsHighlightedRed}">
-            <mat-chip [attr.data-name]="item.name" [attr.data-initialIndex]="item.initialIndex"
+            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
               [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
               {{item.name}}
               <mat-icon matChipRemove (click)="removeItemOnClick($event)">cancel</mat-icon>

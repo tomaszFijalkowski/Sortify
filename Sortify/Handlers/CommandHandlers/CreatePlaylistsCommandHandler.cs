@@ -7,6 +7,7 @@ using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
 namespace Sortify.Handlers.QueryHandlers
@@ -48,6 +49,9 @@ namespace Sortify.Handlers.QueryHandlers
                 {
                     tracks = await GetTracksWithAudioFeatures(tracks);
                 }
+
+                var sortedTracks = SortTracks(tracks, command.SortBy);
+
                 result = OperationResult.Success();
                 return await Task.FromResult(result);
             } 
@@ -64,7 +68,7 @@ namespace Sortify.Handlers.QueryHandlers
             return command.AccessToken == null || command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
         }
 
-        private async Task<IList<Track>> GetTracksFromAllPlaylists(IEnumerable<string> playlistIds)
+        private async Task<IEnumerable<Track>> GetTracksFromAllPlaylists(IEnumerable<string> playlistIds)
         {
             var tracks = new List<Track>();
 
@@ -80,7 +84,7 @@ namespace Sortify.Handlers.QueryHandlers
             return distinctTracks;
         }
 
-        private async Task<IList<Track>> GetTracksFromPlaylist(string playlistId)
+        private async Task<IEnumerable<Track>> GetTracksFromPlaylist(string playlistId)
         {
             var index = 0;
             var playlistTracks = new List<Track>();
@@ -105,12 +109,12 @@ namespace Sortify.Handlers.QueryHandlers
             return playlistTracks;
         }
 
-        private async Task<IList<Track>> GetTracksWithAudioFeatures(IList<Track> tracks)
+        private async Task<IEnumerable<Track>> GetTracksWithAudioFeatures(IEnumerable<Track> tracks)
         {
             var index = 0;
             var audioFeatures = new List<TrackAudioFeatures>();
 
-            while (audioFeatures.Count < tracks.Count)
+            while (audioFeatures.Count < tracks.Count())
             {
                 var request = new TracksAudioFeaturesRequest(tracks.Skip(index * maxItemsPerRequest)
                                                                    .Take(maxItemsPerRequest)
@@ -125,10 +129,20 @@ namespace Sortify.Handlers.QueryHandlers
 
             foreach (var tuple in tracks.Zip(audioFeatures, (track, audioFeatures) => (track, audioFeatures)))
             {
-                tuple.track.AudioFeatures = tuple.audioFeatures;
+                tuple.track.AudioFeatures = mapper.Map<AudioFeatures>(tuple.audioFeatures);
             }
 
             return tracks;
+        }
+
+        private List<Track> SortTracks(IEnumerable<Track> tracks, IEnumerable<string> sortBy)
+        {
+            var sortByPhrase = string.Join(",", sortBy);
+            var sortedTracks = tracks.AsQueryable()
+                                     .OrderBy(sortByPhrase)
+                                     .ToList();
+
+            return sortedTracks;
         }
     }
 }
