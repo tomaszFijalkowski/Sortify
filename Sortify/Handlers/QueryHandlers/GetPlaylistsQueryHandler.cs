@@ -5,6 +5,7 @@ using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
 using SpotifyAPI.Web;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,8 +13,10 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class GetPlaylistsQueryHandler : IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse>
     {
+        private const int maxItemsPerRequest = 50;
         private readonly ILogger<GetPlaylistsQueryHandler> logger;
         private readonly IMapper mapper;
+        private SpotifyClient spotify;
 
         public GetPlaylistsQueryHandler(ILogger<GetPlaylistsQueryHandler> logger, IMapper mapper)
         {
@@ -37,12 +40,11 @@ namespace Sortify.Handlers.QueryHandlers
                   .CreateDefault(query.AccessToken)
                   .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 3, RetryAfter = TimeSpan.FromMilliseconds(500) });
 
-                var spotify = new SpotifyClient(config);
+                spotify = new SpotifyClient(config);
 
-                var playlists = await spotify.Playlists.CurrentUsers();
                 var response = new GetPlaylistsResponse
                 {
-                    Playlists = playlists.Items.Select(x => mapper.Map<Playlist>(x))
+                    Playlists = await GetUserPlaylists()
                 };
 
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Success(response);
@@ -54,6 +56,31 @@ namespace Sortify.Handlers.QueryHandlers
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Something went wrong, please try again later.");
                 return await Task.FromResult(result);
             }
+        }
+
+        private async Task<IEnumerable<Playlist>> GetUserPlaylists()
+        {
+            var index = 0;
+            var playlists = new List<Playlist>();
+
+            int totalCount;
+            do
+            {
+                var request = new PlaylistCurrentUsersRequest
+                {
+                    Limit = maxItemsPerRequest,
+                    Offset = index * maxItemsPerRequest
+                };
+
+                var requestedPlaylists = await spotify.Playlists.CurrentUsers(request);
+                totalCount = requestedPlaylists.Total.GetValueOrDefault();
+                playlists.AddRange(requestedPlaylists.Items.Select(x => mapper.Map<Playlist>(x)));
+
+                index++;
+            }
+            while (playlists.Count < totalCount);
+
+            return playlists;
         }
     }
 }
