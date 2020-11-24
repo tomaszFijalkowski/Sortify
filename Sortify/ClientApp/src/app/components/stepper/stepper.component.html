@@ -16,14 +16,26 @@
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)">
         </mat-form-field>
-        <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
-          matTooltipPosition="left" disabled="{{selection.selected.length === 0}}">
-          <mat-icon>backspace</mat-icon>
+
+        <div class="button-row">
+          <button mat-icon-button class="refresh-button" (click)="refreshSelection()" matTooltip="Refresh playlists"
+          matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
+          <mat-icon>refresh</mat-icon>
         </button>
+        <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
+          matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
+          <mat-icon>clear</mat-icon>
+        </button>
+        </div>
         <div class="table-container">
 
-          <div *ngIf="dataSource.filteredData.length === 0" class="no-results-found">
+          <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
             No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
+          </div>
+
+          <div *ngIf="dataSourceLoading" class="progress-spinner-wrapper">
+            <mat-progress-spinner mode="indeterminate">
+            </mat-progress-spinner>
           </div>
 
           <mat-table [dataSource]="dataSource">
@@ -225,7 +237,7 @@
           </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="save()" [disabled]="selection.selected.length == 0 || sortBy.length == 0 || !formGroup.valid">Save</button>
+            <button mat-button (click)="createPlaylists()" [disabled]="selection.selected.length == 0 || sortBy.length == 0 || !formGroup.valid">Create</button>
           </div>
         </form>
       </mat-step>

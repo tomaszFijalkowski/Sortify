@@ -4,13 +4,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Playlist } from 'src/app/models/get-playlists.response';
+import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
 import { Options, SortableEvent } from 'sortablejs';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortableItem } from 'src/app/models/sortable-item';
 import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import 'lodash';
+import { OperationResult } from 'src/app/models/operation-result';
 
 declare const _: any;
 
@@ -24,6 +25,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
   // Select the source step (1)
   displayedColumns: string[] = ['playlist-image', 'playlist-details'];
   dataSource = new MatTableDataSource<Playlist>();
+  dataSourceLoading: boolean;
   selection = new SelectionModel<string>(true, []);
   selectionCountText: string;
 
@@ -171,6 +173,17 @@ export class StepperComponent implements OnInit, AfterViewInit {
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  refreshSelection(): void {
+    this.playlistService.getPlaylists().subscribe((response: OperationResult<GetPlaylistsResponse>) => {
+      this.selection.clear();
+      this.dataSource.data = response.result.playlists;
+      this.dataSourceLoading = false;
+    });
+    this.dataSource.data = [];
+    this.dataSourceLoading = true;
+    this.clearSelection();
   }
 
   clearSelection(): void {
@@ -341,7 +354,7 @@ export class StepperComponent implements OnInit, AfterViewInit {
     return Math.max(min, Math.min(value, max));
   }
 
-  save(): void {
+  createPlaylists(): void {
     const request = new CreatePlaylistsRequest(
       this.selection.selected,
       this.sortBy.map(x => `${ x.value } ${ x.order }`),

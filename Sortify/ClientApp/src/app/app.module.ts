@@ -23,6 +23,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
@@ -58,6 +59,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     MatCheckboxModule,
     MatRadioModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     MatChipsModule,
     MatTooltipModule,
