@@ -17,9 +17,9 @@ namespace Sortify.Contracts.Requests.Commands
 
         public int? SplitByPlaylistsNumber { get; set; }
 
-        public bool DontBreak { get; set; }
+        public bool SmartSplit { get; set; }
 
-        public BreakType? BreakType { get; set; }
+        public SmartSplitType? SmartSplitType { get; set; }
 
         public string Name { get; set; }
 

@@ -1,12 +1,14 @@
-﻿using SpotifyAPI.Web;
-
-namespace Sortify.Contracts.Models
+﻿namespace Sortify.Contracts.Models
 {
     public class Track
     {
         public string Id { get; set; }
 
+        public string ArtistId { get; set; }
+
         public string ArtistName { get; set; }
+
+        public string AlbumId { get; set; }
 
         public string AlbumName { get; set; }
 

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Sortify.Contracts.Enums;
 using Sortify.Contracts.Models;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Responses;
+using Sortify.Extensions;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -52,6 +54,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var sortedTracks = SortTracks(tracks, command.SortBy);
 
+                var playlists = SplitIntoPlaylists(sortedTracks, command);
                 result = OperationResult.Success();
                 return await Task.FromResult(result);
             } 
@@ -77,11 +80,12 @@ namespace Sortify.Handlers.QueryHandlers
                 tracks.AddRange(await GetTracksFromPlaylist(playlistId));
             }
 
-            var distinctTracks = tracks.GroupBy(x => x.Id)
+            var filteredTracks = tracks.GroupBy(x => x?.Id)
                                        .Select(x => x.First())
+                                       .Where(x => !x.IsLocal)
                                        .ToList();
 
-            return distinctTracks;
+            return filteredTracks;
         }
 
         private async Task<IEnumerable<Track>> GetTracksFromPlaylist(string playlistId)
@@ -112,9 +116,9 @@ namespace Sortify.Handlers.QueryHandlers
         private async Task<IEnumerable<Track>> GetTracksWithAudioFeatures(IEnumerable<Track> tracks)
         {
             var index = 0;
-            var audioFeatures = new List<TrackAudioFeatures>();
+            var audioFeaturesList = new List<TrackAudioFeatures>();
 
-            while (audioFeatures.Count < tracks.Count())
+            while (audioFeaturesList.Count < tracks.Count())
             {
                 var request = new TracksAudioFeaturesRequest(tracks.Skip(index * maxItemsPerRequest)
                                                                    .Take(maxItemsPerRequest)
@@ -122,14 +126,14 @@ namespace Sortify.Handlers.QueryHandlers
                                                                    .ToList());
 
                 var requestedAudioFeatures = await spotify.Tracks.GetSeveralAudioFeatures(request);
-                audioFeatures.AddRange(requestedAudioFeatures.AudioFeatures);
+                audioFeaturesList.AddRange(requestedAudioFeatures.AudioFeatures);
 
                 index++;
             }
 
-            foreach (var tuple in tracks.Zip(audioFeatures, (track, audioFeatures) => (track, audioFeatures)))
+            foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
             {
-                tuple.track.AudioFeatures = mapper.Map<AudioFeatures>(tuple.audioFeatures);
+                track.AudioFeatures = mapper.Map<AudioFeatures>(audioFeatures);
             }
 
             return tracks;
@@ -143,6 +147,39 @@ namespace Sortify.Handlers.QueryHandlers
                                      .ToList();
 
             return sortedTracks;
+        }
+
+        private List<List<Track>> SplitIntoPlaylists(List<Track> tracks, CreatePlaylistsCommand command)
+        {
+            var playlists = new List<List<Track>>();
+            var splitIndices = GetSplitIndices(tracks, command);
+
+            var previousIndex = 0;
+
+            foreach (var splitIndex in splitIndices)
+            {
+                playlists.Add(tracks.GetRange(previousIndex, splitIndex - previousIndex));
+                previousIndex = splitIndex;
+            }
+
+            return playlists;
+        }
+
+        private List<int> GetSplitIndices(IEnumerable<Track> tracks, CreatePlaylistsCommand command)
+        {
+            var splitIndices = new HashSet<int>() { tracks.Count() };
+
+            if (command.SplitByTracksNumber.HasValue)
+            {
+                splitIndices = tracks.GetSplitIndicesByTracks(command.SplitByTracksNumber.GetValueOrDefault());
+            }
+
+            if (command.SplitByPlaylistsNumber.HasValue)
+            {
+                splitIndices = tracks.GetSplitIndicesByPlaylists(command.SplitByPlaylistsNumber.GetValueOrDefault());
+            } 
+
+            return splitIndices.ToList();
         }
     }
 }

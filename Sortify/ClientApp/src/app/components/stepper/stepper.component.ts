@@ -157,8 +157,8 @@ export class StepperComponent implements OnInit, AfterViewInit {
         [Validators.required, Validators.min(this.splitByTracksMinNumber), Validators.max(this.splitByTracksMaxNumber)]),
       splitByPlaylistsNumber: new FormControl(2,
         [Validators.required, Validators.min(this.splitByPlaylistsMinNumber), Validators.max(this.splitByPlaylistsMaxNumber)]),
-      dontBreak: new FormControl({value: false, disabled: true}),
-      breakType: new FormControl({value: 'album', disabled: true}),
+      smartSplit: new FormControl({value: false, disabled: true}),
+      smartSplitType: new FormControl({value: 'albums', disabled: true}),
       name: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
       numberingPlacement: new FormControl('before'),
       numberingStyle: new FormControl({value: null, disabled: true}),
@@ -296,19 +296,19 @@ export class StepperComponent implements OnInit, AfterViewInit {
         break;
     }
 
-    this.toggleDontBreakCheckbox();
+    this.toggleSmartSplitCheckbox();
     this.toggleNumberingSelect();
   }
 
-  private toggleDontBreakCheckbox(): void {
+  private toggleSmartSplitCheckbox(): void {
     if (this.splitByTracksSelected || this.splitByPlaylistsSelected) {
-      this.formGroup.controls['dontBreak'].enable();
-      this.formGroup.controls['breakType'].enable();
+      this.formGroup.controls['smartSplit'].enable();
+      this.formGroup.controls['smartSplitType'].enable();
     } else {
-      this.formGroup.controls['dontBreak'].disable();
-      this.formGroup.controls['breakType'].disable();
+      this.formGroup.controls['smartSplit'].disable();
+      this.formGroup.controls['smartSplitType'].disable();
       this.formGroup.patchValue({
-        dontBreak: false
+        smartSplit: false
       });
     }
   }
@@ -346,8 +346,8 @@ export class StepperComponent implements OnInit, AfterViewInit {
       this.selection.selected,
       this.sortBy.map(x => `${ x.value } ${ x.order }`),
       this.audioFeatures.length < this.initialAudioFeaturesLength,
-      this.formGroup.get('dontBreak').value,
-      this.formGroup.get('dontBreak').value ? this.formGroup.get('breakType').value : null,
+      this.formGroup.get('smartSplit').value,
+      this.formGroup.get('smartSplit').value ? this.formGroup.get('smartSplitType').value : null,
       this.formGroup.get('name').value,
       this.selectedNumberingStyle ? this.formGroup.get('numberingPlacement').value : null,
       this.formGroup.get('numberingStyle').value,

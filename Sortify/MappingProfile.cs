@@ -22,8 +22,14 @@ namespace Sortify
 
             CreateMap<FullTrack, Track>()
                 .ForMember(
+                    dest => dest.ArtistId,
+                    opt => opt.MapFrom(src => src.Artists.FirstOrDefault().Id))
+                .ForMember(
                     dest => dest.ArtistName,
                     opt => opt.MapFrom(src => src.Artists.FirstOrDefault().Name))
+                .ForMember(
+                    dest => dest.AlbumId,
+                    opt => opt.MapFrom(src => src.Album.Id))
                 .ForMember(
                     dest => dest.AlbumName,
                     opt => opt.MapFrom(src => src.Album.Name))
