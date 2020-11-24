@@ -23,5 +23,9 @@
         public int Popularity { get; set; }
 
         public AudioFeatures AudioFeatures { get; set; }
+
+        public string Uri { get; set; }
+
+        public bool IsLocal { get; set; }
     }
 }

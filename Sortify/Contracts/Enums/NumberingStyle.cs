@@ -5,8 +5,8 @@
         Arabic,
         PaddedArabic,
         Roman,
-        CapitalRoman,
+        UpperCaseRoman,
         Alphabet,
-        CapitalAlphabet
+        UpperCaseAlphabet
     }
 }

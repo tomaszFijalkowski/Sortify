@@ -37,6 +37,7 @@ export const authConfig: AuthConfig = {
   redirectUri: `https://localhost:44362/start`,
   clientId: ``,
   scope: ``,
+  scope: `playlist-read-private, playlist-read-collaborative, playlist-modify-private, playlist-modify-public`,
   strictDiscoveryDocumentValidation: false,
   responseType: `token`,
   oidc: false
