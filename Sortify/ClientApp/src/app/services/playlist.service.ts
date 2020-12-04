@@ -10,17 +10,15 @@ import { CreatePlaylistsRequest } from '../models/create-playlists.request';
   providedIn: 'root'
 })
 export class PlaylistService {
-  readonly tempBaseUrl = 'https://localhost:44362/';
-
   constructor(private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string) {
   }
 
   getPlaylists(): Observable<OperationResult<GetPlaylistsResponse>> {
-    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.tempBaseUrl + 'playlist');
+    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist');
   }
 
   createPlaylists(request: CreatePlaylistsRequest): Observable<OperationResult<Nothing>> {
-    return this.http.post<OperationResult<Nothing>>(this.tempBaseUrl + 'playlist/create', request);
+    return this.http.post<OperationResult<Nothing>>(this.baseUrl + 'playlist/create', request);
   }
 }

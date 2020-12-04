@@ -24,13 +24,15 @@ namespace Sortify.Handlers.QueryHandlers
 
             try
             {
-                var response = new GetAppSettingsResponse
+                var appSettings = new AppSettings
                 {
                     LoginUrl = configuration.GetValue<string>("AuthConfig:LoginUrl"),
                     RedirectUri = configuration.GetValue<string>("AuthConfig:RedirectUri"),
                     ClientId = configuration.GetValue<string>("AuthConfig:ClientId"),
                     ClientScope = configuration.GetValue<string>("AuthConfig:ClientScope")
                 };
+
+                var response = new GetAppSettingsResponse { AppSettings = appSettings };
 
                 result = OperationResult<GetAppSettingsQuery, GetAppSettingsResponse>.Success(response);
                 return await Task.FromResult(result);

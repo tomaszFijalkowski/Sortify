@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -32,6 +32,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRippleModule } from '@angular/material/core';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
+import { AppSettingsService } from './services/app-settings.service';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,12 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
   ],
   providers: [
     {
+      provide: APP_INITIALIZER,
+      useFactory: loadAppSettings,
+      deps: [AppSettingsService],
+      multi: true
+    },
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true
@@ -89,3 +96,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
   ]
 })
 export class AppModule { }
+
+export function loadAppSettings(appSettingsService: AppSettingsService) {
+  return () => appSettingsService.getAppSettings();
+}
