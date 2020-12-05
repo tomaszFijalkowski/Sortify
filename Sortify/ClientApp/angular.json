@@ -29,7 +29,10 @@
               "src/styles.sass"
             ],
             "scripts": [],
-            "aot": true
+            "aot": true,
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ]
           },
           "configurations": {
             "production": {

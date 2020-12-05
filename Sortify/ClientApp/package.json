@@ -28,8 +28,9 @@
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.4.1",
     "core-js": "^2.6.11",
-    "jquery": "3.4.1",
+    "jquery": "^3.5.1",
     "ngx-sortablejs": "^3.1.4",
+    "node-sass": "^4.14.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.6.3",
     "sortablejs": "^1.12.0",
@@ -57,7 +58,6 @@
     "webpack": "^4.41.6"
   },
   "optionalDependencies": {
-    "node-sass": "^4.9.3",
     "protractor": "~7.0.0",
     "ts-node": "~5.0.1",
     "tslint": "~6.1.0"
