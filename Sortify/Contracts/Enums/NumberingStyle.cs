@@ -3,7 +3,6 @@
     public enum NumberingStyle
     {
         Arabic,
-        PaddedArabic,
         Roman,
         UpperCaseRoman,
         Alphabet,

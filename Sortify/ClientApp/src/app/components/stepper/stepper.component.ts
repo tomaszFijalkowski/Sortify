@@ -109,10 +109,9 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   readonly nameMaxLength = 100;
   readonly descriptionMaxLength = 300;
-  readonly numberingStyles = ['arabic', 'paddedArabic', 'roman', 'upperCaseRoman', 'alphabet', 'upperCaseAlphabet'];
+  readonly numberingStyles = ['arabic', 'roman', 'upperCaseRoman', 'alphabet', 'upperCaseAlphabet'];
   readonly numberingStyleDisplays = {
     'arabic': ['1', '2', '3', '4'],
-    'paddedArabic': ['01', '02', '03', '04'],
     'roman': ['i', 'ii', 'iii', 'iv'],
     'upperCaseRoman': ['I', 'II', 'III', 'IV'],
     'alphabet': ['a', 'b', 'c', 'd'],

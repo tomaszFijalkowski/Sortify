@@ -259,7 +259,6 @@ namespace Sortify.Handlers.QueryHandlers
                 _ = (command.NumberingStyle switch
                 {
                     NumberingStyle.Arabic => numeral = number.ToString(),
-                    NumberingStyle.PaddedArabic => numeral = number.ToPaddedArabic(playlistCount),
                     NumberingStyle.Roman => numeral = number.ToRomanNumeral(),
                     NumberingStyle.UpperCaseRoman => numeral = number.ToRomanNumeral(true),
                     NumberingStyle.Alphabet => numeral = number.ToAlphabetNumeral(),

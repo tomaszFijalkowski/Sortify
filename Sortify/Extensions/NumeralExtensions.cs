@@ -7,12 +7,6 @@ namespace Sortify.Extensions
 {
     public static class NumeralExtensions
     {
-        public static string ToPaddedArabic(this int number, int playlistCount)
-        {
-            var padding = Math.Max(2, playlistCount.ToString().Length);
-            return number.ToString("D" + padding);
-        }
-
         public static string ToRomanNumeral(this int number, bool toUpperCase = false)
         {
             var romanNumeral = new StringBuilder(5);
