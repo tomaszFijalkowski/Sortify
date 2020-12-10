@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Enums;
 using Sortify.Contracts.Models;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Responses;
 using Sortify.Extensions;
+using Sortify.Helpers;
+using Sortify.Hubs;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -17,12 +20,20 @@ namespace Sortify.Handlers.QueryHandlers
     public class CreatePlaylistsCommandHandler : ICommandHandler<CreatePlaylistsCommand>
     {
         private const int maxItemsPerRequest = 100;
+
+        private readonly IHubContext<ProgressHub> progressHub;
         private readonly ILogger<CreatePlaylistsCommandHandler> logger;
         private readonly IMapper mapper;
+
+        private ProgressManager progressManager;
         private SpotifyClient spotify;
 
-        public CreatePlaylistsCommandHandler(ILogger<CreatePlaylistsCommandHandler> logger, IMapper mapper)
+        public CreatePlaylistsCommandHandler(
+            IHubContext<ProgressHub> progressHub,
+            ILogger<CreatePlaylistsCommandHandler> logger,
+            IMapper mapper)
         {
+            this.progressHub = progressHub;
             this.logger = logger;
             this.mapper = mapper;
         }
@@ -39,11 +50,8 @@ namespace Sortify.Handlers.QueryHandlers
                     return await Task.FromResult(result);
                 }
 
-                var config = SpotifyClientConfig
-                  .CreateDefault(command.AccessToken)
-                  .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 3, RetryAfter = TimeSpan.FromMilliseconds(500) });
-
-                spotify = new SpotifyClient(config);
+                SetupProgressManager(command);
+                SetupSpotifyClient(command);
 
                 var tracks = await GetTracksFromAllPlaylists(command.PlaylistIds);
 
@@ -53,9 +61,7 @@ namespace Sortify.Handlers.QueryHandlers
                 }
 
                 var sortedTracks = SortTracks(tracks, command.SortBy);
-
                 var playlists = SplitIntoPlaylists(sortedTracks, command);
-
                 var playlistValidationErrors = ValidatePlaylists(playlists);
 
                 if (playlistValidationErrors.Any())
@@ -82,6 +88,21 @@ namespace Sortify.Handlers.QueryHandlers
             return command.AccessToken == null || command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
         }
 
+        private void SetupProgressManager(CreatePlaylistsCommand command)
+        {
+            var taskWeight = command.TaskWeight * (command.SortByAudioFeatures ? 3 : 2);
+            progressManager = new ProgressManager(progressHub, command.ConnectionId, taskWeight);
+        }
+
+        private void SetupSpotifyClient(CreatePlaylistsCommand command)
+        {
+            var config = SpotifyClientConfig
+              .CreateDefault(command.AccessToken)
+              .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 3, RetryAfter = TimeSpan.FromMilliseconds(500) });
+
+            spotify = new SpotifyClient(config);
+        }
+
         private async Task<IEnumerable<Track>> GetTracksFromAllPlaylists(IEnumerable<string> playlistIds)
         {
             var tracks = new List<Track>();
@@ -95,6 +116,8 @@ namespace Sortify.Handlers.QueryHandlers
                                        .Select(x => x.First())
                                        .Where(x => !x.IsLocal)
                                        .ToList();
+
+            progressManager.ProgressMultiplier = (float)tracks.Count / filteredTracks.Count;
 
             return filteredTracks;
         }
@@ -118,6 +141,7 @@ namespace Sortify.Handlers.QueryHandlers
                 playlistTracks.AddRange(requestedTracks.Items.Select(x => mapper.Map<Track>(x.Track)));
 
                 index++;
+                await progressManager.ReportProgress("Preparing tracks");
             }
             while (playlistTracks.Count < playlistSize);
 
@@ -140,6 +164,7 @@ namespace Sortify.Handlers.QueryHandlers
                 audioFeaturesList.AddRange(requestedAudioFeatures.AudioFeatures);
 
                 index++;
+                await progressManager.ReportProgress("Collecting audio features");
             }
 
             foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
@@ -188,7 +213,7 @@ namespace Sortify.Handlers.QueryHandlers
             if (command.SplitByPlaylistsNumber.HasValue)
             {
                 splitIndices = tracks.GetSplitIndicesByPlaylists(command.SplitByPlaylistsNumber.GetValueOrDefault());
-            } 
+            }
 
 
             return splitIndices.ToList();
@@ -245,8 +270,10 @@ namespace Sortify.Handlers.QueryHandlers
                                                                       .ToList());
 
                     var addedTracks = await spotify.Playlists.AddItems(createdPlaylist.Id, request);
+                    await progressManager.ReportProgress("Creating playlists");
                 }
             }
+            await progressManager.ReportCompletion();
         }
 
         private string GeneratePlaylistName(CreatePlaylistsCommand command, int number, int playlistCount)
@@ -272,23 +299,16 @@ namespace Sortify.Handlers.QueryHandlers
                 if (command.NumberingPlacement == NumberingPlacement.Before)
                 {
                     numeral = $"{numeral}. ";
-                    name = $"{numeral}{TrimName(name, numeral)}";
+                    name = $"{numeral}{name.TrimNumeral(numeral)}";
                 } 
                 else
                 {
                     numeral = $" {numeral}";
-                    name = $"{TrimName(name, numeral)}{numeral}";
+                    name = $"{name.TrimNumeral(numeral)}{numeral}";
                 }
             }
 
             return name;
-        }
-
-        private string TrimName(string name, string numeral)
-        {
-            const int MaxNameLength = 100;
-
-            return name.Substring(0, Math.Min(MaxNameLength - numeral.Length, name.Length));
         }
     }
 }

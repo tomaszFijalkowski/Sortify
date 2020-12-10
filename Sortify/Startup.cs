@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sortify.Extensions;
+using Sortify.Hubs;
 using System;
 using System.Text.Json.Serialization;
 
@@ -25,10 +26,13 @@ namespace Sortify
             services.AddSwagger()
                     .AddAutoMapper()
                     .AddControllers()
-                    .AddJsonOptions(options => {
-                            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                            options.JsonSerializerOptions.IgnoreNullValues = true;
-                        });
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                        options.JsonSerializerOptions.IgnoreNullValues = true;
+                    });
+
+            services.AddSignalR();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -72,6 +76,7 @@ namespace Sortify
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ProgressHub>("/progress");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
