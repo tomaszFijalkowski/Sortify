@@ -19,7 +19,7 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class CreatePlaylistsCommandHandler : ICommandHandler<CreatePlaylistsCommand>
     {
-        private const int maxItemsPerRequest = 100;
+        private const int MaxItemsPerRequest = 100;
 
         private readonly IHubContext<ProgressHub> progressHub;
         private readonly ILogger<CreatePlaylistsCommandHandler> logger;
@@ -132,8 +132,8 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 var request = new PlaylistGetItemsRequest
                 {
-                    Limit = maxItemsPerRequest,
-                    Offset = index * maxItemsPerRequest
+                    Limit = MaxItemsPerRequest,
+                    Offset = index * MaxItemsPerRequest
                 };
 
                 var requestedTracks = await spotify.Playlists.GetItems(playlistId, request);
@@ -155,8 +155,8 @@ namespace Sortify.Handlers.QueryHandlers
 
             while (audioFeaturesList.Count < tracks.Count())
             {
-                var request = new TracksAudioFeaturesRequest(tracks.Skip(index * maxItemsPerRequest)
-                                                                   .Take(maxItemsPerRequest)
+                var request = new TracksAudioFeaturesRequest(tracks.Skip(index * MaxItemsPerRequest)
+                                                                   .Take(MaxItemsPerRequest)
                                                                    .Select(x => x.Id)
                                                                    .ToList());
 
@@ -262,10 +262,10 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var createdPlaylist = await spotify.Playlists.Create(user.Id, playlistCreateRequest);
 
-                for (int i = 0; i < (double)playlist.Count() / maxItemsPerRequest; i++)
+                for (int i = 0; i < (double)playlist.Count() / MaxItemsPerRequest; i++)
                 {
-                    var request = new PlaylistAddItemsRequest(playlist.Skip(i * maxItemsPerRequest)
-                                                                      .Take(maxItemsPerRequest)
+                    var request = new PlaylistAddItemsRequest(playlist.Skip(i * MaxItemsPerRequest)
+                                                                      .Take(MaxItemsPerRequest)
                                                                       .Select(x => x.Uri)
                                                                       .ToList());
 
@@ -273,7 +273,7 @@ namespace Sortify.Handlers.QueryHandlers
                     await progressManager.ReportProgress("Creating playlists");
                 }
             }
-            await progressManager.ReportCompletion();
+            await progressManager.ReportProgress("Complete", true);
         }
 
         private string GeneratePlaylistName(CreatePlaylistsCommand command, int number, int playlistCount)

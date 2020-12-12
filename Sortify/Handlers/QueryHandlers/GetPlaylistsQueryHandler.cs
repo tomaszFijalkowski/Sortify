@@ -13,7 +13,7 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class GetPlaylistsQueryHandler : IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse>
     {
-        private const int maxItemsPerRequest = 50;
+        private const int MaxItemsPerRequest = 50;
         private readonly ILogger<GetPlaylistsQueryHandler> logger;
         private readonly IMapper mapper;
         private SpotifyClient spotify;
@@ -68,8 +68,8 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 var request = new PlaylistCurrentUsersRequest
                 {
-                    Limit = maxItemsPerRequest,
-                    Offset = index * maxItemsPerRequest
+                    Limit = MaxItemsPerRequest,
+                    Offset = index * MaxItemsPerRequest
                 };
 
                 var requestedPlaylists = await spotify.Playlists.CurrentUsers(request);

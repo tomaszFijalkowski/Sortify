@@ -10,8 +10,12 @@ import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortableItem } from 'src/app/models/sortable-item';
 import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
 import { PlaylistService } from 'src/app/services/playlist.service';
-import 'lodash';
 import { OperationResult } from 'src/app/models/operation-result';
+import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
+import { LogLevel } from '@aspnet/signalr';
+import { AppSettingsService } from 'src/app/services/app-settings.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import 'lodash';
 
 declare const _: any;
 
@@ -22,11 +26,16 @@ declare const _: any;
 })
 
 export class StepperComponent implements OnInit, AfterViewInit {
+  private progressHubUrl: string;
+
+  // Stepper
+  private currentStepIndex: number;
+
   // Select the source step (1)
   displayedColumns: string[] = ['playlist-image', 'playlist-details'];
   dataSource = new MatTableDataSource<Playlist>();
   dataSourceLoading: boolean;
-  selection = new SelectionModel<string>(true, []);
+  selection = new SelectionModel<Playlist>(true, []);
   selectionCountText: string;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -124,13 +133,14 @@ export class StepperComponent implements OnInit, AfterViewInit {
   // General setup
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
+    private settingsService: AppSettingsService,
     private playlistService: PlaylistService,
     private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
+    this.progressHubUrl = this.settingsService.appSettings.progressHubUrl;
     this.setupDataSource();
-    this.observeSelectionCount();
     this.buildFormGroup();
   }
 
@@ -143,13 +153,6 @@ export class StepperComponent implements OnInit, AfterViewInit {
     const data = this.activatedRoute.snapshot.data;
     this.dataSource.data = data.playlists.result.playlists;
     this.dataSource.paginator = this.paginator;
-  }
-
-  private observeSelectionCount(): void {
-    this.selection.changed.subscribe(() => {
-      const count = this.selection.selected.length;
-      this.selectionCountText = count > 0 ? `(${count})` : '';
-    });
   }
 
   private buildFormGroup(): void {
@@ -339,23 +342,44 @@ export class StepperComponent implements OnInit, AfterViewInit {
 
   onSplitByTracksInputBlur(value: number): void {
     this.formGroup.patchValue({
-      splitByTracksNumber: this.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
+      splitByTracksNumber: _.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
     });
   }
 
   onSplitByPlaylistsInputBlur(value: number): void {
     this.formGroup.patchValue({
-      splitByPlaylistsNumber: this.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
+      splitByPlaylistsNumber: _.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
     });
   }
 
-  private clamp(value: number, min: number, max: number): number {
-    return Math.max(min, Math.min(value, max));
+  private createPlaylists(): void {
+    const connection = this.establishProgressHubConnection();
+    connection.then((connectionId: string) => {
+      if (connectionId) {
+        this.sendRequest(connectionId);
+      }
+    });
   }
 
-  createPlaylists(): void {
+  private establishProgressHubConnection(): any {
+    const hubConnection = new HubConnectionBuilder()
+      .configureLogging(LogLevel.Debug)
+      .withUrl(this.progressHubUrl)
+      .build();
+
+      hubConnection.on('progressUpdate', data => console.log('Progress: ', data));
+
+    return hubConnection
+      .start()
+      .then(() => hubConnection.invoke('getConnectionId'))
+      .catch(err => console.error('Error while establishing connection: ' + err)); // TODO better error handling
+  }
+
+  private sendRequest(connectionId: string): void {
     const request = new CreatePlaylistsRequest(
-      this.selection.selected,
+      connectionId,
+      this.estimateTaskWeight(),
+      this.selection.selected.map(x => x.id),
       this.sortBy.map(x => `${ x.value } ${ x.order }`),
       this.audioFeatures.length < this.initialAudioFeaturesLength,
       this.formGroup.get('smartSplit').value,
@@ -373,4 +397,25 @@ export class StepperComponent implements OnInit, AfterViewInit {
       console.log('response', response);
     });
   }
+
+  private estimateTaskWeight(): number {
+    const maxItemsPerRequest = 100;
+    const playlistWeights = this.selection.selected.map(x =>
+      Math.max(Math.ceil(x.size / maxItemsPerRequest), 1));
+
+    return _.sum(playlistWeights);
+  }
+
+  onStepChange(event: StepperSelectionEvent): void {
+    this.currentStepIndex = event.selectedIndex;
+  }
+
+  onStepAnimationDone(): void {
+    const createStepIndex = 3;
+
+    if (this.currentStepIndex === createStepIndex) {
+      this.createPlaylists();
+    }
+  }
+
 }

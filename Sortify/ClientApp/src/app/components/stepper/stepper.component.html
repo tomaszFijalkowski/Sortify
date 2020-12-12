@@ -1,6 +1,6 @@
 <div class="background-img">
   <div class="container">
-    <mat-horizontal-stepper #stepper>
+    <mat-horizontal-stepper #stepper (selectionChange)="onStepChange($event)" (animationDone)="onStepAnimationDone()" >
       <!-- <ng-template matStepperIcon="edit" let-index="index"> {{index + 1}} </ng-template> -->
 
       <ng-template matStepperIcon="edit">
@@ -10,7 +10,7 @@
       <!-- Select the source step -->
 
       <mat-step [completed]="selection.selected.length > 0">
-        <ng-template matStepLabel>Select the source {{selectionCountText}}</ng-template>
+        <ng-template matStepLabel>Select the source</ng-template>
         <mat-form-field class="filter-field" appearance="fill">
           <mat-icon matPrefix>search</mat-icon>
           <mat-label>Filter</mat-label>
@@ -61,8 +61,8 @@
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
-              [ngClass]="{'mat-row-selected': this.selection.selected.includes(row.id), 'mat-row-short': this.paginator.pageSize > 5}"
-              (click)="$event.stopPropagation(); $event ? selection.toggle(row.id) : null"></mat-row>
+              [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
+              (click)="$event.stopPropagation(); $event ? selection.toggle(row) : null"></mat-row>
           </mat-table>
         </div>
 
@@ -237,9 +237,12 @@
           </div>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="createPlaylists()" [disabled]="selection.selected.length == 0 || sortBy.length == 0 || !formGroup.valid">Create</button>
+            <button mat-button matStepperNext [disabled]="selection.selected.length == 0 || sortBy.length == 0 || !formGroup.valid">Create</button>
           </div>
         </form>
+      </mat-step>
+
+      <mat-step>
       </mat-step>
 
     </mat-horizontal-stepper>

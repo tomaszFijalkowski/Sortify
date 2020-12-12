@@ -16,5 +16,7 @@ namespace Sortify.Contracts.Responses
         public string ClientId { get; set; }
 
         public string ClientScope { get; set; }
+
+        public string ProgressHubUrl { get; set; }
     }
 }

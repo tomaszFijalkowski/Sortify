@@ -46,3 +46,5 @@ namespace Sortify.Extensions
                 yield return i < rem ? div + 1 : div;
             }
         }
+    }
+}

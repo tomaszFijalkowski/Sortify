@@ -29,7 +29,8 @@ namespace Sortify.Handlers.QueryHandlers
                     LoginUrl = configuration.GetValue<string>("AuthConfig:LoginUrl"),
                     RedirectUri = configuration.GetValue<string>("AuthConfig:RedirectUri"),
                     ClientId = configuration.GetValue<string>("AuthConfig:ClientId"),
-                    ClientScope = configuration.GetValue<string>("AuthConfig:ClientScope")
+                    ClientScope = configuration.GetValue<string>("AuthConfig:ClientScope"),
+                    ProgressHubUrl = configuration.GetValue<string>("ProgressHubUrl")
                 };
 
                 var response = new GetAppSettingsResponse { AppSettings = appSettings };

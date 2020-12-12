@@ -24,7 +24,8 @@ export class AppSettingsService {
           loginUrl: appSettings.loginUrl,
           redirectUri: appSettings.redirectUri,
           clientId : appSettings.clientId,
-          clientScope: appSettings.clientScope
+          clientScope: appSettings.clientScope,
+          progressHubUrl: appSettings.progressHubUrl
         };
     });
   }

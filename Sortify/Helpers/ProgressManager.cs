@@ -8,6 +8,8 @@ namespace Sortify.Helpers
 {
     public class ProgressManager
     {
+        const float MaxProgressValue = 100f;
+
         private readonly IHubContext<ProgressHub> progressHub;
         private readonly string connectionId;
         private readonly float taskWeight;
@@ -22,16 +24,10 @@ namespace Sortify.Helpers
             this.taskWeight = taskWeight;
         }
 
-        public async Task ReportCompletion()
+        public async Task ReportProgress(string description, bool complete = false)
         {
-            var progressDetails = new ProgressDetails(100);
-
-            await progressHub.Clients.Client(connectionId).SendAsync("taskComplete", progressDetails);
-        }
-
-        public async Task ReportProgress(string description)
-        {
-            var progress = Math.Clamp((taskProgress += ProgressMultiplier) / taskWeight * 100, 0, 100);
+            var progress = complete ? MaxProgressValue
+                : Math.Clamp((taskProgress += ProgressMultiplier) / taskWeight * 100, 0, MaxProgressValue);
             var progressDetails = new ProgressDetails(progress, description);
 
             await progressHub.Clients.Client(connectionId).SendAsync("progressUpdate", progressDetails);

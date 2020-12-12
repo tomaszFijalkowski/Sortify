@@ -7,4 +7,5 @@ export interface AppSettings {
   redirectUri: string;
   clientId: string;
   clientScope: string;
+  progressHubUrl: string;
 }

@@ -85,6 +85,17 @@ h1
   background-color: $gray
 
 
+@mixin custom-stepper-theme()
+  .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line:last-of-type,
+  .mat-horizontal-stepper-header-container .mat-step-header:last-of-type
+    display: none
+
+
+::ng-deep .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line:last-of-type,
+::ng-deep .mat-horizontal-stepper-header-container .mat-step-header:last-of-type
+  display: none
+
+
 // table
 
 .no-results-found
