@@ -1,6 +1,13 @@
 <div class="background-img">
   <div class="container">
-    <h1>You have successfully logged in<span class="green-color">.</span></h1>
-    <button mat-flat-button color="primary" [routerLink]="['/stepper']">Click to start</button>
+    <ng-container *ngIf="!stepperLoading">
+      <h1>You have successfully logged in<span class="green-color">.</span></h1>
+      <button mat-flat-button color="primary" (click)="create()">Click to start</button>
+    </ng-container>
+
+    <div *ngIf="stepperLoading" class="progress-spinner-wrapper">
+      <mat-progress-spinner [diameter]="50" [strokeWidth]="5" [mode]="'indeterminate'">
+      </mat-progress-spinner>
+    </div>
   </div>
 </div>
