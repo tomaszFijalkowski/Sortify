@@ -1,5 +1,6 @@
 ﻿using Sortify.Contracts.Requests;
 using Sortify.Contracts.Responses;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sortify.Handlers.QueryHandlers
@@ -16,7 +17,7 @@ namespace Sortify.Handlers.QueryHandlers
         /// </summary>
         /// <param name="command">Command</param>
         /// <returns>Result of handling command</returns>
-        Task<OperationResult> HandleAsync(TCommand command);
+        Task<OperationResult> HandleAsync(TCommand command, CancellationToken cancellationToken);
     }
 
     /// <summary>
@@ -32,7 +33,7 @@ namespace Sortify.Handlers.QueryHandlers
         /// </summary>
         /// <param name="command">Command</param>
         /// <returns>Result with corresponding <see cref="TResponse"/></returns>
-        Task<OperationResult<TCommand, TResponse>> HandleAsync(TCommand command);
+        Task<OperationResult<TCommand, TResponse>> HandleAsync(TCommand command, CancellationToken cancellationToken);
     }
 
     /// <summary>

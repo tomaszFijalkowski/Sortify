@@ -27,7 +27,7 @@ namespace Sortify.Helpers
         public async Task ReportProgress(string description, bool complete = false)
         {
             var progress = complete ? MaxProgressValue
-                : Math.Clamp((taskProgress += ProgressMultiplier) / taskWeight * 100, 0, MaxProgressValue);
+                : Math.Clamp((taskProgress += ProgressMultiplier) / taskWeight * 100, 0, MaxProgressValue - 1);
             var progressDetails = new ProgressDetails(progress, description);
 
             await progressHub.Clients.Client(connectionId).SendAsync("progressUpdate", progressDetails);

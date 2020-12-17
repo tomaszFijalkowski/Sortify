@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Requests.Queries;
@@ -32,10 +33,10 @@ namespace Sortify.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<OperationResult> CreatePlaylists(CreatePlaylistsCommand command)
+        public async Task<OperationResult> CreatePlaylists(CreatePlaylistsCommand command, CancellationToken cancellationToken)
         {
             command.AccessToken = Request.Headers["Authorization"];
-            return await createPlaylistsCommandHandler.HandleAsync(command);
+            return await createPlaylistsCommandHandler.HandleAsync(command, cancellationToken);
         }
     }
 }

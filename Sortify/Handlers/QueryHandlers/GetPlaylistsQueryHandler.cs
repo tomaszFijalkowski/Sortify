@@ -49,7 +49,12 @@ namespace Sortify.Handlers.QueryHandlers
 
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Success(response);
                 return await Task.FromResult(result);
-            } 
+            }
+            catch (APIUnauthorizedException)
+            {
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Your session has expired. Please log in again.");
+                return await Task.FromResult(result);
+            }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");

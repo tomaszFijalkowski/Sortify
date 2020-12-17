@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sortify.Handlers.QueryHandlers
@@ -28,6 +29,9 @@ namespace Sortify.Handlers.QueryHandlers
         private ProgressManager progressManager;
         private SpotifyClient spotify;
 
+        private CancellationToken cancellationToken;
+        private readonly List<FullPlaylist> createdPlaylists = new List<FullPlaylist>();
+
         public CreatePlaylistsCommandHandler(
             IHubContext<ProgressHub> progressHub,
             ILogger<CreatePlaylistsCommandHandler> logger,
@@ -38,12 +42,14 @@ namespace Sortify.Handlers.QueryHandlers
             this.mapper = mapper;
         }
 
-        public async Task<OperationResult> HandleAsync(CreatePlaylistsCommand command)
+        public async Task<OperationResult> HandleAsync(CreatePlaylistsCommand command, CancellationToken cancellationToken)
         {
             OperationResult result;
 
             try
             {
+                this.cancellationToken = cancellationToken;
+
                 if (HasNoRequiredParameters(command))
                 {
                     result = OperationResult.Failure("One or more parameters are missing in the request.");
@@ -73,6 +79,17 @@ namespace Sortify.Handlers.QueryHandlers
                 await CreatePlaylists(playlists, command);
 
                 result = OperationResult.Success();
+                return await Task.FromResult(result);
+            }
+            catch (OperationCanceledException)
+            {
+                await ClearProgress();
+                result = OperationResult.Failure("Request has been cancelled.");
+                return await Task.FromResult(result);
+            }
+            catch (APIUnauthorizedException)
+            {
+                result = OperationResult.Failure("Your session has expired. Please log in again.");
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
@@ -141,7 +158,7 @@ namespace Sortify.Handlers.QueryHandlers
                 playlistTracks.AddRange(requestedTracks.Items.Select(x => mapper.Map<Track>(x.Track)));
 
                 index++;
-                await progressManager.ReportProgress("Preparing tracks");
+                await CheckProgress("Preparing tracks");
             }
             while (playlistTracks.Count < playlistSize);
 
@@ -164,7 +181,7 @@ namespace Sortify.Handlers.QueryHandlers
                 audioFeaturesList.AddRange(requestedAudioFeatures.AudioFeatures);
 
                 index++;
-                await progressManager.ReportProgress("Collecting audio features");
+                await CheckProgress("Collecting audio features");
             }
 
             foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
@@ -230,14 +247,16 @@ namespace Sortify.Handlers.QueryHandlers
 
             if (playlistTooBig)
             {
-                playlistValidationErrors.Add($"One of the created playlists exceeds the limit of {MaxPlaylistSize} tracks allowed. Try splitting into more playlists.");
+                playlistValidationErrors.Add($"One of the created playlists exceeds the limit of {MaxPlaylistSize} tracks allowed." +
+                                             $"\nTry splitting into more playlists.");
             }
 
             var tooManyPlaylists = playlists.Count > MaxPlaylists;
 
             if (tooManyPlaylists)
             {
-                playlistValidationErrors.Add($"Created playlists exceed the limit of {MaxPlaylists} allowed. Try splitting into bigger playlists.");
+                playlistValidationErrors.Add($"Created playlists exceed the limit of {MaxPlaylists} allowed." +
+                                             $"\nTry splitting into bigger playlists.");
             }
 
             return playlistValidationErrors;
@@ -250,9 +269,8 @@ namespace Sortify.Handlers.QueryHandlers
 
             foreach (var (playlist, index) in reversedPlaylists.Select((playlist, index) => (playlist, index)))
             {
-                var playlistCount = playlists.Count();
-                var playlistNumber = playlistCount - index;
-                var playlistName = GeneratePlaylistName(command, playlistNumber, playlistCount);
+                var playlistNumber = playlists.Count() - index;
+                var playlistName = GeneratePlaylistName(command, playlistNumber);
 
                 var playlistCreateRequest = new PlaylistCreateRequest(playlistName)
                 {
@@ -261,6 +279,7 @@ namespace Sortify.Handlers.QueryHandlers
                 };
 
                 var createdPlaylist = await spotify.Playlists.Create(user.Id, playlistCreateRequest);
+                createdPlaylists.Add(createdPlaylist);
 
                 for (int i = 0; i < (double)playlist.Count() / MaxItemsPerRequest; i++)
                 {
@@ -270,13 +289,13 @@ namespace Sortify.Handlers.QueryHandlers
                                                                       .ToList());
 
                     var addedTracks = await spotify.Playlists.AddItems(createdPlaylist.Id, request);
-                    await progressManager.ReportProgress("Creating playlists");
+                    await CheckProgress("Adding tracks");
                 }
             }
-            await progressManager.ReportProgress("Complete", true);
+            await CheckProgress("Complete", true);
         }
 
-        private string GeneratePlaylistName(CreatePlaylistsCommand command, int number, int playlistCount)
+        private string GeneratePlaylistName(CreatePlaylistsCommand command, int number)
         {
             var numeral = string.Empty;
             var name = command.Name;
@@ -309,6 +328,20 @@ namespace Sortify.Handlers.QueryHandlers
             }
 
             return name;
+        }
+
+        private async Task CheckProgress(string description, bool complete = false)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            await progressManager.ReportProgress(description, complete);
+        }
+
+        private async Task ClearProgress()
+        {
+            foreach (var playlist in createdPlaylists)
+            {
+                await spotify.Follow.UnfollowPlaylist(playlist.Id);
+            }
         }
     }
 }
