@@ -2,18 +2,18 @@
 {
     public class ProgressDetails
     {
-        public float Value { get; set; }
+        public float Progress { get; set; }
 
         public string Description { get; set; }
 
-        public ProgressDetails(float value)
+        public ProgressDetails(float progress)
         {
-            Value = value;
+            Progress = progress;
         }
 
-        public ProgressDetails(float value, string description)
+        public ProgressDetails(float progress, string description)
         {
-            Value = value;
+            Progress = progress;
             Description = description;
         }
     }

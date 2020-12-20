@@ -33,13 +33,15 @@ import { MatRippleModule } from '@angular/material/core';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
 import { AppSettingsService } from './services/app-settings.service';
+import { EndComponent } from './components/end/end.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     StartComponent,
-    StepperComponent
+    StepperComponent,
+    EndComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

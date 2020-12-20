@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -12,9 +12,11 @@ import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request'
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { OperationResult } from 'src/app/models/operation-result';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
-import { LogLevel } from '@aspnet/signalr';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
-import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { RequestState } from 'src/app/models/enums/request-state.enum';
+import { RequestDetails } from 'src/app/models/request-details';
+import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
 import 'lodash';
 
 declare const _: any;
@@ -25,11 +27,8 @@ declare const _: any;
   styleUrls: ['./stepper.component.sass']
 })
 
-export class StepperComponent implements OnInit, AfterViewInit {
+export class StepperComponent implements OnInit, AfterViewInit, OnDestroy {
   private progressHubUrl: string;
-
-  // Stepper
-  private currentStepIndex: number;
 
   // Select the source step (1)
   displayedColumns: string[] = ['playlist-image', 'playlist-details'];
@@ -130,6 +129,13 @@ export class StepperComponent implements OnInit, AfterViewInit {
   selectedNumberingPlacement: 'before' | 'after';
   selectedNumberingStyle: string;
 
+  // Create step
+  request = new RequestDetails(RequestState.Ready, 0, 'Preparing tracks');
+  requestSubscription: Subscription;
+  hubConnection: HubConnection;
+
+  shrinkWindow = false;
+
   // General setup
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
@@ -147,6 +153,10 @@ export class StepperComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.selectedNumberingPlacement = 'before';
     this.changeDetector.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.cancelRequest();
   }
 
   private setupDataSource(): void {
@@ -352,27 +362,38 @@ export class StepperComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private createPlaylists(): void {
-    const connection = this.establishProgressHubConnection();
-    connection.then((connectionId: string) => {
-      if (connectionId) {
-        this.sendRequest(connectionId);
-      }
-    });
+  get createDisabled(): boolean {
+    return this.selection.selected.length === 0 || this.sortBy.length === 0 || !this.formGroup.valid;
   }
 
-  private establishProgressHubConnection(): any {
-    const hubConnection = new HubConnectionBuilder()
-      .configureLogging(LogLevel.Debug)
+  onCreateClick(): void {
+    this.createPlaylists();
+    this.request.state = RequestState.InProgress;
+    this.shrinkWindow = true;
+  }
+
+  private createPlaylists(): void {
+    this.establishHubConnection();
+    this.hubConnection
+      .start()
+      .then(() => this.hubConnection.invoke('getConnectionId'))
+      .then((connectionId: string) => {
+        if (connectionId) {
+          this.sendRequest(connectionId);
+        }
+      })
+      .catch(() => this.request = new RequestDetails(RequestState.Error, 0, 'Could not establish connection to the server.'));
+  }
+
+  private establishHubConnection(): void {
+    this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.progressHubUrl)
       .build();
 
-      hubConnection.on('progressUpdate', data => console.log('Progress: ', data));
-
-    return hubConnection
-      .start()
-      .then(() => hubConnection.invoke('getConnectionId'))
-      .catch(err => console.error('Error while establishing connection: ' + err)); // TODO better error handling
+    this.hubConnection.on('progressUpdate', response => {
+      this.request.progress = response.progress;
+      this.request.description = response.description;
+    });
   }
 
   private sendRequest(connectionId: string): void {
@@ -393,8 +414,12 @@ export class StepperComponent implements OnInit, AfterViewInit {
       this.splitByPlaylistsSelected ? this.formGroup.get('splitByPlaylistsNumber').value : null,
     );
 
-    this.playlistService.createPlaylists(request).subscribe(response => {
-      console.log('response', response);
+    this.requestSubscription = this.playlistService.createPlaylists(request).subscribe(response => {
+      this.request = response.successful
+        ? new RequestDetails(RequestState.Successful, 100, 'Complete')
+        : new RequestDetails(RequestState.Error, 0, response.errorMessage);
+
+      this.hubConnection?.stop();
     });
   }
 
@@ -406,16 +431,18 @@ export class StepperComponent implements OnInit, AfterViewInit {
     return _.sum(playlistWeights);
   }
 
-  onStepChange(event: StepperSelectionEvent): void {
-    this.currentStepIndex = event.selectedIndex;
+  cancelRequest(): void {
+    this.request = new RequestDetails(RequestState.Cancelled, 100, 'Request cancelled');
+    this.requestSubscription?.unsubscribe();
+    this.hubConnection?.stop();
   }
 
-  onStepAnimationDone(): void {
-    const createStepIndex = 3;
-
-    if (this.currentStepIndex === createStepIndex) {
-      this.createPlaylists();
-    }
+  backToStepper(): void {
+    this.shrinkWindow = false;
+    this.clearRequest();
   }
 
+  private clearRequest(): void {
+    this.request = new RequestDetails(RequestState.Ready, 0, 'Preparing tracks');
+  }
 }
