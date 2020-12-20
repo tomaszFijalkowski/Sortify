@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { AuthGuardService } from './helpers/auth-guard.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthService } from './services/auth.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
@@ -34,6 +33,8 @@ import { SortablejsModule } from 'ngx-sortablejs';
 import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
 import { AppSettingsService } from './services/app-settings.service';
 import { EndComponent } from './components/end/end.component';
+import { AuthGuardService } from './services/guards/auth-guard.service';
+import { ConfirmationGuardService } from './services/guards/confirmation-guard.service';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { EndComponent } from './components/end/end.component';
     },
     AuthService,
     AuthGuardService,
+    ConfirmationGuardService,
     PlaylistResolver
   ],
   bootstrap: [
