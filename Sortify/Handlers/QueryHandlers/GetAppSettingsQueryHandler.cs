@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
+using Sortify.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -41,7 +42,7 @@ namespace Sortify.Handlers.QueryHandlers
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult<GetAppSettingsQuery, GetAppSettingsResponse>.Failure("Something went wrong, please try again later.");
+                result = OperationResult<GetAppSettingsQuery, GetAppSettingsResponse>.Failure(ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }

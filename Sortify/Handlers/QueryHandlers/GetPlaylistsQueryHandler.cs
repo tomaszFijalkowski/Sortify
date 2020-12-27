@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Models;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
+using Sortify.Helpers;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (query?.AccessToken == null)
                 {
-                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("One or more parameters are missing in the request.");
+                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.MissingParemeters);
                     return await Task.FromResult(result);
                 }
 
@@ -52,13 +53,13 @@ namespace Sortify.Handlers.QueryHandlers
             }
             catch (APIUnauthorizedException)
             {
-                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Your session has expired. Please log in again.");
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.SessionExpired);
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure("Something went wrong, please try again later.");
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }

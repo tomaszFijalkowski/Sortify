@@ -52,7 +52,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 if (HasNoRequiredParameters(command))
                 {
-                    result = OperationResult.Failure("One or more parameters are missing in the request.");
+                    result = OperationResult.Failure(ErrorMessages.MissingParemeters);
                     return await Task.FromResult(result);
                 }
 
@@ -84,18 +84,18 @@ namespace Sortify.Handlers.QueryHandlers
             catch (OperationCanceledException)
             {
                 await ClearProgress();
-                result = OperationResult.Failure("Request has been cancelled.");
+                result = OperationResult.Failure(ErrorMessages.RequestCancelled);
                 return await Task.FromResult(result);
             }
             catch (APIUnauthorizedException)
             {
-                result = OperationResult.Failure("Your session has expired. Please log in again.");
+                result = OperationResult.Failure(ErrorMessages.SessionExpired);
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult.Failure("Something went wrong. Please try again later.");
+                result = OperationResult.Failure(ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }
@@ -232,7 +232,6 @@ namespace Sortify.Handlers.QueryHandlers
                 splitIndices = tracks.GetSplitIndicesByPlaylists(command.SplitByPlaylistsNumber.GetValueOrDefault());
             }
 
-
             return splitIndices.ToList();
         }
 
@@ -247,16 +246,14 @@ namespace Sortify.Handlers.QueryHandlers
 
             if (playlistTooBig)
             {
-                playlistValidationErrors.Add($"One of the created playlists exceeds the limit of {MaxPlaylistSize} tracks allowed." +
-                                             $"\nTry splitting into more playlists.");
+                playlistValidationErrors.Add(ErrorMessages.PlaylistTooBig(MaxPlaylistSize));
             }
 
             var tooManyPlaylists = playlists.Count > MaxPlaylists;
 
             if (tooManyPlaylists)
             {
-                playlistValidationErrors.Add($"Created playlists exceed the limit of {MaxPlaylists} allowed." +
-                                             $"\nTry splitting into bigger playlists.");
+                playlistValidationErrors.Add(ErrorMessages.TooManyPlaylists(MaxPlaylists));
             }
 
             return playlistValidationErrors;
