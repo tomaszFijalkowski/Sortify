@@ -1,7 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
-import { OperationResult } from '../models/operation-result';
+import { Inject, Injectable } from '@angular/core';
+
 import { AppSettings, GetAppSettingsResponse } from '../models/get-app-settings.response';
+import { OperationResult } from '../models/operation-result';
 
 @Injectable({
   providedIn: 'root'

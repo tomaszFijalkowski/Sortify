@@ -1,40 +1,46 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { SortablejsModule } from 'ngx-sortablejs';
+
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { AppRoutingModule } from './app-routing.module';
-import { AuthService } from './services/auth.service';
-import { OAuthModule } from 'angular-oauth2-oidc';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { StartComponent } from './components/start/start.component';
-import { StepperComponent } from './components/stepper/stepper.component';
-import { MatTableModule } from '@angular/material/table';
-import { PlaylistResolver } from './resolvers/playlist.resolver';
-import { AuthInterceptor } from './services/interceptors/auth-interceptor.service';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatRippleModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { EndComponent } from './components/end/end.component';
+import { HomeComponent } from './components/home/home.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRippleModule } from '@angular/material/core';
 import { SortablejsModule } from 'ngx-sortablejs';
 import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
+import { StartComponent } from './components/start/start.component';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { PlaylistResolver } from './resolvers/playlist.resolver';
 import { AppSettingsService } from './services/app-settings.service';
-import { EndComponent } from './components/end/end.component';
+import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
 import { ConfirmationGuardService } from './services/guards/confirmation-guard.service';
+import { AuthInterceptor } from './services/interceptors/auth-interceptor.service';
+import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
 
 @NgModule({
   declarations: [

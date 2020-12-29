@@ -1,10 +1,12 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { GetPlaylistsResponse } from '../models/get-playlists.response';
-import { OperationResult } from '../models/operation-result';
 import { Observable } from 'rxjs';
-import { Nothing } from '../models/nothing';
+
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+
 import { CreatePlaylistsRequest } from '../models/create-playlists.request';
+import { GetPlaylistsResponse } from '../models/get-playlists.response';
+import { Nothing } from '../models/nothing';
+import { OperationResult } from '../models/operation-result';
 
 @Injectable({
   providedIn: 'root'

@@ -1,23 +1,25 @@
+import 'lodash';
+
+import { Subscription } from 'rxjs/internal/Subscription';
+import { Options, SortableEvent } from 'sortablejs';
+import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
+import { RequestState } from 'src/app/models/enums/request-state.enum';
+import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
+import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
+import { OperationResult } from 'src/app/models/operation-result';
+import { RequestDetails } from 'src/app/models/request-details';
+import { SortableItem } from 'src/app/models/sortable-item';
+import { AppSettingsService } from 'src/app/services/app-settings.service';
+import { PlaylistService } from 'src/app/services/playlist.service';
+
+import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { MatPaginator } from '@angular/material/paginator';
-import { SelectionModel } from '@angular/cdk/collections';
-import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
-import { Options, SortableEvent } from 'sortablejs';
-import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
-import { SortableItem } from 'src/app/models/sortable-item';
-import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
-import { PlaylistService } from 'src/app/services/playlist.service';
-import { OperationResult } from 'src/app/models/operation-result';
-import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
-import { AppSettingsService } from 'src/app/services/app-settings.service';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { RequestState } from 'src/app/models/enums/request-state.enum';
-import { RequestDetails } from 'src/app/models/request-details';
 import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
-import 'lodash';
+import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
 
 declare const _: any;
 

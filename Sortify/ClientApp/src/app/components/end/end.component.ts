@@ -1,6 +1,7 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { RequestDetails } from 'src/app/models/request-details';
+
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-end',

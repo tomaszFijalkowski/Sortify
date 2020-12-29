@@ -1,5 +1,7 @@
+import { AuthConfig, JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
+
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
+
 import { AppSettingsService } from './app-settings.service';
 
 @Injectable({
