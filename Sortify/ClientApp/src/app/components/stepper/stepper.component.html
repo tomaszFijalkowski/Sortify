@@ -1,253 +1,251 @@
-<div class="background-img">
-  <div class="container" [ngClass]="{'shrink-window': shrinkWindow}">
-    <mat-horizontal-stepper #stepper>
-      <!-- <ng-template matStepperIcon="edit" let-index="index"> {{index + 1}} </ng-template> -->
+<div class="container" [ngClass]="{'shrink-window': shrinkWindow}">
+  <mat-horizontal-stepper #stepper>
+    <!-- <ng-template matStepperIcon="edit" let-index="index"> {{index + 1}} </ng-template> -->
 
-      <ng-template matStepperIcon="edit">
-        <mat-icon>check</mat-icon>
-      </ng-template>
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
 
-      <!-- Select the source step -->
+    <!-- Select the source step -->
 
-      <mat-step [completed]="selection.selected.length > 0">
-        <ng-template matStepLabel>Select the source</ng-template>
-        <mat-form-field class="filter-field" appearance="fill">
-          <mat-icon matPrefix>search</mat-icon>
-          <mat-label>Filter</mat-label>
-          <input matInput (keyup)="applyFilter($event)">
-        </mat-form-field>
+    <mat-step [completed]="selection.selected.length > 0">
+      <ng-template matStepLabel>Select the source</ng-template>
+      <mat-form-field class="filter-field" appearance="fill">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)">
+      </mat-form-field>
 
-        <div class="button-row">
-          <button mat-icon-button class="refresh-button" (click)="refreshSelection()" matTooltip="Refresh playlists"
-          matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
-          <mat-icon>refresh</mat-icon>
-        </button>
-        <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
-          matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
-          <mat-icon>clear</mat-icon>
-        </button>
-        </div>
-        <div class="table-container">
+      <div class="button-row">
+        <button mat-icon-button class="refresh-button" (click)="refreshSelection()" matTooltip="Refresh playlists"
+        matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
+        matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
+        <mat-icon>clear</mat-icon>
+      </button>
+      </div>
+      <div class="table-container">
 
-          <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
-            No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
-          </div>
-
-          <div *ngIf="dataSourceLoading" class="progress-spinner-wrapper">
-            <mat-progress-spinner [diameter]="50" [strokeWidth]="5" [mode]="'indeterminate'">
-            </mat-progress-spinner>
-          </div>
-
-          <mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="playlist-image">
-              <mat-header-cell *matHeaderCellDef></mat-header-cell>
-              <mat-cell *matCellDef="let playlist">
-                <img *ngIf="playlist.image; else noImage" src="{{playlist.image.url}}" width="100px"
-                  height="100px" alt="{{playlist.name}} cover">
-                <ng-template #noImage><i class="material-icons">album</i></ng-template>
-              </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="playlist-details">
-              <mat-header-cell *matHeaderCellDef></mat-header-cell>
-              <mat-cell *matCellDef="let playlist">
-                <div class="playlist-details-container">
-                  <div class="playlist-details-name">{{playlist.name}}</div>
-                  <div class="playlist-details-owner">Created by <span class="owner-text">{{playlist.owner}}
-                    </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
-                </div>
-              </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
-              [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
-              (click)="$event.stopPropagation(); $event ? selection.toggle(row) : null"></mat-row>
-          </mat-table>
+        <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
+          No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
         </div>
 
-        <mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0}"
-          [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
-        <div>
-          <button mat-button matStepperNext>Next</button>
+        <div *ngIf="dataSourceLoading" class="progress-spinner-wrapper">
+          <mat-progress-spinner [diameter]="50" [strokeWidth]="5" [mode]="'indeterminate'">
+          </mat-progress-spinner>
         </div>
-      </mat-step>
 
-      <!-- Choose the sorting step -->
+        <mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="playlist-image">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let playlist">
+              <img *ngIf="playlist.image; else noImage" src="{{playlist.image.url}}" width="100px"
+                height="100px" alt="{{playlist.name}} cover">
+              <ng-template #noImage><i class="material-icons">album</i></ng-template>
+            </mat-cell>
+          </ng-container>
 
-      <mat-step [completed]="sortBy.length > 0">
-        <ng-template matStepLabel>Choose the sorting</ng-template>
-        <div class="header">Basic properties</div>
-        <mat-chip-list>
-          <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
-            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
-              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of basicProperties"
-              (click)="addItemOnClick($event)">
-              {{item.name}}
-            </mat-chip>
-          </div>
-        </mat-chip-list>
-
-        <div class="header">Audio features</div>
-        <mat-chip-list>
-          <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
-            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
-              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of audioFeatures"
-              (click)="addItemOnClick($event)">
-              {{item.name}}
-            </mat-chip>
-          </div>
-        </mat-chip-list>
-
-        <div class="header">Sort by</div>
-        <mat-chip-list>
-          <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
-            [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
-              'dropzone-highlight-red': dropzoneIsHighlightedRed}">
-            <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
-              [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
-              {{item.name}}
-              <mat-icon matChipRemove (click)="removeItemOnClick($event)">cancel</mat-icon>
-            </mat-chip>
-          </div>
-        </mat-chip-list>
-
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </mat-step>
-
-      <!-- Set the output step -->
-
-      <mat-step [stepControl]="formGroup">
-        <form [formGroup]="formGroup">
-          <ng-template matStepLabel>Set the output</ng-template>
-
-          <div class="header">Split the playlist</div>
-
-          <mat-grid-list class="split-the-playlist-grid" cols="2" rows="1" rowHeight="85px" gutterSize="1.34375em">
-            <mat-grid-tile colspan="1" rowspan="1">
-              <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
-                <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')">
-                  Split every
-                  <mat-form-field class="big-button-input">
-                    <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number"
-                      [min]="splitByTracksMinNumber" [max]="splitByTracksMaxNumber" [step]="10" (blur)="onSplitByTracksInputBlur(splitByTracksInput.value)">
-                  </mat-form-field>
-                  tracks
-                </div>
+          <ng-container matColumnDef="playlist-details">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let playlist">
+              <div class="playlist-details-container">
+                <div class="playlist-details-name">{{playlist.name}}</div>
+                <div class="playlist-details-owner">Created by <span class="owner-text">{{playlist.owner}}
+                  </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
               </div>
-            </mat-grid-tile>
+            </mat-cell>
+          </ng-container>
 
-            <mat-grid-tile colspan="1" rowspan="1">
-              <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByPlaylistsSelected}">
-                <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')">
-                  Split into
-                  <mat-form-field class="big-button-input">
-                    <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number"
-                      [min]="splitByPlaylistsMinNumber" [max]="splitByPlaylistsMaxNumber" (blur)="onSplitByPlaylistsInputBlur(splitByPlaylistsInput.value)">
-                  </mat-form-field>
-                  playlists
-                </div>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
+            [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
+            (click)="$event.stopPropagation(); $event ? selection.toggle(row) : null"></mat-row>
+        </mat-table>
+      </div>
+
+      <mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0}"
+        [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <!-- Choose the sorting step -->
+
+    <mat-step [completed]="sortBy.length > 0">
+      <ng-template matStepLabel>Choose the sorting</ng-template>
+      <div class="header">Basic properties</div>
+      <mat-chip-list>
+        <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
+          <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
+            [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of basicProperties"
+            (click)="addItemOnClick($event)">
+            {{item.name}}
+          </mat-chip>
+        </div>
+      </mat-chip-list>
+
+      <div class="header">Audio features</div>
+      <mat-chip-list>
+        <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
+          <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
+            [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of audioFeatures"
+            (click)="addItemOnClick($event)">
+            {{item.name}}
+          </mat-chip>
+        </div>
+      </mat-chip-list>
+
+      <div class="header">Sort by</div>
+      <mat-chip-list>
+        <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
+          [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
+            'dropzone-highlight-red': dropzoneIsHighlightedRed}">
+          <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
+            [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
+            {{item.name}}
+            <mat-icon matChipRemove (click)="removeItemOnClick($event)">cancel</mat-icon>
+          </mat-chip>
+        </div>
+      </mat-chip-list>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <!-- Set the output step -->
+
+    <mat-step [stepControl]="formGroup">
+      <form [formGroup]="formGroup">
+        <ng-template matStepLabel>Set the output</ng-template>
+
+        <div class="header">Split the playlist</div>
+
+        <mat-grid-list class="split-the-playlist-grid" cols="2" rows="1" rowHeight="85px" gutterSize="1.34375em">
+          <mat-grid-tile colspan="1" rowspan="1">
+            <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
+              <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')">
+                Split every
+                <mat-form-field class="big-button-input">
+                  <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number"
+                    [min]="splitByTracksMinNumber" [max]="splitByTracksMaxNumber" [step]="10" (blur)="onSplitByTracksInputBlur(splitByTracksInput.value)">
+                </mat-form-field>
+                tracks
               </div>
-            </mat-grid-tile>
-          </mat-grid-list>
+            </div>
+          </mat-grid-tile>
 
-          <div class="checkbox-container">
-            <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
-            <mat-form-field appearance="standard">
-              <mat-select formControlName="smartSplitType">
-                <mat-option value="albums">
-                  albums
+          <mat-grid-tile colspan="1" rowspan="1">
+            <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByPlaylistsSelected}">
+              <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')">
+                Split into
+                <mat-form-field class="big-button-input">
+                  <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number"
+                    [min]="splitByPlaylistsMinNumber" [max]="splitByPlaylistsMaxNumber" (blur)="onSplitByPlaylistsInputBlur(splitByPlaylistsInput.value)">
+                </mat-form-field>
+                playlists
+              </div>
+            </div>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+        <div class="checkbox-container">
+          <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
+          <mat-form-field appearance="standard">
+            <mat-select formControlName="smartSplitType">
+              <mat-option value="albums">
+                albums
+              </mat-option>
+              <mat-option value="artists">
+                artists
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="header">Playlist details</div>
+
+        <!-- TODO cols="3" for low res -->
+        <mat-grid-list class="playlist-details-grid" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">
+
+          <mat-grid-tile colspan="3" rowspan="1">
+            <mat-form-field appearance="fill">
+              <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
+                class="prefix" matPrefix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}.</div>
+              <mat-label>Name</mat-label>
+              <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
+                class="suffix" matSuffix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}</div>
+              <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
+                <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
+                  {{ name.value?.length || 0 }}/{{ nameMaxLength }}
+                </mat-hint>
+              <mat-error *ngIf="formGroup.get('name').hasError('required')">
+                <strong>You must give your playlist a name</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile colspan="3" rowspan="2">
+            <mat-form-field appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
+                matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
+              <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
+                {{ description.value?.length || 0 }}/{{ descriptionMaxLength }}
+              </mat-hint>
+            </mat-form-field>
+          </mat-grid-tile>
+
+          <mat-grid-tile colspan="3" rowspan="1">
+            <div>
+              <mat-button-toggle-group [(value)]="selectedNumberingPlacement" formControlName="numberingPlacement">
+                <mat-button-toggle value="before">
+                  <mat-icon>format_list_numbered</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle value="after">
+                  <mat-icon>format_list_numbered_rtl</mat-icon>
+                </mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+
+            <mat-form-field class="select-field" appearance="fill">
+              <mat-label>Numbering</mat-label>
+              <mat-select [(value)]="selectedNumberingStyle" formControlName="numberingStyle">
+                <mat-option>
+                  None
                 </mat-option>
-                <mat-option value="artists">
-                  artists
+                <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{ numberingStyle }}">
+                  <ng-container *ngFor="let item of numberingStyleDisplays[numberingStyle]; let i = index">
+                    {{ item + (numberingStyleDisplays[numberingStyle] === 'before' ? '.' : '') }}
+                    <span *ngIf="i < numberingStyleDisplays[numberingStyle].length - 1" class="numbering-style-separator">,</span>
+                  </ng-container>
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
+          </mat-grid-tile>
+        </mat-grid-list>
 
-          <div class="header">Playlist details</div>
+          <!-- TODO colspan="3" for low res -->
+        <div class="checkbox-container">
+          <mat-checkbox class="make-secret-checkbox" formControlName="isSecret">Make secret</mat-checkbox>
+        </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
+        </div>
+      </form>
+    </mat-step>
 
-          <!-- TODO cols="3" for low res -->
-          <mat-grid-list class="playlist-details-grid" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">
+    <mat-step>
+      <app-end (cancelRequest)="cancelRequest()" (backToStepper)="backToStepper()"
+        [request]="request" [multiplePlaylists]="splitByTracksSelected || splitByPlaylistsSelected">
+      </app-end>
+    </mat-step>
 
-            <mat-grid-tile colspan="3" rowspan="1">
-              <mat-form-field appearance="fill">
-                <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
-                  class="prefix" matPrefix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}.</div>
-                <mat-label>Name</mat-label>
-                <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
-                  class="suffix" matSuffix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}</div>
-                <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
-                  <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
-                    {{ name.value?.length || 0 }}/{{ nameMaxLength }}
-                  </mat-hint>
-                <mat-error *ngIf="formGroup.get('name').hasError('required')">
-                  <strong>You must give your playlist a name</strong>
-                </mat-error>
-              </mat-form-field>
-            </mat-grid-tile>
-
-            <mat-grid-tile colspan="3" rowspan="2">
-              <mat-form-field appearance="fill">
-                <mat-label>Description</mat-label>
-                <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
-                  matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
-                <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
-                  {{ description.value?.length || 0 }}/{{ descriptionMaxLength }}
-                </mat-hint>
-              </mat-form-field>
-            </mat-grid-tile>
-
-            <mat-grid-tile colspan="3" rowspan="1">
-              <div>
-                <mat-button-toggle-group [(value)]="selectedNumberingPlacement" formControlName="numberingPlacement">
-                  <mat-button-toggle value="before">
-                    <mat-icon>format_list_numbered</mat-icon>
-                  </mat-button-toggle>
-                  <mat-button-toggle value="after">
-                    <mat-icon>format_list_numbered_rtl</mat-icon>
-                  </mat-button-toggle>
-                </mat-button-toggle-group>
-              </div>
-
-              <mat-form-field class="select-field" appearance="fill">
-                <mat-label>Numbering</mat-label>
-                <mat-select [(value)]="selectedNumberingStyle" formControlName="numberingStyle">
-                  <mat-option>
-                    None
-                  </mat-option>
-                  <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{ numberingStyle }}">
-                    <ng-container *ngFor="let item of numberingStyleDisplays[numberingStyle]; let i = index">
-                      {{ item + (numberingStyleDisplays[numberingStyle] === 'before' ? '.' : '') }}
-                      <span *ngIf="i < numberingStyleDisplays[numberingStyle].length - 1" class="numbering-style-separator">,</span>
-                    </ng-container>
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </mat-grid-tile>
-          </mat-grid-list>
-
-            <!-- TODO colspan="3" for low res -->
-          <div class="checkbox-container">
-            <mat-checkbox class="make-secret-checkbox" formControlName="isSecret">Make secret</mat-checkbox>
-          </div>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
-          </div>
-        </form>
-      </mat-step>
-
-      <mat-step>
-        <app-end (cancelRequest)="cancelRequest()" (backToStepper)="backToStepper()"
-          [request]="request" [multiplePlaylists]="splitByTracksSelected || splitByPlaylistsSelected">
-        </app-end>
-      </mat-step>
-
-    </mat-horizontal-stepper>
-  </div>
+  </mat-horizontal-stepper>
 </div>

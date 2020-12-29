@@ -9,7 +9,7 @@
 
 h1
   font-size: 2.5rem
-  letter-spacing: 1px
+  letter-spacing: 0.0625rem
 
 .description
   font-size: 1.5rem
@@ -20,24 +20,12 @@ h1
 
 // button
 
-.mat-flat-button
-  font-family: "CircularSpotifyTxT-Med"
-  margin-top: 40px
-  font-size: 14px
-  line-height: 1
-  border-radius: 500px
-  padding: 18px 48px 16px
-  transition-property: background-color, border-color, color, box-shadow, filter
-  transition-duration: .3s
-  border-width: 0
-  letter-spacing: 2px
-  min-width: 160px
-  text-transform: uppercase
-  white-space: normal
+.mat-button
+  margin-top: 2.5rem
+  padding: 1.125rem 3rem 1rem
   background-color: $green
-  outline: 0
 
-.mat-flat-button:hover
+.mat-button:hover:not(:disabled)
   background-color: $green-hover
 
 

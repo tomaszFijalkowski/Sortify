@@ -26,7 +26,8 @@
             "styles": [
               "src/custom-theme.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.sass"
+              "src/styles.sass",
+              "src/custom-material.sass"
             ],
             "scripts": [],
             "aot": true,
@@ -83,7 +84,8 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "styles.sass"
+              "styles.sass",
+              "custom-material.sass"
             ],
             "scripts": [],
             "assets": [
