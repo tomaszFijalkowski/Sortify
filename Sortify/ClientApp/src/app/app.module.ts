@@ -28,10 +28,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EndComponent } from './components/end/end.component';
 import { HomeComponent } from './components/home/home.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatRippleModule } from '@angular/material/core';
-import { SortablejsModule } from 'ngx-sortablejs';
-import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { PlaylistResolver } from './resolvers/playlist.resolver';
@@ -48,7 +45,8 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     HomeComponent,
     StartComponent,
     StepperComponent,
-    EndComponent
+    EndComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

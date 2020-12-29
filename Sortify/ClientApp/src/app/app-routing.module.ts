@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { PlaylistResolver } from './resolvers/playlist.resolver';
@@ -28,6 +29,12 @@ const routes: Routes = [
     resolve: {
       playlists: PlaylistResolver
     }
+  },
+  {
+    path: 'not-found', component: NotFoundComponent
+  },
+  {
+    path: '**', redirectTo: 'not-found'
   }
 ];
 
