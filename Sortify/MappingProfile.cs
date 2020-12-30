@@ -47,6 +47,11 @@ namespace Sortify
                     opt => opt = null);
 
             CreateMap<TrackAudioFeatures, AudioFeatures>();
+
+            CreateMap<PrivateUser, UserDetails>()
+                .ForMember(
+                    dest => dest.Image,
+                    opt => opt.MapFrom(src => src.Images.FirstOrDefault()));
         }
     }
 }
