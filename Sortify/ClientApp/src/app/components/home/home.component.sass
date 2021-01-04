@@ -1,28 +1,15 @@
 @import '../../../variables.sass';
 
-.container
-  padding-top: 250px
-  margin: 0 auto
-  width: 800px
+.outer-container
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
+  position: relative
+
+.inner-container
   text-align: center
+  position: absolute
+  top: 25%
+  padding: 1.25em
   color: $white
-
-h1
-  font-size: 3rem
-  letter-spacing: 0.0625rem
-
-.description
-  font-size: 1.5rem
-
-.green-color
-  color: $green
-
-
-// button
-
-.mat-button
-  margin-top: 2.5rem
-  background-color: $green
-
-.mat-button:hover:not(:disabled)
-  background-color: $green-hover

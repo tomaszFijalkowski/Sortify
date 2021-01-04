@@ -1,14 +1,14 @@
-@import 'variables.sass';
+@import 'variables.sass'
 
 // mat-button
 
-.custom .mat-button
+.app-container .mat-button
   color: $white
   font-family: "CircularSpotifyTxT-Med"
   font-size: 1em
   line-height: 1
   padding: 1.125em 3em 1em
-  margin: 1.25em 1em 0 1em
+  margin: 2.5em 1em 0 1em
   border-radius: 31.25em
   transition-property: background-color, border-color, color, box-shadow, filter
   transition-duration: .3s
@@ -17,8 +17,16 @@
   min-width: 10em
   text-transform: uppercase
   white-space: normal
-  background-color: $gray
+  background-color: $green
   outline: 0
 
-.custom .mat-button:hover:not(:disabled)
-  background-color: $gray-hover
+@media(max-width: $breakpoint-tablet)
+  .app-container .mat-button
+    margin: 2.5em 0.8em 0 0.8em
+
+@media(max-width: $breakpoint-phone)
+  .app-container .mat-button
+    margin: 2.5em 0.6em 0 0.6em
+
+.app-container .mat-button:hover:not(:disabled)
+  background-color: $green-hover
