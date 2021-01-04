@@ -22,7 +22,13 @@ h1
 .background-img
   background: url('assets/background.jpg') no-repeat center center fixed
   background-size: cover
-  height: 100vh
+  height: calc(100vh + $footer-height)
+
+
+// router wrapper
+
+.router-wrapper
+  height: calc(100vh)
 
 
 // images and icons
@@ -43,8 +49,7 @@ img, i, .mat-icon
 ::-webkit-scrollbar
   width: 5px
 
-::-webkit-scrollbar-track
-  margin-bottom: 3px
+// ::-webkit-scrollbar-track
 
 ::-webkit-scrollbar-thumb
   background: $gray-light

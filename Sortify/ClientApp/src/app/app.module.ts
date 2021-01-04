@@ -23,10 +23,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EndComponent } from './components/end/end.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
@@ -46,7 +48,8 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     StartComponent,
     StepperComponent,
     EndComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -73,6 +76,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     MatTooltipModule,
     MatGridListModule,
     MatRippleModule,
+    FontAwesomeModule,
     SortablejsModule.forRoot({
       animation: 150,
     }),

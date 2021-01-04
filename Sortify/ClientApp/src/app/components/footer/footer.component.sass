@@ -1,0 +1,56 @@
+@import '../../../variables.sass';
+
+.container
+  color: $white
+  height: $footer-height
+  width: fit-content
+  display: flex
+  margin: 0 auto
+  padding: 0
+
+.section
+  width: fit-content
+  text-align: left
+  padding: 1.25em
+
+.section:first-of-type
+  text-align: left
+
+.section:last-of-type
+  display: flex
+  align-items: center
+
+h1
+  font-size: 2em
+  margin-bottom: 0.5rem
+
+h2
+  font-size: 1.25em
+  margin-bottom: 0.5rem
+
+.home-link, .link
+  cursor: pointer
+
+.link
+  color: $white
+  transition: color 0.2s
+
+.link:hover
+  color: $green-hover
+
+.link-disabled
+  pointer-events: none
+  opacity: 0.5
+
+.social-links a
+  color: $white
+  font-size: 1.15em
+
+.social-links a:first-of-type
+  margin-right: 1em
+
+@media(max-width: 325px)
+  .social-links
+    width: min-content
+  .social-links a:first-of-type
+    margin-right: 0
