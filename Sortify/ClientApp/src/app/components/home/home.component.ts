@@ -1,4 +1,7 @@
+import { UserDetails } from 'src/app/models/get-user-details.response';
+
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -8,13 +11,20 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent implements OnInit {
-  constructor(private authService: AuthService) {
+  userDetails: UserDetails;
+
+  constructor(private activatedRoute: ActivatedRoute,
+    private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    if (this.isLoggedIn) {
+      const data = this.activatedRoute.snapshot.data;
+      this.userDetails = data.userDetails.result.userDetails;
+    }
   }
 
-  login(): void {
-    this.authService.login();
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

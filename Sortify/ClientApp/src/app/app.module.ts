@@ -30,6 +30,7 @@ import { AppComponent } from './app.component';
 import { EndComponent } from './components/end/end.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
 import { StepperComponent } from './components/stepper/stepper.component';
@@ -45,6 +46,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
   declarations: [
     AppComponent,
     HomeComponent,
+    LandingPageComponent,
     StartComponent,
     StepperComponent,
     EndComponent,

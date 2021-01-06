@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { UserDetails } from 'src/app/models/get-user-details.response';
+
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,12 +9,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./start.component.sass']
 })
 export class StartComponent implements OnInit {
+  @Input() userDetails: UserDetails;
   stepperLoading: boolean;
 
   constructor(private router: Router) {
   }
 
   ngOnInit() {
+  }
+
+  sort(): void {
   }
 
   create(): void {

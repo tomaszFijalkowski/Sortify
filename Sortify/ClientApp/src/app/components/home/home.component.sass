@@ -1,4 +1,4 @@
-@import '../../../variables.sass';
+@import '../../../variables.sass'
 
 .outer-container
   display: flex
@@ -10,6 +10,9 @@
 .inner-container
   text-align: center
   position: absolute
-  top: 25%
   padding: 1.25em
   color: $white
+
+@media(min-height: $breakpoint-phone)
+  .inner-container
+    top: 25%

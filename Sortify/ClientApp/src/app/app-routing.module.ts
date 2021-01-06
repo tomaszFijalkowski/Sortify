@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { StartComponent } from './components/start/start.component';
 import { StepperComponent } from './components/stepper/stepper.component';
 import { PlaylistResolver } from './resolvers/playlist.resolver';
+import { UserDetailsResolver } from './resolvers/user-details.resolver';
 import { AuthGuardService } from './services/guards/auth-guard.service';
 import { ConfirmationGuardService } from './services/guards/confirmation-guard.service';
 
@@ -14,12 +14,10 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     component: HomeComponent,
+    resolve: {
+      userDetails: UserDetailsResolver
+    },
     children: []
-  },
-  {
-    path: 'start',
-    component: StartComponent,
-    canActivate: [AuthGuardService]
   },
   {
     path: 'stepper',

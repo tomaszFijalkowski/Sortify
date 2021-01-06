@@ -1,5 +1,6 @@
-<div class="container">
-  <h1>Welcome to Sortify<span class="green-color">,</span></h1>
-  <div class="description">A&nbsp;simple way to reorganize your playlists as desired.</div>
-  <button mat-button color="primary" (click)="login()">Log in with Spotify</button>
+<div class="outer-container">
+  <div class="inner-container">
+    <app-start [userDetails]="userDetails" *ngIf="isLoggedIn"></app-start>
+    <app-landing-page *ngIf="isLoggedIn === false"></app-landing-page>
+  </div>
 </div>
