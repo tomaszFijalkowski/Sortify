@@ -19,10 +19,12 @@ export class StartComponent implements OnInit {
   }
 
   sort(): void {
+    this.stepperLoading = true;
+    this.router.navigate(['/sort']);
   }
 
   create(): void {
     this.stepperLoading = true;
-    this.router.navigate(['/stepper']);
+    this.router.navigate(['/create']);
   }
 }

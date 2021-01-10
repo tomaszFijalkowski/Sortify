@@ -1,0 +1,55 @@
+<div class="container" [ngClass]="{'shrink-window': shrinkWindow}">
+  <mat-horizontal-stepper #stepper>
+    <!-- <ng-template matStepperIcon="edit" let-index="index"> {{index + 1}} </ng-template> -->
+
+    <ng-template matStepperIcon="edit">
+      <mat-icon>check</mat-icon>
+    </ng-template>
+
+    <!-- Selection Step -->
+    <mat-step [completed]="selectedPlaylists.length > 0">
+      <ng-template matStepLabel>Select the source</ng-template>
+
+      <app-selection-step [playlists]="playlists" (selectionChanged)="onSelectionChanged($event)">
+      </app-selection-step>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <!-- Sorting Step -->
+    <mat-step [completed]="sortBy.length > 0">
+      <ng-template matStepLabel>Choose the sorting</ng-template>
+  
+      <app-sorting-step (sortByChanged)="onSortByChanged($event)">
+      </app-sorting-step>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <!-- Creation Step -->
+    <mat-step [completed]="creationFormValid">
+      <ng-template matStepLabel>Set the output</ng-template>
+
+      <app-creation-step (formChanged)="onCreationFormChanged($event)">
+      </app-creation-step>
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
+      </div>
+    </mat-step>
+
+    <!-- End Step -->
+    <mat-step>
+      <app-end-step (cancelRequest)="cancelRequest()" (backToStepper)="backToStepper()"
+        [request]="request" [header]="endHeader">
+      </app-end-step>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+</div>

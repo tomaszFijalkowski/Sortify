@@ -27,13 +27,16 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EndComponent } from './components/end/end.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
-import { StepperComponent } from './components/stepper/stepper.component';
+import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
+import { CreationStepComponent } from './components/stepper/steps/creation-step/creation-step.component';
+import { EndStepComponent } from './components/stepper/steps/end-step/end-step.component';
+import { SelectionStepComponent } from './components/stepper/steps/selection-step/selection-step.component';
+import { SortingStepComponent } from './components/stepper/steps/sorting-step/sorting-step.component';
 import { PlaylistResolver } from './resolvers/playlist.resolver';
 import { AppSettingsService } from './services/app-settings.service';
 import { AuthService } from './services/auth.service';
@@ -48,8 +51,11 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     HomeComponent,
     LandingPageComponent,
     StartComponent,
-    StepperComponent,
-    EndComponent,
+    CreateStepperComponent,
+    SelectionStepComponent,
+    SortingStepComponent,
+    CreationStepComponent,
+    EndStepComponent,
     NotFoundComponent,
     FooterComponent
   ],

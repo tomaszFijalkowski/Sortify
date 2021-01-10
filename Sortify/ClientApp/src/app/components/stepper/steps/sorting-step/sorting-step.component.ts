@@ -1,0 +1,190 @@
+import { Options, SortableEvent } from 'sortablejs';
+import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
+import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
+import { SortableItem } from 'src/app/models/sortable-item';
+
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-sorting-step',
+  templateUrl: './sorting-step.component.html',
+  styleUrls: ['./sorting-step.component.sass']
+})
+export class SortingStepComponent implements OnInit {
+  basicProperties: SortableItem[] = [
+    new SortableItem('Artist name', 'ArtistName', 'asc', 0, SortableGroup.BasicProperties),
+    new SortableItem('Album name', 'AlbumName', 'asc', 1, SortableGroup.BasicProperties),
+    new SortableItem('Album release date', 'AlbumReleaseDate', 'asc', 2, SortableGroup.BasicProperties),
+    new SortableItem('Track duration', 'Duration', 'asc', 3, SortableGroup.BasicProperties),
+    new SortableItem('Track name', 'Name', 'asc', 4, SortableGroup.BasicProperties),
+    new SortableItem('Track number', 'TrackNumber', 'asc', 5, SortableGroup.BasicProperties),
+    new SortableItem('Track popularity', 'Popularity', 'asc', 6, SortableGroup.BasicProperties)
+  ];
+
+  audioFeatures: SortableItem[] = [
+    new SortableItem('Acousticness', 'AudioFeatures.Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
+    new SortableItem('Danceability', 'AudioFeatures.Danceability', 'asc', 1, SortableGroup.AudioFeatures),
+    new SortableItem('Energy', 'AudioFeatures.Energy', 'asc', 2, SortableGroup.AudioFeatures),
+    new SortableItem('Instrumentalness', 'AudioFeatures.Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
+    new SortableItem('Liveness', 'AudioFeatures.Liveness', 'asc', 4, SortableGroup.AudioFeatures),
+    new SortableItem('Loudness', 'AudioFeatures.Loudness', 'asc', 5, SortableGroup.AudioFeatures),
+    new SortableItem('Speechiness', 'AudioFeatures.Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
+    new SortableItem('Tempo', 'AudioFeatures.Tempo', 'asc', 7, SortableGroup.AudioFeatures),
+    new SortableItem('Valence', 'AudioFeatures.Valence', 'asc', 8, SortableGroup.AudioFeatures)
+  ];
+
+  initialAudioFeaturesLength = this.audioFeatures.length;
+
+  sortBy: SortableItem[] = [];
+
+  basicPropertiesOptions: Options = {
+    group: {
+      name: 'basicProperties',
+    },
+    sort: false,
+    onStart: event => this.toggleDropzoneBorder(event, true),
+    onEnd: event => this.toggleDropzoneBorder(event, false),
+    removeOnSpill: false
+  };
+
+  audioFeaturesOptions: Options = {
+    group: {
+      name: 'audioFeatures',
+    },
+    sort: false,
+    onStart: event => this.toggleDropzoneBorder(event, true),
+    onEnd: event => this.toggleDropzoneBorder(event, false),
+    removeOnSpill: false
+  };
+
+  sortByOptions: Options = {
+    group: {
+      name: 'sortBy',
+      put: ['basicProperties', 'audioFeatures'],
+    },
+    onStart: event => this.toggleDropzoneBorder(event, true),
+    onEnd: event => this.toggleDropzoneBorder(event, false),
+    onSpill: event => this.removeItemOnSpill(event),
+    removeOnSpill: true
+  };
+
+  dropzoneIsVisible: boolean;
+  dropzoneIsHighlightedGreen: boolean;
+  dropzoneIsHighlightedRed: boolean;
+
+  @Output() sortByChanged = new EventEmitter();
+
+  constructor(private changeDetector: ChangeDetectorRef) {
+  }
+
+  ngOnInit() {
+  }
+
+  private toggleDropzoneBorder(sortableEvent: SortableEvent, flag: boolean): void {
+    const draggedItem = sortableEvent.item;
+
+    if (flag) {
+      draggedItem.addEventListener('drag',
+        this.highlightDropzoneBorder.bind(this, sortableEvent), false);
+    } else {
+      draggedItem.removeEventListener('drag',
+        this.highlightDropzoneBorder.bind(this, sortableEvent), false);
+      this.dropzoneIsHighlightedGreen = false;
+      this.dropzoneIsHighlightedRed = false;
+    }
+
+    this.dropzoneIsVisible = flag;
+    this.changeDetector.detectChanges();
+  }
+
+  private highlightDropzoneBorder = function (sortableEvent: SortableEvent, dragEvent: DragEvent): void {
+    const dropzone = document.getElementById('dropzone');
+    const dropzoneRect = dropzone.getBoundingClientRect();
+
+    const isCursorInsideDropzone = (dragEvent.x >= dropzoneRect.left && dragEvent.x <= dropzoneRect.right &&
+                                    dragEvent.y >= dropzoneRect.top && dragEvent.y <= dropzoneRect.bottom);
+
+    const itemRect = sortableEvent.item.getBoundingClientRect();
+    const isItemInsideDropzone = (itemRect.left >= dropzoneRect.left && itemRect.left <= dropzoneRect.right &&
+                                  itemRect.top >= dropzoneRect.top && itemRect.top <= dropzoneRect.bottom);
+
+    this.dropzoneIsHighlightedGreen = (isCursorInsideDropzone || isItemInsideDropzone);
+
+    if (sortableEvent.from === dropzone) {
+      this.dropzoneIsHighlightedRed = (!isCursorInsideDropzone && isItemInsideDropzone);
+    }
+
+    this.changeDetector.detectChanges();
+  };
+
+  private removeItemOnSpill(sortableEvent: SortableEvent): void {
+    const element = sortableEvent.item;
+    const item = this.createSortableItem(element);
+    this.removeSortableItem(item);
+  }
+
+  removeItemOnClick(mouseEvent: MouseEvent): void {
+    const element = mouseEvent.target['parentElement'];
+    const item = this.createSortableItem(element);
+    this.removeSortableItem(item);
+  }
+
+  private removeSortableItem(item: SortableItem): void {
+    switch (item.initialGroup) {
+      case SortableGroup.BasicProperties:
+        this.moveSortableItem(item, this.sortBy, this.basicProperties, true);
+        break;
+      case SortableGroup.AudioFeatures:
+        this.moveSortableItem(item, this.sortBy, this.audioFeatures, true);
+        break;
+    }
+  }
+
+  addItemOnClick(mouseEvent: MouseEvent): void {
+    const element = (mouseEvent.target as HTMLElement);
+    const item = this.createSortableItem(element);
+    this.addSortableItem(item);
+  }
+
+  private addSortableItem(item: SortableItem): void {
+    switch (item.initialGroup) {
+      case SortableGroup.BasicProperties:
+        this.moveSortableItem(item, this.basicProperties, this.sortBy, false);
+        break;
+      case SortableGroup.AudioFeatures:
+        this.moveSortableItem(item, this.audioFeatures, this.sortBy, false);
+        break;
+    }
+  }
+
+  private createSortableItem(element: HTMLElement): SortableItem {
+    const name = element.dataset['name'];
+    const value = element.dataset['value'];
+    const order = 'asc'; // TODO
+    const initialIndex = Number(element.dataset['initialindex']);
+    const initialGroup = SortableGroup[element.dataset['initialgroup']];
+    return new SortableItem(name, value, order, initialIndex, initialGroup);
+  }
+
+  private moveSortableItem(item: SortableItem, from: SortableItem[], to: SortableItem[], sort: Boolean): void {
+    const index = from.findIndex(x => x.name === item.name);
+    if (index > -1) {
+      from.splice(index, 1);
+    }
+    to.push(item);
+
+    if (sort) {
+      to.sort((a, b) => a.initialIndex - b.initialIndex);
+    }
+
+    this.emitSortByChanged();
+    this.changeDetector.detectChanges();
+  }
+
+  private emitSortByChanged(): void {
+    this.sortByChanged.next(new SortByChangedEvent(
+      this.sortBy,
+      this.audioFeatures.length < this.initialAudioFeaturesLength
+    ));
+  }
+}

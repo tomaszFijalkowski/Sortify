@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { StepperComponent } from './components/stepper/stepper.component';
+import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import { PlaylistResolver } from './resolvers/playlist.resolver';
 import { UserDetailsResolver } from './resolvers/user-details.resolver';
 import { AuthGuardService } from './services/guards/auth-guard.service';
@@ -20,8 +20,8 @@ const routes: Routes = [
     children: []
   },
   {
-    path: 'stepper',
-    component: StepperComponent,
+    path: 'create',
+    component: CreateStepperComponent,
     canActivate: [AuthGuardService],
     canDeactivate: [ConfirmationGuardService],
     resolve: {

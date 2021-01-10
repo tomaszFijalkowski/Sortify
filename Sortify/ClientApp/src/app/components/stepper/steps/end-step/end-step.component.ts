@@ -4,16 +4,16 @@ import { RequestDetails } from 'src/app/models/request-details';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-end',
-  templateUrl: './end.component.html',
-  styleUrls: ['./end.component.sass']
+  selector: 'app-end-step',
+  templateUrl: './end-step.component.html',
+  styleUrls: ['./end-step.component.sass']
 })
-export class EndComponent implements OnInit {
+export class EndStepComponent implements OnInit {
   readonly progressComplete = 100;
 
   State = RequestState;
   @Input() request: RequestDetails;
-  @Input() multiplePlaylists: boolean;
+  @Input() header: string;
   @Output() cancelRequest = new EventEmitter();
   @Output() backToStepper = new EventEmitter();
 

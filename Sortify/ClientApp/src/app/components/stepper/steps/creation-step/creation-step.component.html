@@ -1,0 +1,112 @@
+<form [formGroup]="formGroup">
+  <div class="header">Split the playlist</div>
+
+  <mat-grid-list class="split-the-playlist-grid" cols="2" rows="1" rowHeight="85px" gutterSize="1.34375em">
+    <mat-grid-tile colspan="1" rowspan="1">
+      <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')">
+          Split every
+          <mat-form-field class="big-button-input">
+            <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number"
+              [min]="splitByTracksMinNumber" [max]="splitByTracksMaxNumber" [step]="10" (blur)="onSplitByTracksInputBlur(splitByTracksInput.value)">
+          </mat-form-field>
+          tracks
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="1" rowspan="1">
+      <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByPlaylistsSelected}">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')">
+          Split into
+          <mat-form-field class="big-button-input">
+            <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number"
+              [min]="splitByPlaylistsMinNumber" [max]="splitByPlaylistsMaxNumber" (blur)="onSplitByPlaylistsInputBlur(splitByPlaylistsInput.value)">
+          </mat-form-field>
+          playlists
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="checkbox-container">
+    <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
+    <mat-form-field appearance="standard">
+      <mat-select formControlName="smartSplitType">
+        <mat-option value="albums">
+          albums
+        </mat-option>
+        <mat-option value="artists">
+          artists
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="header">Playlist details</div>
+
+  <!-- TODO cols="3" for low res -->
+  <mat-grid-list class="playlist-details-grid" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">
+
+    <mat-grid-tile colspan="3" rowspan="1">
+      <mat-form-field appearance="fill">
+        <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
+          class="prefix" matPrefix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}.</div>
+        <mat-label>Name</mat-label>
+        <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
+          class="suffix" matSuffix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}</div>
+        <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
+          <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
+            {{ name.value?.length || 0 }}/{{ nameMaxLength }}
+          </mat-hint>
+        <mat-error *ngIf="formGroup.get('name').hasError('required')">
+          <strong>You must give your playlist a name</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="3" rowspan="2">
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
+          matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
+        <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
+          {{ description.value?.length || 0 }}/{{ descriptionMaxLength }}
+        </mat-hint>
+      </mat-form-field>
+    </mat-grid-tile>
+
+    <mat-grid-tile colspan="3" rowspan="1">
+      <div>
+        <mat-button-toggle-group [(value)]="selectedNumberingPlacement" formControlName="numberingPlacement">
+          <mat-button-toggle value="before">
+            <mat-icon>format_list_numbered</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle value="after">
+            <mat-icon>format_list_numbered_rtl</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <mat-form-field class="select-field" appearance="fill">
+        <mat-label>Numbering</mat-label>
+        <mat-select [(value)]="selectedNumberingStyle" formControlName="numberingStyle">
+          <mat-option>
+            None
+          </mat-option>
+          <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{ numberingStyle }}">
+            <ng-container *ngFor="let item of numberingStyleDisplays[numberingStyle]; let i = index">
+              {{ item + (numberingStyleDisplays[numberingStyle] === 'before' ? '.' : '') }}
+              <span *ngIf="i < numberingStyleDisplays[numberingStyle].length - 1" class="numbering-style-separator">,</span>
+            </ng-container>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- TODO colspan="3" for low res -->
+  <div class="checkbox-container">
+    <mat-checkbox class="make-secret-checkbox" formControlName="isSecret">Make secret</mat-checkbox>
+  </div>
+</form>

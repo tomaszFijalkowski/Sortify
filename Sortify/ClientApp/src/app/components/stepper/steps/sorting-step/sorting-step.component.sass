@@ -1,0 +1,36 @@
+@import '../../../../../variables.sass'
+
+.header
+  font-family: "CircularSpotifyTxT-Black"
+  font-size: 1.5rem
+  text-align: left
+
+// sorting chips
+
+::ng-deep .mat-chip-list-wrapper
+  margin: 6px -4px 24px -4px !important
+  text-align: left
+
+.mat-chip-list div
+  min-height: 88px
+  padding: 4px
+  width: 100%
+
+.dropzone
+  border-radius: 5px
+  border: dashed 2px $gray
+  padding: 2px !important
+
+.dropzone-highlight-green
+  border-color: $green-hover
+
+.dropzone-highlight-red
+  border-color: $red-hover
+
+.mat-chip
+  cursor: pointer
+  color: $white
+  background-color: $gray
+  transform: translateZ(1px)
+  backface-visibility: hidden
+  font-family: "CircularSpotifyTxT-Med"
