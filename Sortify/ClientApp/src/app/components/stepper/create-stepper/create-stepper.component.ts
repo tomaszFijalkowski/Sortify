@@ -12,7 +12,7 @@ import { SortableItem } from 'src/app/models/sortable-item';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
@@ -26,6 +26,8 @@ declare const _: any;
 })
 
 export class CreateStepperComponent implements OnInit, OnDestroy {
+  readonly breakpointTablet = 768;
+
   private progressHubUrl: string;
 
   playlists: Playlist[];
@@ -45,6 +47,7 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
   shrinkWindow = false;
 
   constructor(private activatedRoute: ActivatedRoute,
+    private changeDetector: ChangeDetectorRef,
     private settingsService: AppSettingsService,
     private playlistService: PlaylistService) {
   }
@@ -71,6 +74,23 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
   onCreationFormChanged(event: CreationFormChangedEvent): void {
     this.creationForm = event.creationForm;
     this.creationFormValid = event.creationFormValid;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize() {
+    this.changeDetector.detectChanges();
+  }
+
+  get selectionStepHeader(): string {
+    return window.innerWidth > this.breakpointTablet ? 'Select the source' : 'Source';
+  }
+
+  get sortingStepHeader(): string {
+    return window.innerWidth > this.breakpointTablet ? 'Choose the sorting' : 'Sorting';
+  }
+
+  get creatingStepHeader(): string {
+    return window.innerWidth > this.breakpointTablet ? 'Set the output' : 'Output';
   }
 
   get createDisabled(): boolean {

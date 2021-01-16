@@ -30,3 +30,121 @@
 
 .app-container .mat-button:hover:not(:disabled)
   background-color: $green-hover
+
+// mat-stepper
+
+.app-container .mat-stepper-horizontal
+  color: $white
+  background-color: $gray-dark-background
+  border-radius: 5px
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)
+  transition: width 0.25s
+  width: inherit
+
+.app-container .mat-horizontal-content-container
+  transition: height 0.25s
+  height: 784.875px
+
+.app-container .mat-horizontal-stepper-header
+  font-family: "CircularSpotifyTxT-Black"
+  padding: 0 12px
+
+.app-container .mat-horizontal-stepper-header-container
+  background-color: $gray-dark-background
+  border-radius: 5px 5px 0 0
+
+.app-container .mat-stepper-horizontal-line
+  background-color: $gray
+
+.app-container .mat-step-header
+  border-radius: 500px
+  height: 48px
+  margin: 24px
+
+.app-container .shrink-window .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line,
+.app-container .shrink-window .mat-horizontal-stepper-header-container .mat-step-header
+  visibility: hidden
+
+
+@media(max-width: $breakpoint-tablet)
+  .app-container .mat-stepper-horizontal
+    box-shadow: none
+    border-radius: 0
+    height: 100%
+    width: 100%
+
+  .app-container .mat-horizontal-content-container
+    height: 100%
+    padding: 0 20px 20px 20px
+
+  .app-container .mat-horizontal-stepper-header
+    padding: 0 10px
+
+  .app-container .mat-step-header
+    height: 44px
+    margin: 20px
+
+  .app-container .shrink-window .mat-horizontal-stepper-header-container
+    height: 20px
+
+
+@media(min-width: $breakpoint-tablet + 1)
+  .app-container .shrink-window .mat-stepper-horizontal
+    transition: width 0.25s
+    width: 600px
+
+  .app-container .shrink-window .mat-horizontal-content-container
+    transition: height 0.25s
+    height: 450px
+
+
+@media(max-width: $breakpoint-phone)
+  .app-container .mat-horizontal-content-container
+    height: 100%
+    padding: 0 16px 16px 16px
+
+  .app-container .mat-horizontal-stepper-header
+    padding: 0 8px
+
+  .app-container .mat-stepper-horizontal-line
+    display: none
+
+  .app-container .mat-step-header
+    height: 40px
+    margin: 16px
+
+  .app-container .mat-step-header:first-of-type
+    margin-right: auto
+
+  .app-container .mat-step-header:nth-of-type(2)
+    margin: 16px 8px
+
+  .app-container .mat-step-header:nth-last-of-type(2)
+    margin-left: auto
+
+  .mat-horizontal-stepper-header .mat-step-icon
+    margin-right: 4px !important
+
+  .app-container .shrink-window .mat-horizontal-stepper-header-container
+    height: 16px
+
+
+.app-container .mat-step-header .mat-step-icon
+  background-color: $gray
+  user-select: none
+
+.app-container .mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit
+  background-color: $green
+
+.app-container .mat-step-header .mat-step-label.mat-step-label-active
+  color: $white
+
+.app-container .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line:last-of-type,
+.app-container .mat-horizontal-stepper-header-container .mat-step-header:last-of-type
+  display: none
+
+.app-container .shrink-window .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line,
+.app-container .shrink-window .mat-horizontal-stepper-header-container .mat-step-header
+  visibility: hidden

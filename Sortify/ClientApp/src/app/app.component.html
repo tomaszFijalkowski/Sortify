@@ -1,5 +1,5 @@
 <div class="app-container">
-  <div class="background-img">
+  <div class="background-img" [ngClass]="{'hide-background-img': hideBackgroundImg}">
     <div class="router-wrapper">
       <router-outlet></router-outlet>
     </div>

@@ -8,7 +8,7 @@
 
     <!-- Selection Step -->
     <mat-step [completed]="selectedPlaylists.length > 0">
-      <ng-template matStepLabel>Select the source</ng-template>
+      <ng-template matStepLabel>{{ selectionStepHeader }}</ng-template>
 
       <app-selection-step [playlists]="playlists" (selectionChanged)="onSelectionChanged($event)">
       </app-selection-step>
@@ -20,7 +20,7 @@
 
     <!-- Sorting Step -->
     <mat-step [completed]="sortBy.length > 0">
-      <ng-template matStepLabel>Choose the sorting</ng-template>
+      <ng-template matStepLabel>{{ sortingStepHeader }}</ng-template>
   
       <app-sorting-step (sortByChanged)="onSortByChanged($event)">
       </app-sorting-step>
@@ -33,7 +33,7 @@
 
     <!-- Creation Step -->
     <mat-step [completed]="creationFormValid">
-      <ng-template matStepLabel>Set the output</ng-template>
+      <ng-template matStepLabel>{{ creatingStepHeader }}</ng-template>
 
       <app-creation-step (formChanged)="onCreationFormChanged($event)">
       </app-creation-step>
