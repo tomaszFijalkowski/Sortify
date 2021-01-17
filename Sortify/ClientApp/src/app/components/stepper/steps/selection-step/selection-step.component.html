@@ -1,19 +1,21 @@
-<mat-form-field class="filter-field" appearance="fill">
-  <mat-icon matPrefix>search</mat-icon>
-  <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)">
-</mat-form-field>
+<div class="top-row">
+  <mat-form-field class="filter-field" appearance="fill">
+    <mat-icon matPrefix>search</mat-icon>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)">
+  </mat-form-field>
 
-<div class="button-row">
-  <button mat-icon-button class="refresh-button" (click)="refreshSelection()" matTooltip="Refresh playlists"
-    matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
-    <mat-icon>refresh</mat-icon>
-  </button>
+  <div class="buttons">
+    <button mat-icon-button class="refresh-button" (click)="refreshSelection()" matTooltip="Refresh playlists"
+      matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
+      <mat-icon>refresh</mat-icon>
+    </button>
 
-  <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
-    matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
-    <mat-icon>clear</mat-icon>
-  </button>
+    <button mat-icon-button class="clear-button" (click)="clearSelection()" matTooltip="Clear selected playlists"
+      matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div class="table-container">
@@ -29,8 +31,8 @@
     <ng-container matColumnDef="playlist-image">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let playlist">
-        <img *ngIf="playlist.image; else noImage" src="{{playlist.image.url}}" width="100px"
-          height="100px" alt="{{playlist.name}} cover">
+        <img *ngIf="playlist.image; else noImage" src="{{playlist.image.url}}"
+          width="{{imgSize}}" height="{{imgSize}}" alt="{{playlist.name}} cover">
         <ng-template #noImage><i class="material-icons">album</i></ng-template>
       </mat-cell>
     </ng-container>
@@ -40,7 +42,7 @@
       <mat-cell *matCellDef="let playlist">
         <div class="playlist-details-container">
           <div class="playlist-details-name">{{playlist.name}}</div>
-          <div class="playlist-details-owner">Created by <span class="owner-text">{{playlist.owner}}
+          <div class="playlist-details-owner"><span *ngIf="showCreatedByText">Created by </span><span class="owner-text">{{playlist.owner}}
             </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
         </div>
       </mat-cell>

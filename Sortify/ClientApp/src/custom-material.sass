@@ -1,5 +1,6 @@
 @import 'variables.sass'
 
+
 // mat-button
 
 .app-container .mat-button
@@ -30,6 +31,7 @@
 
 .app-container .mat-button:hover:not(:disabled)
   background-color: $green-hover
+
 
 // mat-stepper
 
@@ -148,3 +150,57 @@
 .app-container .shrink-window .mat-horizontal-stepper-header-container .mat-stepper-horizontal-line,
 .app-container .shrink-window .mat-horizontal-stepper-header-container .mat-step-header
   visibility: hidden
+
+
+// mat-paginator
+
+.app-container .mat-paginator
+  color: $gray-light
+  background: none
+
+.app-container .mat-paginator .mat-icon-button:hover:not(:disabled)
+  color: $white-dim
+
+.app-container .mat-paginator .mat-select-arrow
+  color: $gray-light
+
+.app-container .mat-paginator .mat-form-field-appearance-legacy .mat-form-field-underline,
+.app-container .mat-paginator .mat-form-field-appearance-fill .mat-form-field-underline,
+.app-container .mat-paginator .mat-form-field-appearance-fill .mat-form-field-underline::before,
+  background-color: $gray-light
+
+
+@media(max-width: $breakpoint-tablet)
+  .app-container .mat-paginator-range-label
+    margin: 0 24px 0 18px
+
+
+@media(max-width: $breakpoint-phone)
+  .app-container .mat-paginator-range-label
+    margin: 0 16px 0 0
+
+  .app-container .mat-paginator-page-size
+    display: none
+
+
+// mat-select-panel
+
+.app-container .mat-select-panel
+  background: none
+  user-select: none
+
+.app-container .mat-select-value,
+.app-container .mat-select-panel .mat-option
+  color: $white
+
+.app-container .mat-select-panel .mat-option
+  background: $gray
+
+.app-container .mat-select-panel .mat-option:hover
+  background: $gray-hover
+
+.app-container .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple),
+  background: $gray-selected
+
+.app-container .mat-icon-button[disabled][disabled],
+  color: $gray

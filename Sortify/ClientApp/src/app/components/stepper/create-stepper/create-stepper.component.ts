@@ -8,6 +8,7 @@ import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.e
 import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
 import { Playlist } from 'src/app/models/get-playlists.response';
 import { RequestDetails } from 'src/app/models/request-details';
+import { BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 import { SortableItem } from 'src/app/models/sortable-item';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
@@ -26,8 +27,6 @@ declare const _: any;
 })
 
 export class CreateStepperComponent implements OnInit, OnDestroy {
-  readonly breakpointTablet = 768;
-
   private progressHubUrl: string;
 
   playlists: Playlist[];
@@ -82,15 +81,15 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
   }
 
   get selectionStepHeader(): string {
-    return window.innerWidth > this.breakpointTablet ? 'Select the source' : 'Source';
+    return window.innerWidth > BREAKPOINT_TABLET ? 'Select the source' : 'Source';
   }
 
   get sortingStepHeader(): string {
-    return window.innerWidth > this.breakpointTablet ? 'Choose the sorting' : 'Sorting';
+    return window.innerWidth > BREAKPOINT_TABLET ? 'Choose the sorting' : 'Sorting';
   }
 
   get creatingStepHeader(): string {
-    return window.innerWidth > this.breakpointTablet ? 'Set the output' : 'Output';
+    return window.innerWidth > BREAKPOINT_TABLET ? 'Set the output' : 'Output';
   }
 
   get createDisabled(): boolean {

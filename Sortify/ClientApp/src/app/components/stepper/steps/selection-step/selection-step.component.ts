@@ -1,6 +1,7 @@
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
 import { OperationResult } from 'src/app/models/operation-result';
+import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
 import { SelectionModel } from '@angular/cdk/collections';
@@ -43,6 +44,14 @@ export class SelectionStepComponent implements OnInit {
     this.selection.changed.subscribe(() => {
       this.selectionChanged.next(new SelectionChangedEvent(this.selection.selected));
     });
+  }
+
+  get imgSize(): number {
+    return window.innerWidth > BREAKPOINT_TABLET ? 100 : window.innerWidth > BREAKPOINT_PHONE ? 90 : 80;
+  }
+
+  get showCreatedByText(): boolean {
+    return window.innerWidth > BREAKPOINT_PHONE;
   }
 
   applyFilter(event: Event): void {
