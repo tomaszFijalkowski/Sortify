@@ -110,10 +110,14 @@
 
 .playlist-details-owner
   font-family: "CircularSpotifyTxT-Light"
-  line-height: 1.2em
-  max-height: 2.4em
   padding-top: 4px
   color: $white-dim
+  display: flex
+
+.created-by-text
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
 
 .owner-text
   font-family: "CircularSpotifyTxT-Black"
@@ -121,8 +125,11 @@
 
 .divider
   font-family: Roboto, "Helvetica Neue", sans-serif
-  padding: 0 4px 0 1px
+  padding: 0 4px
   user-select: none
+
+.songs-text
+  min-width: fit-content
 
 
 @media(max-width: $breakpoint-tablet)
@@ -145,6 +152,9 @@
   .playlist-details-name
     font-size: 1.8em
 
+  .playlist-details-owner
+    padding-top: 2px
+
 
 @media(max-width: $breakpoint-phone)
   .table-container
@@ -165,11 +175,6 @@
 
   .playlist-details-name
     font-size: 1.7em
-
-  .playlist-details-owner
-    line-height: 1.1em
-    max-height: 2.2em
-    padding-top: 4px
 
 
 .paginator-hidden

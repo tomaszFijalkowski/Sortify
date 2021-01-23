@@ -42,8 +42,10 @@
       <mat-cell *matCellDef="let playlist">
         <div class="playlist-details-container">
           <div class="playlist-details-name">{{playlist.name}}</div>
-          <div class="playlist-details-owner"><span *ngIf="showCreatedByText">Created by </span><span class="owner-text">{{playlist.owner}}
-            </span><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
+          <div class="playlist-details-owner">
+            <div class="created-by-text"><span *ngIf="showCreatedByText">Created by </span><span class="owner-text">{{playlist.owner}}</span></div>
+            <div class="songs-text"><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
+          </div>
         </div>
       </mat-cell>
     </ng-container>
