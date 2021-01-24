@@ -11,31 +11,11 @@ import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@ang
   styleUrls: ['./sorting-step.component.sass']
 })
 export class SortingStepComponent implements OnInit {
-  basicProperties: SortableItem[] = [
-    new SortableItem('Artist name', 'ArtistName', 'asc', 0, SortableGroup.BasicProperties),
-    new SortableItem('Album name', 'AlbumName', 'asc', 1, SortableGroup.BasicProperties),
-    new SortableItem('Album release date', 'AlbumReleaseDate', 'asc', 2, SortableGroup.BasicProperties),
-    new SortableItem('Track duration', 'Duration', 'asc', 3, SortableGroup.BasicProperties),
-    new SortableItem('Track name', 'Name', 'asc', 4, SortableGroup.BasicProperties),
-    new SortableItem('Track number', 'TrackNumber', 'asc', 5, SortableGroup.BasicProperties),
-    new SortableItem('Track popularity', 'Popularity', 'asc', 6, SortableGroup.BasicProperties)
-  ];
+  basicProperties: SortableItem[];
+  audioFeatures: SortableItem[];
+  sortBy: SortableItem[];
 
-  audioFeatures: SortableItem[] = [
-    new SortableItem('Acousticness', 'AudioFeatures.Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
-    new SortableItem('Danceability', 'AudioFeatures.Danceability', 'asc', 1, SortableGroup.AudioFeatures),
-    new SortableItem('Energy', 'AudioFeatures.Energy', 'asc', 2, SortableGroup.AudioFeatures),
-    new SortableItem('Instrumentalness', 'AudioFeatures.Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
-    new SortableItem('Liveness', 'AudioFeatures.Liveness', 'asc', 4, SortableGroup.AudioFeatures),
-    new SortableItem('Loudness', 'AudioFeatures.Loudness', 'asc', 5, SortableGroup.AudioFeatures),
-    new SortableItem('Speechiness', 'AudioFeatures.Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
-    new SortableItem('Tempo', 'AudioFeatures.Tempo', 'asc', 7, SortableGroup.AudioFeatures),
-    new SortableItem('Valence', 'AudioFeatures.Valence', 'asc', 8, SortableGroup.AudioFeatures)
-  ];
-
-  initialAudioFeaturesLength = this.audioFeatures.length;
-
-  sortBy: SortableItem[] = [];
+  initialAudioFeaturesLength: number;
 
   basicPropertiesOptions: Options = {
     group: {
@@ -78,6 +58,36 @@ export class SortingStepComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setInitialSorting();
+  }
+
+  private setInitialSorting(): void {
+    this.basicProperties = [
+      new SortableItem('Artist name', 'ArtistName', 'asc', 0, SortableGroup.BasicProperties),
+      new SortableItem('Album name', 'AlbumName', 'asc', 1, SortableGroup.BasicProperties),
+      new SortableItem('Album release date', 'AlbumReleaseDate', 'asc', 2, SortableGroup.BasicProperties),
+      new SortableItem('Disc number', 'DiscNumber', 'asc', 3, SortableGroup.BasicProperties),
+      new SortableItem('Track duration', 'Duration', 'asc', 4, SortableGroup.BasicProperties),
+      new SortableItem('Track name', 'Name', 'asc', 5, SortableGroup.BasicProperties),
+      new SortableItem('Track number', 'TrackNumber', 'asc', 6, SortableGroup.BasicProperties),
+      new SortableItem('Track popularity', 'Popularity', 'asc', 7, SortableGroup.BasicProperties)
+    ];
+
+    this.audioFeatures = [
+      new SortableItem('Acousticness', 'AudioFeatures.Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
+      new SortableItem('Danceability', 'AudioFeatures.Danceability', 'asc', 1, SortableGroup.AudioFeatures),
+      new SortableItem('Energy', 'AudioFeatures.Energy', 'asc', 2, SortableGroup.AudioFeatures),
+      new SortableItem('Instrumentalness', 'AudioFeatures.Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
+      new SortableItem('Liveness', 'AudioFeatures.Liveness', 'asc', 4, SortableGroup.AudioFeatures),
+      new SortableItem('Loudness', 'AudioFeatures.Loudness', 'asc', 5, SortableGroup.AudioFeatures),
+      new SortableItem('Speechiness', 'AudioFeatures.Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
+      new SortableItem('Tempo', 'AudioFeatures.Tempo', 'asc', 7, SortableGroup.AudioFeatures),
+      new SortableItem('Valence', 'AudioFeatures.Valence', 'asc', 8, SortableGroup.AudioFeatures)
+    ];
+
+    this.sortBy = [];
+
+    this.initialAudioFeaturesLength = this.audioFeatures.length;
   }
 
   private toggleDropzoneBorder(sortableEvent: SortableEvent, flag: boolean): void {
@@ -160,7 +170,7 @@ export class SortingStepComponent implements OnInit {
   private createSortableItem(element: HTMLElement): SortableItem {
     const name = element.dataset['name'];
     const value = element.dataset['value'];
-    const order = 'asc'; // TODO
+    const order = 'asc';
     const initialIndex = Number(element.dataset['initialindex']);
     const initialGroup = SortableGroup[element.dataset['initialgroup']];
     return new SortableItem(name, value, order, initialIndex, initialGroup);
@@ -186,5 +196,43 @@ export class SortingStepComponent implements OnInit {
       this.sortBy,
       this.audioFeatures.length < this.initialAudioFeaturesLength
     ));
+  }
+
+  changeOrderOnClick(item: SortableItem): void {
+    item.order = item.order === 'asc' ? 'desc' : 'asc';
+  }
+
+  setRecommendedSorting(): void {
+    this.basicProperties = [
+      new SortableItem('Track duration', 'Duration', 'asc', 4, SortableGroup.BasicProperties),
+      new SortableItem('Track name', 'Name', 'asc', 5, SortableGroup.BasicProperties),
+      new SortableItem('Track popularity', 'Popularity', 'asc', 7, SortableGroup.BasicProperties)
+    ];
+
+    this.audioFeatures = [
+      new SortableItem('Acousticness', 'AudioFeatures.Acousticness', 'asc', 0, SortableGroup.AudioFeatures),
+      new SortableItem('Danceability', 'AudioFeatures.Danceability', 'asc', 1, SortableGroup.AudioFeatures),
+      new SortableItem('Energy', 'AudioFeatures.Energy', 'asc', 2, SortableGroup.AudioFeatures),
+      new SortableItem('Instrumentalness', 'AudioFeatures.Instrumentalness', 'asc', 3, SortableGroup.AudioFeatures),
+      new SortableItem('Liveness', 'AudioFeatures.Liveness', 'asc', 4, SortableGroup.AudioFeatures),
+      new SortableItem('Loudness', 'AudioFeatures.Loudness', 'asc', 5, SortableGroup.AudioFeatures),
+      new SortableItem('Speechiness', 'AudioFeatures.Speechiness', 'asc', 6, SortableGroup.AudioFeatures),
+      new SortableItem('Tempo', 'AudioFeatures.Tempo', 'asc', 7, SortableGroup.AudioFeatures),
+      new SortableItem('Valence', 'AudioFeatures.Valence', 'asc', 8, SortableGroup.AudioFeatures)
+    ];
+
+    this.sortBy = [
+      new SortableItem('Artist name', 'ArtistName', 'asc', 0, SortableGroup.BasicProperties),
+      new SortableItem('Album release date', 'AlbumReleaseDate', 'asc', 2, SortableGroup.BasicProperties),
+      new SortableItem('Album name', 'AlbumName', 'asc', 1, SortableGroup.BasicProperties),
+      new SortableItem('Disc number', 'DiscNumber', 'asc', 3, SortableGroup.BasicProperties),
+      new SortableItem('Track number', 'TrackNumber', 'asc', 6, SortableGroup.BasicProperties)
+    ];
+
+    this.initialAudioFeaturesLength = this.audioFeatures.length;
+  }
+
+  clearSorting(): void {
+    this.setInitialSorting();
   }
 }

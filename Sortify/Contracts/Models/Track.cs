@@ -14,6 +14,8 @@
 
         public string AlbumReleaseDate { get; set; }
 
+        public int DiscNumber { get; set; }
+
         public int Duration { get; set; }
 
         public string Name { get; set; }

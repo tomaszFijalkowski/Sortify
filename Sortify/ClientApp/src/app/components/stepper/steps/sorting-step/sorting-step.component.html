@@ -1,6 +1,24 @@
-<div class="header">Basic properties</div>
+<mat-card class="info-box">
+  <mat-icon>info</mat-icon><span class="info-box-text">Drag and drop or click the properties you want to sort by.</span>
+</mat-card>
+
+<div class="top-row">
+  <h1>Basic properties</h1>
+
+  <div class="buttons">
+    <button mat-icon-button (click)="setRecommendedSorting()" matTooltip="Recommended sorting" matTooltipPosition="above">
+      <mat-icon>star</mat-icon>
+    </button>
+
+    <button mat-icon-button (click)="clearSorting()" matTooltip="Clear sorting"
+      matTooltipPosition="above" disabled="{{sortBy.length === 0}}">
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+</div>
+
 <mat-chip-list>
-  <div [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
+  <div class="sortable-group" [sortablejs]="basicProperties" [sortablejsOptions]="basicPropertiesOptions">
     <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
       [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of basicProperties"
       (click)="addItemOnClick($event)">
@@ -9,26 +27,36 @@
   </div>
 </mat-chip-list>
 
-<div class="header">Audio features</div>
-<mat-chip-list>
-  <div [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
-    <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
-      [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of audioFeatures"
-      (click)="addItemOnClick($event)">
-      {{item.name}}
-    </mat-chip>
+<h1>Audio features</h1>
+
+<mat-chip-list disabled="{{audioFeatures.length < initialAudioFeaturesLength}}">
+  <div class="sortable-group" [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
+    <div class="audio-feature-wrapper" *ngFor="let item of audioFeatures" matTooltip="Additional audio features will not affect the sorting"
+      matTooltipDisabled="{{audioFeatures.length === initialAudioFeaturesLength}}" matTooltipPosition="above">
+      <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
+        [attr.data-initialgroup]="item.initialGroup" (click)="addItemOnClick($event)">
+        {{item.name}}
+      </mat-chip>
+    </div>
   </div>
 </mat-chip-list>
 
-<div class="header">Sort by</div>
+<h1>Sort by</h1>
+
 <mat-chip-list>
-  <div [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
+  <div class="sortable-group" [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
     [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
       'dropzone-highlight-red': dropzoneIsHighlightedRed}">
+
     <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
       [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
+      <mat-icon class="order-icon" matTooltip="Ascending" matTooltipPosition="above"
+        (click)="changeOrderOnClick(item)" *ngIf="item.order === 'asc'">arrow_upward</mat-icon>
+      <mat-icon class="order-icon" matTooltip="Descending" matTooltipPosition="above"
+        (click)="changeOrderOnClick(item)" *ngIf="item.order === 'desc'">arrow_downward</mat-icon>
       {{item.name}}
-      <mat-icon matChipRemove (click)="removeItemOnClick($event)">cancel</mat-icon>
+      <mat-icon matChipRemove matTooltip="Remove" matTooltipPosition="above"
+        (click)="removeItemOnClick($event)">cancel</mat-icon>
     </mat-chip>
   </div>
 </mat-chip-list>

@@ -1,17 +1,46 @@
 @import '../../../../../variables.sass'
 
-.header
+h1
   font-family: "CircularSpotifyTxT-Black"
-  font-size: 1.5rem
+  font-size: 1.7em
   text-align: left
 
-// sorting chips
 
-::ng-deep .mat-chip-list-wrapper
-  margin: 6px -4px 24px -4px !important
+.info-box
+  font-family: "CircularSpotifyTxT-Light"
+  margin-bottom: 1.34375em
+  background-color: $gray-dark-row-hover
+  color: $white
+  display: flex
+  align-items: center
+  justify-content: center
+
+.info-box .mat-icon
+  color: $gray-light
+
+.info-box-text
   text-align: left
+  padding-left: 16px
 
-.mat-chip-list div
+
+.top-row
+  height: 40px
+  display: flex
+  align-items: flex-end
+
+.buttons
+  color: $gray-light
+  padding-bottom: 4px
+  margin-left: auto
+  display: flex
+  align-self: center
+  align-items: center
+
+.buttons button:hover:not(:disabled)
+  color: $white-dim
+
+
+.sortable-group
   min-height: 88px
   padding: 4px
   width: 100%
@@ -27,6 +56,9 @@
 .dropzone-highlight-red
   border-color: $red-hover
 
+.audio-feature-wrapper
+  display: inline-block
+
 .mat-chip
   cursor: pointer
   color: $white
@@ -34,3 +66,17 @@
   transform: translateZ(1px)
   backface-visibility: hidden
   font-family: "CircularSpotifyTxT-Med"
+  justify-content: space-between
+
+.mat-chip-disabled
+  pointer-events: none
+
+.order-icon
+  color: $gray-light
+  font-size: 18px
+  width: 18px
+  height: 18px
+  margin: 0 6px 0 -2px
+
+.order-icon:hover
+  color: $white-dim
