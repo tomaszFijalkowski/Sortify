@@ -1,7 +1,7 @@
 <div class="outer-container">
   <div class="inner-container" *ngIf="!stepperLoading">
     <h3>Currently logged in as:</h3>
-    <h1> {{ userDetails?.displayName || 'unknown' }}</h1>
+    <h1>{{userDetails?.displayName || 'unknown'}}</h1>
     <h2>What would you like to do with your playlists?</h2>
     <button mat-button color="primary" (click)="sort()">Sort</button>
     <button mat-button color="primary" (click)="create()">Create</button>

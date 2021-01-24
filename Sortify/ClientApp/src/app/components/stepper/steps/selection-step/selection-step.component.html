@@ -6,13 +6,13 @@
   </mat-form-field>
 
   <div class="buttons">
-    <button mat-icon-button (click)="refreshSelection()" matTooltip="Refresh playlists"
-      matTooltipPosition="above" disabled="{{dataSourceLoading === true}}">
+    <button mat-icon-button (click)="refreshSelection()"
+      matTooltip="Refresh playlists" disabled="{{dataSourceLoading === true}}">
       <mat-icon>refresh</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="clearSelection()" matTooltip="Clear selected playlists"
-      matTooltipPosition="above" disabled="{{selection.selected.length === 0}}">
+    <button mat-icon-button (click)="clearSelection()"
+      matTooltip="Clear selected playlists" disabled="{{selection.selected.length === 0}}">
       <mat-icon>clear</mat-icon>
     </button>
   </div>

@@ -51,13 +51,13 @@
     <mat-grid-tile colspan="3" rowspan="1">
       <mat-form-field appearance="fill">
         <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
-          class="prefix" matPrefix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}.</div>
+          class="prefix" matPrefix>{{numberingStyleDisplays[selectedNumberingStyle][0]}}.</div>
         <mat-label>Name</mat-label>
         <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
-          class="suffix" matSuffix>{{ numberingStyleDisplays[selectedNumberingStyle][0] }}</div>
+          class="suffix" matSuffix>{{numberingStyleDisplays[selectedNumberingStyle][0]}}</div>
         <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
           <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
-            {{ name.value?.length || 0 }}/{{ nameMaxLength }}
+            {{name.value?.length || 0}}/{{nameMaxLength}}
           </mat-hint>
         <mat-error *ngIf="formGroup.get('name').hasError('required')">
           <strong>You must give your playlist a name</strong>
@@ -71,7 +71,7 @@
         <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
           matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
         <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
-          {{ description.value?.length || 0 }}/{{ descriptionMaxLength }}
+          {{description.value?.length || 0}}/{{descriptionMaxLength}}
         </mat-hint>
       </mat-form-field>
     </mat-grid-tile>
@@ -94,9 +94,9 @@
           <mat-option>
             None
           </mat-option>
-          <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{ numberingStyle }}">
+          <mat-option *ngFor="let numberingStyle of numberingStyles" value="{{numberingStyle}}">
             <ng-container *ngFor="let item of numberingStyleDisplays[numberingStyle]; let i = index">
-              {{ item + (numberingStyleDisplays[numberingStyle] === 'before' ? '.' : '') }}
+              {{item + (numberingStyleDisplays[numberingStyle] === 'before' ? '.' : '')}}
               <span *ngIf="i < numberingStyleDisplays[numberingStyle].length - 1" class="numbering-style-separator">,</span>
             </ng-container>
           </mat-option>

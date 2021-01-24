@@ -6,12 +6,11 @@
   <h1>Basic properties</h1>
 
   <div class="buttons">
-    <button mat-icon-button (click)="setRecommendedSorting()" matTooltip="Recommended sorting" matTooltipPosition="above">
+    <button mat-icon-button (click)="setRecommendedSorting()" matTooltip="Recommended sorting" disabled="{{recommendedSorting}}">
       <mat-icon>star</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="clearSorting()" matTooltip="Clear sorting"
-      matTooltipPosition="above" disabled="{{sortBy.length === 0}}">
+    <button mat-icon-button (click)="clearSorting()" matTooltip="Clear sorting" disabled="{{sortBy.length === 0}}">
       <mat-icon>clear</mat-icon>
     </button>
   </div>
@@ -31,8 +30,8 @@
 
 <mat-chip-list disabled="{{audioFeatures.length < initialAudioFeaturesLength}}">
   <div class="sortable-group" [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
-    <div class="audio-feature-wrapper" *ngFor="let item of audioFeatures" matTooltip="Additional audio features will not affect the sorting"
-      matTooltipDisabled="{{audioFeatures.length === initialAudioFeaturesLength}}" matTooltipPosition="above">
+    <div class="audio-feature-wrapper" *ngFor="let item of audioFeatures" matTooltip="Additional audio features&#13;will not affect the sorting"
+      matTooltipDisabled="{{audioFeatures.length === initialAudioFeaturesLength}}">
       <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
         [attr.data-initialgroup]="item.initialGroup" (click)="addItemOnClick($event)">
         {{item.name}}
@@ -50,12 +49,12 @@
 
     <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
       [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy">
-      <mat-icon class="order-icon" matTooltip="Ascending" matTooltipPosition="above"
+      <mat-icon class="order-icon" [matTooltipClass]="'chip-tooltip'" matTooltip="Ascending"
         (click)="changeOrderOnClick(item)" *ngIf="item.order === 'asc'">arrow_upward</mat-icon>
-      <mat-icon class="order-icon" matTooltip="Descending" matTooltipPosition="above"
+      <mat-icon class="order-icon" [matTooltipClass]="'chip-tooltip'" matTooltip="Descending"
         (click)="changeOrderOnClick(item)" *ngIf="item.order === 'desc'">arrow_downward</mat-icon>
       {{item.name}}
-      <mat-icon matChipRemove matTooltip="Remove" matTooltipPosition="above"
+      <mat-icon matChipRemove [matTooltipClass]="'chip-tooltip'" matTooltip="Remove"
         (click)="removeItemOnClick($event)">cancel</mat-icon>
     </mat-chip>
   </div>

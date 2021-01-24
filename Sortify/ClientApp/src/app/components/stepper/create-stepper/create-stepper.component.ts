@@ -73,6 +73,7 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
   onCreationFormChanged(event: CreationFormChangedEvent): void {
     this.creationForm = event.creationForm;
     this.creationFormValid = event.creationFormValid;
+    this.creatingMultiplePlaylists = event.creatingMultiplePlaylists;
   }
 
   @HostListener('window:resize', ['$event'])
@@ -94,6 +95,24 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
 
   get createDisabled(): boolean {
     return this.selectedPlaylists.length === 0 || this.sortBy.length === 0 || !this.creationFormValid;
+  }
+
+  get createDisabledTooltip(): string {
+    const validationMessages = [];
+
+    if (this.selectedPlaylists.length === 0) {
+      validationMessages.push('- You must select the source');
+    }
+
+    if (this.sortBy.length === 0) {
+      validationMessages.push('- You must choose the sorting');
+    }
+
+    if (!this.creationFormValid) {
+      validationMessages.push(`- You must name your playlist${ this.creatingMultiplePlaylists ? 's' : '' }`);
+    }
+
+    return validationMessages.join('\n');
   }
 
   get endHeader(): string {

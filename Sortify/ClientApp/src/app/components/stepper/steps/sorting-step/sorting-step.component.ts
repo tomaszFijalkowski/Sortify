@@ -52,6 +52,8 @@ export class SortingStepComponent implements OnInit {
   dropzoneIsHighlightedGreen: boolean;
   dropzoneIsHighlightedRed: boolean;
 
+  recommendedSorting = false;
+
   @Output() sortByChanged = new EventEmitter();
 
   constructor(private changeDetector: ChangeDetectorRef) {
@@ -188,18 +190,21 @@ export class SortingStepComponent implements OnInit {
     }
 
     this.emitSortByChanged();
-    this.changeDetector.detectChanges();
   }
 
-  private emitSortByChanged(): void {
+  private emitSortByChanged(recommendedSorting = false): void {
     this.sortByChanged.next(new SortByChangedEvent(
       this.sortBy,
       this.audioFeatures.length < this.initialAudioFeaturesLength
     ));
+
+    this.recommendedSorting = recommendedSorting;
+    this.changeDetector.detectChanges();
   }
 
   changeOrderOnClick(item: SortableItem): void {
     item.order = item.order === 'asc' ? 'desc' : 'asc';
+    this.emitSortByChanged();
   }
 
   setRecommendedSorting(): void {
@@ -230,9 +235,11 @@ export class SortingStepComponent implements OnInit {
     ];
 
     this.initialAudioFeaturesLength = this.audioFeatures.length;
+    this.emitSortByChanged(true);
   }
 
   clearSorting(): void {
     this.setInitialSorting();
+    this.emitSortByChanged();
   }
 }
