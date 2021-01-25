@@ -18,6 +18,7 @@ export class AuthService {
     this.oauthService.configure(authConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.tryLogin();
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
   private createAuthConfig(): AuthConfig {
@@ -26,6 +27,7 @@ export class AuthService {
     return {
       loginUrl: appSettings.loginUrl,
       redirectUri: appSettings.redirectUri,
+      silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
       clientId: appSettings.clientId,
       scope: appSettings.clientScope,
       strictDiscoveryDocumentValidation: false,

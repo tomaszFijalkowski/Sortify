@@ -5,6 +5,7 @@ export interface GetAppSettingsResponse {
 export interface AppSettings {
   loginUrl: string;
   redirectUri: string;
+  silentRefreshRedirectUri: string;
   clientId: string;
   clientScope: string;
   progressHubUrl: string;

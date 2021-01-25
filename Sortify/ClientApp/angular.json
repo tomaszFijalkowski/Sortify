@@ -21,7 +21,8 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/assets",
-              "src/favicon.png"
+              "src/favicon.png",
+              "src/silent-refresh.html"
             ],
             "styles": [
               "src/custom-theme.scss",
@@ -89,7 +90,8 @@
             ],
             "scripts": [],
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/silent-refresh.html"
             ]
           }
         },

@@ -24,6 +24,7 @@ export class AppSettingsService {
         this._appSettings = {
           loginUrl: appSettings.loginUrl,
           redirectUri: appSettings.redirectUri,
+          silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
           clientId : appSettings.clientId,
           clientScope: appSettings.clientScope,
           progressHubUrl: appSettings.progressHubUrl

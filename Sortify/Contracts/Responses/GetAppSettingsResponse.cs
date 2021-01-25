@@ -13,6 +13,8 @@ namespace Sortify.Contracts.Responses
 
         public string RedirectUri { get; set; }
 
+        public string SilentRefreshRedirectUri { get; set; }
+
         public string ClientId { get; set; }
 
         public string ClientScope { get; set; }
