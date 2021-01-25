@@ -1,5 +1,9 @@
+<mat-card>
+  <mat-icon>info</mat-icon>Consider splitting the output into multiple playlists if you expect it to be too big.
+</mat-card>
+
 <form [formGroup]="formGroup">
-  <div class="header">Split the playlist</div>
+  <h1>Split the playlist</h1>
 
   <mat-grid-list class="split-the-playlist-grid" cols="2" rows="1" rowHeight="85px" gutterSize="1.34375em">
     <mat-grid-tile colspan="1" rowspan="1">
@@ -29,21 +33,26 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <div class="checkbox-container">
-    <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
-    <mat-form-field appearance="standard">
-      <mat-select formControlName="smartSplitType">
-        <mat-option value="albums">
-          albums
-        </mat-option>
-        <mat-option value="artists">
-          artists
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="smart-split">
+    <div class="checkbox-container">
+      <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
+      <mat-form-field appearance="standard">
+        <mat-select formControlName="smartSplitType">
+          <mat-option value="albums">
+            albums
+          </mat-option>
+          <mat-option value="artists">
+            artists
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <button mat-icon-button (click)="openSmartSplitHelp()" matTooltip="What is this?">
+      <mat-icon>help</mat-icon>
+    </button>
   </div>
 
-  <div class="header">Playlist details</div>
+  <h1>Playlist details</h1>
 
   <!-- TODO cols="3" for low res -->
   <mat-grid-list class="playlist-details-grid" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">

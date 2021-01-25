@@ -6,6 +6,9 @@ import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+
+import { SmartSplitHelpComponent } from './smart-split-help/smart-split-help.component';
 
 declare const _: any;
 
@@ -45,7 +48,8 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   @Output() formChanged = new EventEmitter();
 
-  constructor(private changeDetector: ChangeDetectorRef,
+  constructor(private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef,
     private formBuilder: FormBuilder) {
   }
 
@@ -151,6 +155,15 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
   onSplitByPlaylistsInputBlur(value: number): void {
     this.formGroup.patchValue({
       splitByPlaylistsNumber: _.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
+    });
+  }
+
+  openSmartSplitHelp(): void {
+    this.dialog.open(SmartSplitHelpComponent, {
+      width: '520px',
+      maxWidth: '95vw',
+      maxHeight: '95vh',
+      autoFocus: false
     });
   }
 }

@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,6 +36,9 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import { CreationStepComponent } from './components/stepper/steps/creation-step/creation-step.component';
+import {
+    SmartSplitHelpComponent
+} from './components/stepper/steps/creation-step/smart-split-help/smart-split-help.component';
 import { EndStepComponent } from './components/stepper/steps/end-step/end-step.component';
 import { SelectionStepComponent } from './components/stepper/steps/selection-step/selection-step.component';
 import { SortingStepComponent } from './components/stepper/steps/sorting-step/sorting-step.component';
@@ -56,6 +60,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     SelectionStepComponent,
     SortingStepComponent,
     CreationStepComponent,
+    SmartSplitHelpComponent,
     EndStepComponent,
     NotFoundComponent,
     FooterComponent
@@ -87,6 +92,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     MatRippleModule,
     FontAwesomeModule,
     MatCardModule,
+    MatDialogModule,
     SortablejsModule.forRoot({
       animation: 150,
     }),
