@@ -61,6 +61,12 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
     this.cancelRequest();
   }
 
+  onStepChanged(): void {
+    if (window.innerWidth <= BREAKPOINT_TABLET) {
+      window.scroll(0, 0);
+    }
+  }
+
   onSelectionChanged(event: SelectionChangedEvent): void {
     this.selectedPlaylists = event.selectedPlaylists;
   }

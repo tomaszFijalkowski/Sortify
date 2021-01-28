@@ -1,5 +1,5 @@
 <div class="container" [ngClass]="{'shrink-window': shrinkWindow}">
-  <mat-horizontal-stepper #stepper>
+  <mat-horizontal-stepper #stepper (selectionChange)="onStepChanged()">
 
     <ng-template matStepperIcon="edit">
       <mat-icon>check</mat-icon>
