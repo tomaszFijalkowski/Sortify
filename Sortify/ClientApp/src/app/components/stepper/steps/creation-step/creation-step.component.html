@@ -2,10 +2,18 @@
   <mat-icon>info</mat-icon>Consider splitting the output into multiple playlists if you expect it to be too big.
 </mat-card>
 
-<form [formGroup]="formGroup">
-  <h1>Split the playlist</h1>
+<form [formGroup]="form" #formDirective="ngForm">
+  <div class="top-row">
+    <h1>Split the playlist</h1>
+  
+    <div class="buttons">
+      <button mat-icon-button (click)="resetForm()" matTooltip="Reset form" disabled="{{isFormPristine}}">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
 
-  <mat-grid-list class="split-the-playlist-grid" cols="2" rows="1" rowHeight="85px" gutterSize="1.34375em">
+  <mat-grid-list class="split-the-playlist-grid" cols="{{gridCols}}" rows="1" rowHeight="82px" gutterSize="{{gutterSize}}">
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
         <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')">
@@ -54,10 +62,8 @@
 
   <h1>Playlist details</h1>
 
-  <!-- TODO cols="3" for low res -->
-  <mat-grid-list class="playlist-details-grid" cols="6" rows="3" rowHeight="81px" gutterSize="1.34375em">
-
-    <mat-grid-tile colspan="3" rowspan="1">
+  <mat-grid-list class="playlist-details-grid" cols="{{gridCols}}" rows="2" rowHeight="70px" gutterSize="{{gutterSize}}">
+    <mat-grid-tile colspan="1" rowspan="1">
       <mat-form-field appearance="fill">
         <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
           class="prefix" matPrefix>{{numberingStyleDisplays[selectedNumberingStyle][0]}}.</div>
@@ -65,16 +71,16 @@
         <div *ngIf="selectedNumberingPlacement === 'after' && selectedNumberingStyle"
           class="suffix" matSuffix>{{numberingStyleDisplays[selectedNumberingStyle][0]}}</div>
         <input matInput #name formControlName="name" required [maxLength]="nameMaxLength">
-          <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
-            {{name.value?.length || 0}}/{{nameMaxLength}}
-          </mat-hint>
-        <mat-error *ngIf="formGroup.get('name').hasError('required')">
+        <mat-hint *ngIf="name.value?.length >= nameMaxLength - 70" align="end">
+          {{name.value?.length || 0}}/{{nameMaxLength}}
+        </mat-hint>
+        <mat-error *ngIf="form.get('name').hasError('required')">
           <strong>You must give your playlist a name</strong>
         </mat-error>
       </mat-form-field>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="3" rowspan="2">
+    <mat-grid-tile colspan="1" rowspan="2">
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
         <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
@@ -85,7 +91,7 @@
       </mat-form-field>
     </mat-grid-tile>
 
-    <mat-grid-tile colspan="3" rowspan="1">
+    <mat-grid-tile colspan="1" rowspan="1">
       <div>
         <mat-button-toggle-group [(value)]="selectedNumberingPlacement" formControlName="numberingPlacement">
           <mat-button-toggle value="before">
@@ -97,7 +103,7 @@
         </mat-button-toggle-group>
       </div>
 
-      <mat-form-field class="select-field" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>Numbering</mat-label>
         <mat-select [(value)]="selectedNumberingStyle" formControlName="numberingStyle">
           <mat-option>
@@ -114,7 +120,6 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <!-- TODO colspan="3" for low res -->
   <div class="checkbox-container">
     <mat-checkbox class="make-secret-checkbox" formControlName="isSecret">Make secret</mat-checkbox>
   </div>

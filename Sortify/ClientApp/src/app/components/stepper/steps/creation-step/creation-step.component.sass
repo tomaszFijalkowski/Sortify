@@ -5,17 +5,24 @@ h1
   font-size: 1.7em
   text-align: left
 
+.top-row
+  height: 40px
+  display: flex
+  align-items: flex-end
 
-// grid-list
+.buttons
+  color: $gray-light
+  padding-bottom: 4px
+  margin-left: auto
+  display: flex
+  align-self: center
+  align-items: center
 
-::ng-deep .mat-grid-tile .mat-figure
-  align-items: flex-start !important
+.buttons button:hover:not(:disabled)
+  color: $white-dim
 
 
-// split the playlist
-
-.split-the-playlist-grid
-  margin: 1.34375em 0
+// big buttons
 
 .big-button-wrapper
   color: $white-dim
@@ -23,9 +30,11 @@ h1
   border: 2px solid $gray-dark-row-hover
   border-radius: 5px
   background: $gray-dark-row-hover
+  box-shadow: $subtle-shadow
   width: 100%
 
 .big-button
+  font-size: 14px
   cursor: pointer
   border: none
   padding: 24px 12px 4px 12px
@@ -38,34 +47,33 @@ h1
   border-color: $green
   background-color: $gray
 
-
-// number input
-
 .big-button-input
   cursor: pointer !important
   width: 47.5px !important
   text-align: center
 
-::ng-deep .big-button-input .mat-form-field-infix
-  border-top: none
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button
-  -webkit-appearance: none
-  margin: 0
+// grid
 
-/* Firefox */
-input[type=number]
-  -moz-appearance: textfield
+.split-the-playlist-grid
+  margin: 20px 0
+
+.playlist-details-grid
+  margin-top: 30px
+
+.mat-grid-tile .mat-form-field
+  height: 100%
+  width: 100%
 
 
 // smart split
 
 .smart-split
+  font-size: 14px
   display: flex
   align-items: center
   justify-content: center
+  margin-bottom: 24px
 
 .smart-split button
   margin-left: 16px
@@ -75,10 +83,74 @@ input[type=number]
   color: $white-dim
 
 
-// playlist details
+// button toggle
 
-.playlist-details-grid
-  margin-top: 1.34375em
+.mat-button-toggle-group-appearance-standard
+  font-size: 14px
+  margin-bottom: 1.34375em
+  margin-right: 24px
+  border-radius: 5px
+  border-color: $gray-dark-row-hover
+  background: $gray-dark-row-hover
+  box-shadow: $subtle-shadow
+  height: 51.19px
+  width: 100px
+
+.mat-button-toggle-appearance-standard
+  background: $gray-dark-row-hover
+  border-radius: 5px
+
+
+// checkbox
+
+
+.checkbox-container .smart-split-checkbox
+  padding-right: 3px
+
+.checkbox-container .make-secret-checkbox
+  height: 66.16px
+  display: flex
+  align-items: center
+  justify-content: center
+  margin: 8px auto 2px auto
+  width: fit-content
+
+
+@media(max-width: $breakpoint-tablet)
+  .split-the-playlist-grid
+    margin: 16px 0
+
+  .playlist-details-grid
+    margin-top: 26px
+
+  .smart-split
+    margin-bottom: 20px
+
+  .mat-button-toggle-group-appearance-standard
+    margin-right: 20px
+
+  .checkbox-container .make-secret-checkbox
+    margin: 4px auto 2px auto
+
+
+@media(max-width: $breakpoint-phone)
+  .split-the-playlist-grid
+    margin: 12px 0
+
+  .playlist-details-grid
+    margin-top: 22px
+
+  .smart-split
+    margin-bottom: 16px
+
+  .mat-button-toggle-group-appearance-standard
+    margin-right: 16px
+
+  .checkbox-container .make-secret-checkbox
+    margin: 0 auto 2px auto
+
+
+// numbering
 
 .prefix, .suffix
   width: 24px
@@ -92,94 +164,6 @@ input[type=number]
 .suffix
   margin-left: 8px
 
-::ng-deep .checkbox-container .mat-form-field
-  width: 70px
-
-::ng-deep .checkbox-container label
-  margin: 1.34375em 0
-
-.checkbox-container .smart-split-checkbox
-  padding: 0 0.3em 0 1.34375em
-
-.checkbox-container .make-secret-checkbox
-  padding: 0 1.34375em
-
-
-// button toggle
-
-.mat-button-toggle-group-appearance-standard
-  margin-bottom: 1.34375em
-  margin-right: 1.34375em
-  border-radius: 4px 4px 0 0
-  border-color: $gray-dark-row-hover $gray-dark-row-hover $gray $gray-dark-row-hover
-  background: $gray-dark-row-hover
-  height: 59.5px
-  width: 115px
-
-.mat-button-toggle-appearance-standard
-  background: $gray-dark-row-hover
-  border-radius: 4px 4px 0 0
-
-::ng-deep .mat-button-toggle-label-content
-  line-height: 53.25px !important
-  padding: 0 14.25px !important
-  border-radius: 4px 4px 0 0
-  color: $gray-light
-
-::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle,
-::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle
-  border: 2px solid #0000
-
-::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle-checked .mat-button-toggle-label-content,
-::ng-deep .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle-checked .mat-button-toggle-label-content
-  background-color: $gray
-  color: $white
-
-
-// form-field
-
-.mat-input-element
-  font-size: 16px
-
-.mat-grid-tile .mat-form-field
-  height: 100%
-  width: 100%
-
-::ng-deep .mat-grid-tile .mat-form-field-wrapper,
-::ng-deep .mat-form-field-wrapper .mat-form-field-flex
-  height: 100%
-
-::ng-deep .mat-form-field-label,
-::ng-deep .mat-form-field-empty .mat-form-field-label
-  color: $white
-
-::ng-deep .mat-focused .mat-form-field-required-marker
-  color: $green-hover
-
-::ng-deep .mat-form-field-flex
-  border-radius: 4px 4px 0 0 !important
-
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline,
-::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline,
-::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline::before,
-  background-color: $gray
-  transform: none
-
-::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex
-  background: $gray-dark-row-hover
-
 .numbering-style-separator
   padding: 0 4px
   color: #ffffff80
-
-
-// checkbox
-
-::ng-deep .mat-checkbox-frame
-  border-color: $gray-light
-
-::ng-deep .mat-checkbox-disabled .mat-checkbox-label
-  color: #ffffff80
-
-::ng-deep .mat-form-field-appearance-standard.mat-form-field-disabled .mat-form-field-underline
-  background-image: linear-gradient(to right, #ffffff80 100%, #ffffff80 100%)

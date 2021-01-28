@@ -1,6 +1,7 @@
 import 'lodash';
 
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
+import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 
 import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild
@@ -35,7 +36,8 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
     'upperCaseAlphabet': ['A', 'B', 'C', 'D']
   };
 
-  formGroup: FormGroup;
+  form: FormGroup;
+  isFormPristine = true;
 
   splitByTracksSelected = false;
   splitByPlaylistsSelected = false;
@@ -44,7 +46,7 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
   @ViewChild('splitByPlaylistsInput', {static: true}) splitByPlaylistsInput: ElementRef;
 
   selectedNumberingPlacement: 'before' | 'after';
-  selectedNumberingStyle: string;
+  selectedNumberingStyle: string = null;
 
   @Output() formChanged = new EventEmitter();
 
@@ -60,43 +62,88 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.selectedNumberingPlacement = 'before';
+    this.form.get('name').setErrors(null);
     this.changeDetector.detectChanges();
   }
 
-  private onFormChanged(): void {
-    this.formGroup.valueChanges.subscribe(() => {
-      this.formChanged.next(new CreationFormChangedEvent(
-        new CreationForm(
-          this.formGroup.get('smartSplit').value,
-          this.formGroup.get('smartSplit').value ? this.formGroup.get('smartSplitType').value : null,
-          this.formGroup.get('name').value,
-          this.selectedNumberingStyle ? this.formGroup.get('numberingPlacement').value : null,
-          this.formGroup.get('numberingStyle').value,
-          this.formGroup.get('description').value,
-          this.formGroup.get('isSecret').value,
-          this.splitByTracksSelected ? this.formGroup.get('splitByTracksNumber').value : null,
-          this.splitByPlaylistsSelected ? this.formGroup.get('splitByPlaylistsNumber').value : null
-        ),
-        this.formGroup.valid,
-        this.splitByTracksSelected || this.splitByPlaylistsSelected
-      ));
-    });
-  }
-
   private buildFormGroup(): void {
-    this.formGroup = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       splitByTracksNumber: new FormControl(200,
         [Validators.required, Validators.min(this.splitByTracksMinNumber), Validators.max(this.splitByTracksMaxNumber)]),
       splitByPlaylistsNumber: new FormControl(2,
         [Validators.required, Validators.min(this.splitByPlaylistsMinNumber), Validators.max(this.splitByPlaylistsMaxNumber)]),
       smartSplit: new FormControl({value: false, disabled: true}),
       smartSplitType: new FormControl({value: 'albums', disabled: true}),
-      name: new FormControl(null, [Validators.required, Validators.maxLength(this.nameMaxLength)]),
-      numberingPlacement: new FormControl('before'),
+      name: new FormControl(null, [Validators.maxLength(this.nameMaxLength)]),
+      numberingPlacement: new FormControl({value: 'before', disabled: true}),
       numberingStyle: new FormControl({value: null, disabled: true}),
       description: new FormControl(null, [Validators.maxLength(this.descriptionMaxLength)]),
       isSecret: new FormControl(false)
     });
+  }
+
+  private onFormChanged(): void {
+    this.form.valueChanges.subscribe(() => {
+      this.formChanged.next(new CreationFormChangedEvent(
+        new CreationForm(
+          this.form.get('smartSplit').value,
+          this.form.get('smartSplit').value ? this.form.get('smartSplitType').value : null,
+          this.form.get('name').value,
+          this.selectedNumberingStyle ? this.form.get('numberingPlacement').value : null,
+          this.form.get('numberingStyle').value,
+          this.form.get('description').value,
+          this.form.get('isSecret').value,
+          this.splitByTracksSelected ? this.form.get('splitByTracksNumber').value : null,
+          this.splitByPlaylistsSelected ? this.form.get('splitByPlaylistsNumber').value : null
+        ),
+        this.form.valid && this.form.get('name').value ? true : false,
+        this.splitByTracksSelected || this.splitByPlaylistsSelected
+      ));
+      this.isFormPristine = this.checkFormInitialValues();
+    });
+  }
+
+  private checkFormInitialValues(): boolean {
+    const rawForm = this.form.getRawValue();
+
+    return this.splitByTracksSelected === false &&
+      this.splitByPlaylistsSelected === false &&
+      rawForm.smartSplit === false &&
+      rawForm.smartSplitType === 'albums' &&
+      (rawForm.name ? false : true) &&
+      rawForm.numberingPlacement === 'before' &&
+      rawForm.numberingStyle === null &&
+      (rawForm.description ? false : true) &&
+      rawForm.isSecret === false &&
+      rawForm.splitByTracksNumber === 200 &&
+      rawForm.splitByPlaylistsNumber === 2;
+  }
+
+  get gridCols(): number {
+    return window.innerWidth > BREAKPOINT_PHONE ? 2 : 1;
+  }
+
+  get gutterSize(): number {
+    return window.innerWidth > BREAKPOINT_TABLET ? 24 : window.innerWidth > BREAKPOINT_PHONE ? 20 : 16;
+  }
+
+  resetForm(): void {
+    this.splitByTracksSelected = false;
+    this.splitByPlaylistsSelected = false;
+    this.selectedNumberingStyle = null;
+
+    this.form.reset({
+      splitByTracksNumber: 200,
+      splitByPlaylistsNumber: 2,
+      smartSplit: {value: false, disabled: true},
+      smartSplitType: {value: 'albums', disabled: true},
+      numberingPlacement: {value: 'before', disabled: true},
+      numberingStyle: {value: null, disabled: true},
+      isSecret: false
+    });
+    this.form.get('name').setErrors(null);
+
+    this.isFormPristine = true;
   }
 
   selectSplitOnClick(splitOn: 'tracks' | 'playlists'): void {
@@ -123,12 +170,12 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   private toggleSmartSplitCheckbox(): void {
     if (this.splitByTracksSelected || this.splitByPlaylistsSelected) {
-      this.formGroup.controls['smartSplit'].enable();
-      this.formGroup.controls['smartSplitType'].enable();
+      this.form.controls['smartSplit'].enable();
+      this.form.controls['smartSplitType'].enable();
     } else {
-      this.formGroup.controls['smartSplit'].disable();
-      this.formGroup.controls['smartSplitType'].disable();
-      this.formGroup.patchValue({
+      this.form.controls['smartSplit'].disable();
+      this.form.controls['smartSplitType'].disable();
+      this.form.patchValue({
         smartSplit: false
       });
     }
@@ -136,10 +183,12 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   private toggleNumberingSelect(): void {
     if (this.splitByTracksSelected || this.splitByPlaylistsSelected) {
-      this.formGroup.controls['numberingStyle'].enable();
+      this.form.controls['numberingStyle'].enable();
+      this.form.controls['numberingPlacement'].enable();
     } else {
-      this.formGroup.controls['numberingStyle'].disable();
-      this.formGroup.patchValue({
+      this.form.controls['numberingStyle'].disable();
+      this.form.controls['numberingPlacement'].disable();
+      this.form.patchValue({
         numberingStyle: null
       });
       this.selectedNumberingStyle = null;
@@ -147,13 +196,13 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
   }
 
   onSplitByTracksInputBlur(value: number): void {
-    this.formGroup.patchValue({
+    this.form.patchValue({
       splitByTracksNumber: _.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
     });
   }
 
   onSplitByPlaylistsInputBlur(value: number): void {
-    this.formGroup.patchValue({
+    this.form.patchValue({
       splitByPlaylistsNumber: _.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
     });
   }

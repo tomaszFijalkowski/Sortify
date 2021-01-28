@@ -98,19 +98,11 @@ export class CreateStepperComponent implements OnInit, OnDestroy {
   }
 
   get createDisabledTooltip(): string {
-    const validationMessages = [];
-
-    if (this.selectedPlaylists.length === 0) {
-      validationMessages.push('- You must select the source');
-    }
-
-    if (this.sortBy.length === 0) {
-      validationMessages.push('- You must choose the sorting');
-    }
-
-    if (!this.creationFormValid) {
-      validationMessages.push(`- You must name your playlist${ this.creatingMultiplePlaylists ? 's' : '' }`);
-    }
+    const validationMessages = [
+      `${this.selectedPlaylists.length === 0 ? '✖' : '✔'} Select the source`,
+      `${this.sortBy.length === 0 ? '✖' : '✔'} Choose the sorting`,
+      `${!this.creationFormValid ? '✖' : '✔'} Name your playlist${ this.creatingMultiplePlaylists ? 's' : '' }`
+    ];
 
     return validationMessages.join('\n');
   }

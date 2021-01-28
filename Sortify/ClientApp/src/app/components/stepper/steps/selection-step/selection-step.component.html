@@ -51,7 +51,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-elevation-z2"
+    <mat-row *matRowDef="let row; columns: displayedColumns;"
       [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
       (click)="$event.stopPropagation(); $event ? selection.toggle(row) : null"></mat-row>
   </mat-table>
