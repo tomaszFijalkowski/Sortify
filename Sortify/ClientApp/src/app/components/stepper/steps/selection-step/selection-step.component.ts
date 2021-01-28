@@ -5,7 +5,7 @@ import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-b
 import { PlaylistService } from 'src/app/services/playlist.service';
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -22,6 +22,7 @@ export class SelectionStepComponent implements OnInit {
   dataSourceLoading: boolean;
   selection = new SelectionModel<Playlist>(true, []);
 
+  @ViewChild('filterInput') filterInput: ElementRef;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @Input() playlists: Playlist[];
@@ -54,9 +55,18 @@ export class SelectionStepComponent implements OnInit {
     return window.innerWidth > BREAKPOINT_PHONE;
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
+  get disableClearFilter(): boolean {
+    return this.filterInput?.nativeElement.value === '';
+  }
+
+  applyFilter(): void {
+    const filterValue = this.filterInput.nativeElement.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  clearFilter(): void {
+    this.filterInput.nativeElement.value = '';
+    this.dataSource.filter = '';
   }
 
   refreshSelection(): void {

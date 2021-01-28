@@ -3,14 +3,31 @@
 .top-row
   display: flex
 
+
 .filter-field
   margin-right: 8px
   min-width: 0
   width: 350px
 
-.filter-field .mat-icon
-  margin-right: 8px
+.filter-field .search-icon
   color: $gray-light
+  margin-right: 8px
+
+.filter-field .mat-icon-button
+  margin: 0 -3px 0 8px
+  opacity: 1  
+  transition: opacity 400ms
+
+.filter-field .mat-icon-button:disabled
+  opacity: 0  
+  transition: opacity 400ms
+
+.filter-field .mat-icon-button:not(:disabled)
+  color: $gray-light
+
+.filter-field .mat-icon-button:hover:not(:disabled)
+  color: $white-dim
+
 
 .buttons
   color: $gray-light
