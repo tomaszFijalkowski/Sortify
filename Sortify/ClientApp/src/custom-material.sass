@@ -93,11 +93,12 @@
 @media(min-width: $breakpoint-tablet + 1)
   .app-container .shrink-window .mat-stepper-horizontal
     transition: width 0.25s
-    width: 600px
+    width: 650px
 
   .app-container .shrink-window .mat-horizontal-content-container
+    align-items: center
     transition: height 0.25s
-    height: 450px
+    height: 477.75px
 
 
 @media(max-width: $breakpoint-phone)
@@ -338,3 +339,12 @@
 
 .app-container .checkbox-container label
   margin: 1.34375em 0
+
+
+// progress spinner
+
+.app-container .progress-spinner-cancel svg circle
+  stroke: $red
+
+.app-container .progress-spinner-error svg circle
+  stroke: $gray

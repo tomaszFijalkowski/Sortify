@@ -1,41 +1,35 @@
 @import '../../../../../variables.sass'
 
 h1
-  font-size: 2.5rem
-
-// button
+  font-size: 3em
 
 .mat-button
-  margin-top: 1.25em
   background-color: $gray
+  margin: 24px 12px 0
 
 .mat-button:hover:not(:disabled)
   background-color: $gray-hover
 
-.cancel-button:hover:not(:disabled)
-  background-color: $red-hover
-
-
-// progress spinner
-
-::ng-deep .progress-spinner-cancel svg circle
-  stroke: $red
-
-::ng-deep .progress-spinner-error svg circle
-  stroke: $gray
-
 .progress-spinner-wrapper
   position: relative
-  margin: 40px 0 10px 0
+  margin: 48px 0 24px 0
   display: flex
   justify-content: center
   align-items: center
   height: 100%
 
+.progress-description
+  display: flex
+  align-items: center
+  justify-content: center
+  white-space: pre-line
+  min-height: 42px
+  font-size: 14px
+
 .progress-percentage
   position: absolute
   font-family: "CircularSpotifyTxT-Black"
-  font-size: 1.75rem
+  font-size: 28px
   line-height: 100px
   height: 100px
   width: 100px
@@ -43,6 +37,35 @@ h1
   left: 50%
   margin-top: -48px
   margin-left: -50px
+
+
+@media(max-width: $breakpoint-tablet)
+  h1
+    font-size: 2.5em
+
+  .mat-button
+    margin: 20px 10px 0
+  
+  .progress-spinner-wrapper
+    margin: 40px 0 20px 0
+
+
+@media(max-width: $breakpoint-phone)
+  h1
+    font-size: 2.2em
+
+  .mat-button
+    margin: 16px 8px 0
+
+  .progress-spinner-wrapper
+    margin: 32px 0 16px 0
+
+  .progress-description
+    white-space: inherit
+
+
+.cancel-button:hover:not(:disabled)
+  background-color: $red-hover
 
 .cancelled-icon
   margin-top: 12.5px
@@ -56,8 +79,3 @@ h1
   width: 100px
   font-size: 100px
   color: $warning
-
-.progress-description
-  min-height: 42px
-  white-space: pre-line
-  font-size: 14px
