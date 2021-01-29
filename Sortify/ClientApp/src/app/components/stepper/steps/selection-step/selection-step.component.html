@@ -2,7 +2,7 @@
   <mat-form-field class="filter-field" appearance="fill">
     <mat-icon matPrefix class="search-icon">search</mat-icon>
     <mat-label>Filter</mat-label>
-    <input matInput #filterInput (keyup)="applyFilter()">
+    <input matInput #filterInputRef (keyup)="applyFilter()">
     <button mat-icon-button matSuffix (click)="clearFilter()" disabled="{{dataSource.filter === ''}}">
       <mat-icon>clear</mat-icon>
     </button>
@@ -21,7 +21,7 @@
   </div>
 </div>
 
-<div class="table-container">
+<div #tableContainerRef class="table-container">
   <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
     No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
   </div>
@@ -61,4 +61,4 @@
 </div>
 
 <mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0}"
-  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons></mat-paginator>
+  [pageSizeOptions]="pageSizeOptions" showFirstLastButtons (page)="onPageChanged()"></mat-paginator>

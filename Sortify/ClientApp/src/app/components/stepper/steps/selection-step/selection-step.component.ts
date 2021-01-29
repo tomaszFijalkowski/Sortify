@@ -22,7 +22,8 @@ export class SelectionStepComponent implements OnInit {
   dataSourceLoading: boolean;
   selection = new SelectionModel<Playlist>(true, []);
 
-  @ViewChild('filterInput') filterInput: ElementRef;
+  @ViewChild('filterInputRef', { read: ElementRef }) filterInput: ElementRef;
+  @ViewChild('tableContainerRef', { read: ElementRef }) tableContainer: ElementRef;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @Input() playlists: Playlist[];
@@ -82,5 +83,9 @@ export class SelectionStepComponent implements OnInit {
 
   clearSelection(): void {
     this.selection.clear();
+  }
+
+  onPageChanged(): void {
+    this.tableContainer.nativeElement.scrollTo(0, 0);
   }
 }
