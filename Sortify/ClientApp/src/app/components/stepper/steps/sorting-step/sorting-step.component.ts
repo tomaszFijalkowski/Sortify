@@ -44,7 +44,7 @@ export class SortingStepComponent implements OnInit {
     },
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
-    onSpill: event => this.removeItemOnSpill(event),
+    onSpill: event => this.deselectChipOnSpill(event),
     removeOnSpill: true
   };
 
@@ -129,19 +129,19 @@ export class SortingStepComponent implements OnInit {
     this.changeDetector.detectChanges();
   };
 
-  private removeItemOnSpill(sortableEvent: SortableEvent): void {
+  private deselectChipOnSpill(sortableEvent: SortableEvent): void {
     const element = sortableEvent.item;
     const item = this.createSortableItem(element);
-    this.removeSortableItem(item);
+    this.deselectSortableItem(item);
   }
 
-  removeItemOnClick(mouseEvent: MouseEvent): void {
-    const element = mouseEvent.target['parentElement'];
+  deselectChip(event: MouseEvent | KeyboardEvent, targetParent = false): void {
+    const element = targetParent ? event.target['parentElement'] : (event.target as HTMLElement);
     const item = this.createSortableItem(element);
-    this.removeSortableItem(item);
+    this.deselectSortableItem(item);
   }
 
-  private removeSortableItem(item: SortableItem): void {
+  private deselectSortableItem(item: SortableItem): void {
     switch (item.initialGroup) {
       case SortableGroup.BasicProperties:
         this.moveSortableItem(item, this.sortBy, this.basicProperties, true);
@@ -152,13 +152,13 @@ export class SortingStepComponent implements OnInit {
     }
   }
 
-  addItemOnClick(mouseEvent: MouseEvent): void {
-    const element = (mouseEvent.target as HTMLElement);
+  selectChip(event: MouseEvent | KeyboardEvent): void {
+    const element = (event.target as HTMLElement);
     const item = this.createSortableItem(element);
-    this.addSortableItem(item);
+    this.selectSortableItem(item);
   }
 
-  private addSortableItem(item: SortableItem): void {
+  private selectSortableItem(item: SortableItem): void {
     switch (item.initialGroup) {
       case SortableGroup.BasicProperties:
         this.moveSortableItem(item, this.basicProperties, this.sortBy, false);
@@ -202,7 +202,7 @@ export class SortingStepComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  changeOrderOnClick(item: SortableItem): void {
+  changeOrder(item: SortableItem): void {
     item.order = item.order === 'asc' ? 'desc' : 'asc';
     this.emitSortByChanged();
   }
