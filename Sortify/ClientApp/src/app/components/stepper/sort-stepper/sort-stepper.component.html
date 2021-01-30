@@ -27,21 +27,8 @@
 
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step>
-
-    <!-- Creation Step -->
-    <mat-step [completed]="creationFormValid">
-      <ng-template matStepLabel>{{creatingStepHeader}}</ng-template>
-
-      <app-creation-step (formChanged)="onCreationFormChanged($event)">
-      </app-creation-step>
-
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <span [matTooltipClass]="'button-tooltip'" matTooltipDisabled="{{!createDisabled}}" matTooltip="{{createDisabledTooltip}}">
-          <button mat-button matStepperNext (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
+        <span [matTooltipClass]="'button-tooltip'" matTooltipDisabled="{{!sortDisabled}}" matTooltip="{{sortDisabledTooltip}}">
+          <button mat-button matStepperNext (click)="onSortClick()" [disabled]="sortDisabled">Sort</button>
         </span>
       </div>
     </mat-step>

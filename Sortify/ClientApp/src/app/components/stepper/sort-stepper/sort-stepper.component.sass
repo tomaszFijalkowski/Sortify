@@ -1,0 +1,35 @@
+@import '../../../../variables.sass'
+
+.container
+  display: flex
+  text-align: center
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+
+.mat-button
+  background-color: $gray
+  margin: 24px 12px
+
+.mat-button:hover:not(:disabled)
+  background-color: $gray-hover
+
+
+@media(max-width: $breakpoint-tablet)
+  .container
+    align-items: start
+    max-width: 100%
+    padding-left: 0
+    padding-right: 0
+
+  .mat-button
+    margin: 20px 10px
+
+
+@media(max-width: $breakpoint-phone)
+  .mat-button
+    margin: 16px 8px
+
+
+.shrink-window
+  align-items: center

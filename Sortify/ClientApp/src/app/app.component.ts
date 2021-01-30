@@ -12,7 +12,7 @@ export class AppComponent {
   constructor(router: Router) {
     router.events.subscribe((route) => {
       if (route instanceof NavigationEnd) {
-        this.hideBackgroundImg = route.url === 'sort' || route.url === '/create';
+        this.hideBackgroundImg = route.url === '/sort' || route.url === '/create';
       }
     });
   }

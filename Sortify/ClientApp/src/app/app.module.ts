@@ -35,6 +35,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { StartComponent } from './components/start/start.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
+import { SortStepperComponent } from './components/stepper/sort-stepper/sort-stepper.component';
 import { CreationStepComponent } from './components/stepper/steps/creation-step/creation-step.component';
 import {
     SmartSplitHelpComponent
@@ -56,6 +57,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     HomeComponent,
     LandingPageComponent,
     StartComponent,
+    SortStepperComponent,
     CreateStepperComponent,
     SelectionStepComponent,
     SortingStepComponent,

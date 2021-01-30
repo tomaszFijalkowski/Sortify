@@ -7,6 +7,7 @@ import { CreatePlaylistsRequest } from '../models/create-playlists.request';
 import { GetPlaylistsResponse } from '../models/get-playlists.response';
 import { Nothing } from '../models/nothing';
 import { OperationResult } from '../models/operation-result';
+import { SortPlaylistsRequest } from '../models/sort-playlists.request';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class PlaylistService {
 
   getPlaylists(): Observable<OperationResult<GetPlaylistsResponse>> {
     return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist');
+  }
+
+  sortPlaylists(request: SortPlaylistsRequest): Observable<OperationResult<Nothing>> {
+    return this.http.post<OperationResult<Nothing>>(this.baseUrl + 'playlist/sort', request);
   }
 
   createPlaylists(request: CreatePlaylistsRequest): Observable<OperationResult<Nothing>> {
