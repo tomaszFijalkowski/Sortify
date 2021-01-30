@@ -34,7 +34,8 @@ export class SortingStepComponent implements OnInit {
     sort: false,
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
-    removeOnSpill: false
+    removeOnSpill: false,
+    filter: '.disabled'
   };
 
   sortByOptions: Options = {
@@ -129,6 +130,10 @@ export class SortingStepComponent implements OnInit {
     this.changeDetector.detectChanges();
   };
 
+  get audioFeatureSelected(): boolean {
+    return this.audioFeatures.length < this.initialAudioFeaturesLength;
+  }
+
   private deselectChipOnSpill(sortableEvent: SortableEvent): void {
     const element = sortableEvent.item;
     const item = this.createSortableItem(element);
@@ -195,7 +200,7 @@ export class SortingStepComponent implements OnInit {
   private emitSortByChanged(recommendedSorting = false): void {
     this.sortByChanged.next(new SortByChangedEvent(
       this.sortBy,
-      this.audioFeatures.length < this.initialAudioFeaturesLength
+      this.audioFeatureSelected
     ));
 
     this.recommendedSorting = recommendedSorting;

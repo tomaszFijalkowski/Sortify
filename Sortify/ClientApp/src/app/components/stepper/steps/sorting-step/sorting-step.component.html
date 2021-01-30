@@ -28,10 +28,10 @@
 
 <h1>Audio features</h1>
 
-<mat-chip-list disabled="{{audioFeatures.length < initialAudioFeaturesLength}}">
+<mat-chip-list disabled="{{audioFeatureSelected}}">
   <div class="sortable-group" [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
     <div class="audio-feature-wrapper" *ngFor="let item of audioFeatures" matTooltip="Additional audio features&#13;will not affect the sorting"
-      matTooltipDisabled="{{audioFeatures.length === initialAudioFeaturesLength}}">
+      matTooltipDisabled="{{!audioFeatureSelected}}" [ngClass]="{'disabled': audioFeatureSelected}">
       <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex" [attr.data-initialgroup]="item.initialGroup"
         (click)="selectChip($event)" (keydown.enter)="selectChip($event)" (keydown.space)="selectChip($event)" selectable="false">
         {{item.name}}
