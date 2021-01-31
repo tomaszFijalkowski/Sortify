@@ -63,8 +63,8 @@ namespace Sortify.Handlers.QueryHandlers
 
         private async Task<UserDetails> GetUserDetails()
         {
-            var privateUser = await spotify.UserProfile.Current();
-            var userDerails = mapper.Map<UserDetails>(privateUser);
+            var currentUser = await spotify.UserProfile.Current();
+            var userDerails = mapper.Map<UserDetails>(currentUser);
 
             return userDerails;
         }
