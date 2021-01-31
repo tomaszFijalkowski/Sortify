@@ -13,13 +13,16 @@ namespace Sortify.Controllers
     public class PlaylistController : ControllerBase
     {
         private readonly IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse> getPlaylistsQueryHandler;
+        private readonly ICommandHandler<SortPlaylistsCommand> sortPlaylistsCommandHandler;
         private readonly ICommandHandler<CreatePlaylistsCommand> createPlaylistsCommandHandler;
 
         public PlaylistController(
             IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse> getPlaylistsQueryHandler,
+            ICommandHandler<SortPlaylistsCommand> sortPlaylistsCommandHandler,
             ICommandHandler<CreatePlaylistsCommand> createPlaylistsCommandHandler)
         {
             this.getPlaylistsQueryHandler = getPlaylistsQueryHandler;
+            this.sortPlaylistsCommandHandler = sortPlaylistsCommandHandler;
             this.createPlaylistsCommandHandler = createPlaylistsCommandHandler;
         }
 
@@ -29,6 +32,14 @@ namespace Sortify.Controllers
             var accessToken = Request.Headers["Authorization"];
             var query = new GetPlaylistsQuery() { AccessToken = accessToken };
             return await getPlaylistsQueryHandler.HandleAsync(query);
+        }
+
+        [HttpPost]
+        [Route("sort")]
+        public async Task<OperationResult> SortPlaylists(SortPlaylistsCommand command, CancellationToken cancellationToken)
+        {
+            command.AccessToken = Request.Headers["Authorization"];
+            return await sortPlaylistsCommandHandler.HandleAsync(command, cancellationToken);
         }
 
         [HttpPost]

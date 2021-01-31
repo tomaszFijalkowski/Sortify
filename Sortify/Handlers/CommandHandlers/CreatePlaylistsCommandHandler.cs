@@ -278,14 +278,14 @@ namespace Sortify.Handlers.QueryHandlers
                 var createdPlaylist = await spotify.Playlists.Create(user.Id, playlistCreateRequest);
                 createdPlaylists.Add(createdPlaylist);
 
-                for (int i = 0; i < (double)playlist.Count() / MaxItemsPerRequest; i++)
+                for (var i = 0; i < (double)playlist.Count() / MaxItemsPerRequest; i++)
                 {
                     var request = new PlaylistAddItemsRequest(playlist.Skip(i * MaxItemsPerRequest)
                                                                       .Take(MaxItemsPerRequest)
                                                                       .Select(x => x.Uri)
                                                                       .ToList());
 
-                    var addedTracks = await spotify.Playlists.AddItems(createdPlaylist.Id, request);
+                    await spotify.Playlists.AddItems(createdPlaylist.Id, request);
                     await CheckProgress("Adding tracks");
                 }
             }
