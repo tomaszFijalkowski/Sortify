@@ -36,7 +36,7 @@
     <!-- End Step -->
     <mat-step>
       <app-end-step (cancelRequest)="cancelRequest()" (backToStepper)="backToStepper()"
-        [request]="request" [header]="endHeader">
+        [request]="request" [header]="endHeader" [blockCancellation]="blockCancellation">
       </app-end-step>
     </mat-step>
 

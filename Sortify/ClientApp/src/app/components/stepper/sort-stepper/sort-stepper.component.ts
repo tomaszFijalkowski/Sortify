@@ -19,6 +19,8 @@ import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
 export class SortStepperComponent extends BaseStepperComponent implements OnInit, OnDestroy {
   private sortingMultiplePlaylists: boolean;
 
+  blockCancellation = false;
+
   constructor(activatedRoute: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
     settingsService: AppSettingsService,
@@ -63,6 +65,7 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
 
   private sortPlaylists(): void {
     this.establishHubConnection();
+    this.handleCancellationBlock();
     this.hubConnection
       .start()
       .then(() => this.hubConnection.invoke('getConnectionId'))
@@ -72,6 +75,13 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
         }
       })
       .catch(() => this.request = new RequestDetails(RequestState.Error, 0, 'Could not establish connection to the server.'));
+  }
+
+  private handleCancellationBlock(): void {
+    this.blockCancellation = false;
+    this.hubConnection.on('cancellationBlock', () => {
+      this.blockCancellation = true;
+    });
   }
 
   private sendRequest(connectionId: string): void {

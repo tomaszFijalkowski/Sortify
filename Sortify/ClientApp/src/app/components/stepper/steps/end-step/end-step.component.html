@@ -14,6 +14,6 @@
 <div class="progress-description">{{request.description}}</div>
 
 <button *ngIf="request.state === State.InProgress" mat-button class="cancel-button" [disabled]="progress === progressComplete"
-  (click)="onCancelClick()" (mouseover)="onMouseOverCancel(true)" (mouseleave)="onMouseOverCancel(false)">Cancel</button>
+  (click)="onCancelClick()" (mouseover)="onMouseOverCancel(true)" (mouseleave)="onMouseOverCancel(false)" [disabled]="blockCancellation">Cancel</button>
 <button *ngIf="request.state !== State.InProgress" mat-button matStepperPrevious (click)="onBackClick()">Back</button>
 <button mat-button [routerLink]="['']" [disabled]="request.state === State.InProgress">Done</button>

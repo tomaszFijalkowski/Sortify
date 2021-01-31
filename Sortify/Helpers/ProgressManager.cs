@@ -32,5 +32,10 @@ namespace Sortify.Helpers
 
             await progressHub.Clients.Client(connectionId).SendAsync("progressUpdate", progressDetails);
         }
+
+        public async Task ReportCancellationBlock()
+        {
+            await progressHub.Clients.Client(connectionId).SendAsync("cancellationBlock");
+        }
     }
 }

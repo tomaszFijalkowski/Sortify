@@ -28,6 +28,7 @@ namespace Sortify.Handlers.QueryHandlers
         private SpotifyClient spotify;
 
         private CancellationToken cancellationToken;
+        private bool blockCancellation = false;
 
         public SortPlaylistsCommandHandler(
             IHubContext<ProgressHub> progressHub,
@@ -222,6 +223,9 @@ namespace Sortify.Handlers.QueryHandlers
 
         private async Task ReplacePlaylists(IDictionary<string, IEnumerable<Track>> playlists)
         {
+            blockCancellation = true;
+            await progressManager.ReportCancellationBlock();
+
             foreach (var (playlistId, tracks) in playlists)
             {
                 await spotify.Playlists.ReplaceItems(playlistId, new PlaylistReplaceItemsRequest(new List<string>()));
@@ -244,8 +248,10 @@ namespace Sortify.Handlers.QueryHandlers
 
         private async Task CheckProgress(string description, bool complete = false)
         {
-
-            cancellationToken.ThrowIfCancellationRequested();
+            if (!blockCancellation)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
             await progressManager.ReportProgress(description, complete);
         }
     }
