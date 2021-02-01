@@ -9,7 +9,7 @@
     <mat-step [completed]="selectedPlaylists.length > 0">
       <ng-template matStepLabel>{{selectionStepHeader}}</ng-template>
 
-      <app-selection-step [playlists]="playlists" (selectionChanged)="onSelectionChanged($event)">
+      <app-selection-step [playlists]="playlists" [limitByOwner]="true" (selectionChanged)="onSelectionChanged($event)">
       </app-selection-step>
 
       <div>

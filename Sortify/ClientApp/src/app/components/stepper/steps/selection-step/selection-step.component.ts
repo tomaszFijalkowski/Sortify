@@ -3,6 +3,7 @@ import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.res
 import { OperationResult } from 'src/app/models/operation-result';
 import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 import { PlaylistService } from 'src/app/services/playlist.service';
+import { UserService } from 'src/app/services/user.service';
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
@@ -27,9 +28,11 @@ export class SelectionStepComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @Input() playlists: Playlist[];
+  @Input() limitByOwner: boolean;
   @Output() selectionChanged = new EventEmitter();
 
-  constructor(private playlistService: PlaylistService) {
+  constructor(private userService: UserService,
+    private playlistService: PlaylistService) {
   }
 
   ngOnInit() {
@@ -71,7 +74,8 @@ export class SelectionStepComponent implements OnInit {
   }
 
   refreshSelection(): void {
-    this.playlistService.getPlaylists().subscribe((response: OperationResult<GetPlaylistsResponse>) => {
+    const ownerId = this.limitByOwner ? this.userService.currentUserDetails.id : null;
+    this.playlistService.getPlaylists(ownerId).subscribe((response: OperationResult<GetPlaylistsResponse>) => {
       this.selection.clear();
       this.dataSource.data = response.result.playlists;
       this.dataSourceLoading = false;

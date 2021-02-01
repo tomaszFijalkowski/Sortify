@@ -44,7 +44,7 @@ export class BaseStepperComponent {
 
   onInit(): void {
     const data = this.activatedRoute.snapshot.data;
-    this.playlists = data.playlists.result.playlists;
+    this.playlists = data['playlists'].result.playlists;
     this.progressHubUrl = this.settingsService.appSettings.progressHubUrl;
   }
 

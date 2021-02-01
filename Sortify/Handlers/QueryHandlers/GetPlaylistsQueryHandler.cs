@@ -45,7 +45,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var response = new GetPlaylistsResponse
                 {
-                    Playlists = await GetUserPlaylists()
+                    Playlists = await GetUserPlaylists(query.OwnerId)
                 };
 
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Success(response);
@@ -64,7 +64,7 @@ namespace Sortify.Handlers.QueryHandlers
             }
         }
 
-        private async Task<IEnumerable<Playlist>> GetUserPlaylists()
+        private async Task<IEnumerable<Playlist>> GetUserPlaylists(string ownerId)
         {
             var index = 0;
             var playlists = new List<Playlist>();
@@ -85,6 +85,8 @@ namespace Sortify.Handlers.QueryHandlers
                 index++;
             }
             while (playlists.Count < totalCount);
+
+            playlists = playlists.Where(x => ownerId == null || x.OwnerId == ownerId).ToList();
 
             return playlists;
         }

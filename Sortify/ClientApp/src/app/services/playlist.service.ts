@@ -17,8 +17,9 @@ export class PlaylistService {
     @Inject('BASE_URL') private baseUrl: string) {
   }
 
-  getPlaylists(): Observable<OperationResult<GetPlaylistsResponse>> {
-    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist');
+  getPlaylists(ownerId: string = null): Observable<OperationResult<GetPlaylistsResponse>> {
+    const params = { params: ownerId ? {ownerId: ownerId} : null };
+    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist', params);
   }
 
   sortPlaylists(request: SortPlaylistsRequest): Observable<OperationResult<Nothing>> {

@@ -23,7 +23,12 @@
 
 <div #tableContainerRef class="table-container">
   <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
-    No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
+    <ng-container *ngIf="dataSource.filter.length === 0">
+      No results found
+    </ng-container>
+    <ng-container *ngIf="dataSource.filter.length > 0">
+      No results found for "{{dataSource.filter.substring(0, 30) + (dataSource.filter.length > 30 ? '...' : '')}}"
+    </ng-container>
   </div>
 
   <div *ngIf="dataSourceLoading" class="progress-spinner-wrapper">
@@ -46,7 +51,7 @@
         <div class="playlist-details-container">
           <div class="playlist-details-name">{{playlist.name}}</div>
           <div class="playlist-details-owner">
-            <div class="created-by-text"><span *ngIf="showCreatedByText">Created by </span><span class="owner-text">{{playlist.owner}}</span></div>
+            <div class="created-by-text"><span *ngIf="showCreatedByText">Created by </span><span class="owner-text">{{playlist.ownerName}}</span></div>
             <div class="songs-text"><span class="divider">•</span>{{playlist.size}} song{{playlist.size !== 1 ? 's' : ''}}</div>
           </div>
         </div>

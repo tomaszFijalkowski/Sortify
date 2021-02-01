@@ -8,7 +8,9 @@ namespace Sortify.Contracts.Models
 
         public string Name { get; set; }
 
-        public string Owner { get; set; }
+        public string OwnerId { get; set; }
+
+        public string OwnerName { get; set; }
 
         public int Size { get; set; }
 

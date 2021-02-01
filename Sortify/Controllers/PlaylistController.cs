@@ -27,10 +27,10 @@ namespace Sortify.Controllers
         }
 
         [HttpGet]
-        public async Task<OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>> GetPlaylists()
+        public async Task<OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>> GetPlaylists(string ownerId)
         {
             var accessToken = Request.Headers["Authorization"];
-            var query = new GetPlaylistsQuery() { AccessToken = accessToken };
+            var query = new GetPlaylistsQuery() { AccessToken = accessToken, OwnerId = ownerId };
             return await getPlaylistsQueryHandler.HandleAsync(query);
         }
 

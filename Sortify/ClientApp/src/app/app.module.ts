@@ -43,7 +43,8 @@ import {
 import { EndStepComponent } from './components/stepper/steps/end-step/end-step.component';
 import { SelectionStepComponent } from './components/stepper/steps/selection-step/selection-step.component';
 import { SortingStepComponent } from './components/stepper/steps/sorting-step/sorting-step.component';
-import { PlaylistResolver } from './resolvers/playlist.resolver';
+import { PlaylistsToCreateResolver } from './resolvers/playlists-to-create.resolver';
+import { PlaylistsToSortResolver } from './resolvers/playlists-to-sort.resolver';
 import { AppSettingsService } from './services/app-settings.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
@@ -122,7 +123,8 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     AuthService,
     AuthGuardService,
     ConfirmationGuardService,
-    PlaylistResolver
+    PlaylistsToCreateResolver,
+    PlaylistsToSortResolver
   ],
   bootstrap: [
     AppComponent

@@ -8,7 +8,7 @@ import { OperationResult } from '../models/operation-result';
 import { PlaylistService } from '../services/playlist.service';
 
 @Injectable({ providedIn: 'root' })
-export class PlaylistResolver implements Resolve<OperationResult<GetPlaylistsResponse>> {
+export class PlaylistsToCreateResolver implements Resolve<OperationResult<GetPlaylistsResponse>> {
   constructor(private playlistService: PlaylistService) {
   }
 

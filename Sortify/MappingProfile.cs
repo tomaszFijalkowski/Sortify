@@ -11,7 +11,10 @@ namespace Sortify
         {
             CreateMap<SimplePlaylist, Playlist>()
                 .ForMember(
-                    dest => dest.Owner,
+                    dest => dest.OwnerId,
+                    opt => opt.MapFrom(src => src.Owner.Id))
+                .ForMember(
+                    dest => dest.OwnerName,
                     opt => opt.MapFrom(src => src.Owner.DisplayName))
                 .ForMember(
                     dest => dest.Size,

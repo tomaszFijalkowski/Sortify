@@ -7,7 +7,8 @@ export interface GetPlaylistsResponse {
 export interface Playlist {
   id: string;
   name: string;
-  owner: string;
+  ownerId: string;
+  ownerName: string;
   size: number;
   image: Image;
 }
