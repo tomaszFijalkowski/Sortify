@@ -50,13 +50,10 @@
     <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
       [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy" selectable="false"
         (keydown.enter)="changeOrder(item)" (keydown.space)="changeOrder(item)" (keydown.delete)="deselectChip($event)">
-      <mat-icon class="order-icon" [matTooltipClass]="'chip-tooltip'" matTooltip="Ascending" *ngIf="item.order === 'asc'"
-        (click)="changeOrder(item)">arrow_upward</mat-icon>
-      <mat-icon class="order-icon" [matTooltipClass]="'chip-tooltip'" matTooltip="Descending" *ngIf="item.order === 'desc'"
-        (click)="changeOrder(item)">arrow_downward</mat-icon>
+      <mat-icon class="order-icon" *ngIf="item.order === 'asc'" (click)="changeOrder(item)">arrow_upward</mat-icon>
+      <mat-icon class="order-icon" *ngIf="item.order === 'desc'" (click)="changeOrder(item)">arrow_downward</mat-icon>
       {{item.name}}
-      <mat-icon matChipRemove [matTooltipClass]="'chip-tooltip'" matTooltip="Remove"
-        (click)="deselectChip($event, true)">cancel</mat-icon>
+      <mat-icon matChipRemove (click)="deselectChip($event, true)">cancel</mat-icon>
     </mat-chip>
   </div>
 </mat-chip-list>

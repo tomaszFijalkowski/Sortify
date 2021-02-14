@@ -98,6 +98,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     MatDialogModule,
     SortablejsModule.forRoot({
       animation: 150,
+      ghostClass: 'ghost-chip'
     }),
   ],
   providers: [
