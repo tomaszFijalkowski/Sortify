@@ -72,23 +72,28 @@
   border: none
   margin-bottom: 12px
   box-shadow: $subtle-shadow
-  background: $gray-dark-row
+  background-color: $gray-dark-row
   cursor: pointer
+  transition: margin-left 0.2s, background-color 0.2s
 
 .mat-row-short
   margin-right: 12px
 
-.mat-row:hover:not(.mat-row-selected)
-  background: $gray-dark-row-hover
+.mat-row:hover
+  background-color: $gray-dark-row-hover
 
 .mat-row:last-of-type
   margin-bottom: 3px
 
+.mat-row:focus
+  outline: 0
+  background-color: $gray-dark-row-hover
+
 .mat-row-selected
   background-color: $green
 
-.mat-header-row
-  display: none
+.mat-row-selected:hover, .mat-row-selected:focus
+  background-color: $green-hover
 
 .mat-cell
   color: $white

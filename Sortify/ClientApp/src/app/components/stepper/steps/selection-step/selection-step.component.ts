@@ -66,19 +66,21 @@ export class SelectionStepComponent implements OnInit {
   applyFilter(): void {
     const filterValue = this.filterInput.nativeElement.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.setDefaultTabIndex();
   }
 
   clearFilter(): void {
     this.filterInput.nativeElement.value = '';
     this.dataSource.filter = '';
+    this.setDefaultTabIndex();
   }
 
   refreshSelection(): void {
     const ownerId = this.limitByOwner ? this.userService.currentUserDetails.id : null;
     this.playlistService.getPlaylists(ownerId).subscribe((response: OperationResult<GetPlaylistsResponse>) => {
-      this.selection.clear();
       this.dataSource.data = response.result.playlists;
       this.dataSourceLoading = false;
+      this.setDefaultTabIndex();
     });
     this.dataSource.data = [];
     this.dataSourceLoading = true;
@@ -90,6 +92,69 @@ export class SelectionStepComponent implements OnInit {
   }
 
   onPageChanged(): void {
+    this.setDefaultTabIndex();
     this.tableContainer.nativeElement.scrollTo(0, 0);
+  }
+
+  private setDefaultTabIndex(): void {
+    setTimeout(() => {
+      this.setTabIndexAndFocus();
+    }, 0);
+  }
+
+  tableKeydown(event: KeyboardEvent, tableRow: Playlist): void {
+    switch (event.key) {
+      case 'ArrowUp':
+        event.preventDefault();
+        this.focusTableRow(event, 'previous');
+      break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.focusTableRow(event, 'next');
+      break;
+      case ' ':
+      case 'Enter':
+        event.preventDefault();
+        this.selectTableRow(event, tableRow);
+      break;
+    }
+  }
+
+  private focusTableRow(event: KeyboardEvent, sibling: 'previous' | 'next'): void {
+    const currentElement = (event.currentTarget as HTMLElement);
+    const elementToFocus = sibling === 'previous'
+      ? (currentElement.previousElementSibling as HTMLElement)
+      : (currentElement.nextElementSibling as HTMLElement);
+
+    if (elementToFocus) {
+      this.setTabIndexAndFocus(elementToFocus);
+    }
+  }
+
+  selectTableRow(event: KeyboardEvent | MouseEvent, tableRow: Playlist): void {
+    const elementToFocus = (event.currentTarget as HTMLElement);
+    this.setTabIndexAndFocus(elementToFocus);
+    this.selection.toggle(tableRow);
+  }
+
+  private setTabIndexAndFocus(elementToFocus: HTMLElement = null): void {
+    const tableRows = document.querySelectorAll('mat-row');
+    let defaultFocus = tableRows[0] as HTMLElement;
+
+    tableRows.forEach(row => {
+      const rowElement = (row as HTMLElement);
+
+      if (rowElement.tabIndex === 0) {
+        defaultFocus = rowElement;
+      }
+      rowElement.tabIndex = -1;
+    });
+
+    if (elementToFocus) {
+      elementToFocus.tabIndex = 0;
+      elementToFocus.focus();
+    } else {
+      defaultFocus.tabIndex = 0;
+    }
   }
 }

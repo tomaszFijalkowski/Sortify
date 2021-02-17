@@ -58,10 +58,9 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" tabindex="-1"
       [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
-      (click)="$event.stopPropagation(); $event ? selection.toggle(row) : null"></mat-row>
+      (click)="$event.stopPropagation(); $event ? selectTableRow($event, row) : null" (keydown)="tableKeydown($event, row)"></mat-row>
   </mat-table>
 </div>
 
