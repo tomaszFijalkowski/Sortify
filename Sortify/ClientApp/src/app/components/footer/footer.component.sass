@@ -30,15 +30,16 @@ h2
 .green-color
   color: $green
 
-.home-link, .link
+.link
   cursor: pointer
 
 .link
   color: $white
   transition: color 0.2s
 
-.link:hover
-  color: $green-hover
+.link:hover, .link:focus
+  color: $white-dim
+  outline: 0
 
 .link-disabled
   pointer-events: none
@@ -47,6 +48,12 @@ h2
 .social-links a
   color: $white
   font-size: 1.15em
+
+.social-links a:focus
+  outline: 0
+
+.social-links a:focus .link
+  color: $white-dim
 
 .social-links a:first-of-type
   margin-right: 1em

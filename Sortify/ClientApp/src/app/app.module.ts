@@ -43,6 +43,7 @@ import {
 import { EndStepComponent } from './components/stepper/steps/end-step/end-step.component';
 import { SelectionStepComponent } from './components/stepper/steps/selection-step/selection-step.component';
 import { SortingStepComponent } from './components/stepper/steps/sorting-step/sorting-step.component';
+import { AccessibleRouterLinkDirective } from './directives/accessible-router-link.directive';
 import { PlaylistsToCreateResolver } from './resolvers/playlists-to-create.resolver';
 import { PlaylistsToSortResolver } from './resolvers/playlists-to-sort.resolver';
 import { AppSettingsService } from './services/app-settings.service';
@@ -66,7 +67,8 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     SmartSplitHelpComponent,
     EndStepComponent,
     NotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    AccessibleRouterLinkDirective
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
