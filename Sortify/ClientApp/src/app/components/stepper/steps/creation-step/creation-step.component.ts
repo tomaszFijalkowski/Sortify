@@ -62,7 +62,13 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.selectedNumberingPlacement = 'before';
+    this.prepareValidation();
+  }
+
+  private prepareValidation(): void {
     this.form.get('name').setErrors(null);
+    this.form.get('splitByTracksNumber').markAsTouched();
+    this.form.get('splitByPlaylistsNumber').markAsTouched();
     this.changeDetector.detectChanges();
   }
 
@@ -141,8 +147,8 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
       numberingStyle: {value: null, disabled: true},
       isSecret: false
     });
-    this.form.get('name').setErrors(null);
 
+    this.prepareValidation();
     this.isFormPristine = true;
   }
 
@@ -195,10 +201,22 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onSplitByTracksInputClick(event: MouseEvent): void {
+    if (this.splitByTracksSelected) {
+      event.stopPropagation();
+    }
+  }
+
   onSplitByTracksInputBlur(value: number): void {
     this.form.patchValue({
       splitByTracksNumber: _.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
     });
+  }
+
+  onSplitByPlaylistsInputClick(event: MouseEvent): void {
+    if (this.splitByPlaylistsSelected) {
+      event.stopPropagation();
+    }
   }
 
   onSplitByPlaylistsInputBlur(value: number): void {
@@ -212,7 +230,6 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
       width: '520px',
       maxWidth: '95vw',
       maxHeight: '95vh',
-      autoFocus: false
     });
   }
 }

@@ -1,10 +1,10 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[routerLink]',
+  selector: '[appKeyboardClick]',
 })
-export class AccessibleRouterLinkDirective {
-  @HostListener('document:keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+export class KeyboardClickDirective {
+  @HostListener('keydown', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     const keysToListen = [' ', 'Enter'];
 
     if (keysToListen.includes(event.key)) {

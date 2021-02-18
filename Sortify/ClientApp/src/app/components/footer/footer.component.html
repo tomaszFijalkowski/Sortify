@@ -1,13 +1,13 @@
 <div class="container">
   <div class="section">
-    <h1><span class="link" [routerLink]="''">Sortify<span class="green-color">.</span>it</span></h1>
+    <h1><span class="link" [routerLink]="''" appKeyboardClick>Sortify<span class="green-color">.</span>it</span></h1>
     <h2>Tomasz&nbsp;Fijałkowski</h2>
   </div>
   <div class="section">
-    <div class="link" [routerLink]="'about'">About</div>
-    <div class="link" [routerLink]="'privacy'">Privacy</div>
-    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()">Logout</div>
-    <div *ngIf="isLoggedIn === false" class="link" [routerLink]="''" (click)="login()">Login</div>
+    <div class="link" [routerLink]="'about'" appKeyboardClick>About</div>
+    <div class="link" [routerLink]="'privacy'" appKeyboardClick>Privacy</div>
+    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick>Logout</div>
+    <div *ngIf="isLoggedIn === false" class="link" [routerLink]="''" (click)="login()" appKeyboardClick>Login</div>
   </div>
   <div class="section">
     <div class="social-links">

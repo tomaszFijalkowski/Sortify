@@ -30,7 +30,7 @@ h1
   display: flex
   border: 2px solid $gray-dark-row-hover
   border-radius: 5px
-  background: $gray-dark-row-hover
+  background-color: $gray-dark-row-hover
   box-shadow: $subtle-shadow
   width: 100%
 
@@ -40,13 +40,17 @@ h1
   border: none
   padding: 24px 12px 4px 12px
   border-radius: 5px
-  background: $gray-dark-row-hover
+  background-color: $gray-dark-row-hover
   width: 100%
+
+.big-button:hover, .big-button:focus
+  background-color: #3b3b3b
+  outline: 0
 
 .big-button-selected
   color: $white
   border-color: $green
-  background-color: $gray
+  background-color-color: $gray
 
 .big-button-input
   cursor: pointer !important
@@ -92,18 +96,17 @@ h1
   margin-right: 24px
   border-radius: 5px
   border-color: $gray-dark-row-hover
-  background: $gray-dark-row-hover
+  background-color: $gray-dark-row-hover
   box-shadow: $subtle-shadow
   height: 51.19px
   width: 100px
 
 .mat-button-toggle-appearance-standard
-  background: $gray-dark-row-hover
+  background-color: $gray-dark-row-hover
   border-radius: 5px
 
 
 // checkbox
-
 
 .checkbox-container .smart-split-checkbox
   padding-right: 3px

@@ -16,10 +16,10 @@
   <mat-grid-list class="split-the-playlist-grid" cols="{{gridCols}}" rows="1" rowHeight="82px" gutterSize="{{gutterSize}}">
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
-        <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')" appKeyboardClick tabindex="0">
           Split every
           <mat-form-field class="big-button-input">
-            <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number"
+            <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number" tabindex="{{splitByTracksSelected ? 0 : -1}}" (click)="onSplitByTracksInputClick($event)"
               [min]="splitByTracksMinNumber" [max]="splitByTracksMaxNumber" [step]="10" (blur)="onSplitByTracksInputBlur(splitByTracksInput.value)">
           </mat-form-field>
           tracks
@@ -29,10 +29,10 @@
 
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByPlaylistsSelected}">
-        <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')" appKeyboardClick tabindex="0">
           Split into
           <mat-form-field class="big-button-input">
-            <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number"
+            <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number" tabindex="{{splitByPlaylistsSelected ? 0 : -1}}" (click)="onSplitByPlaylistsInputClick($event)"
               [min]="splitByPlaylistsMinNumber" [max]="splitByPlaylistsMaxNumber" (blur)="onSplitByPlaylistsInputBlur(splitByPlaylistsInput.value)">
           </mat-form-field>
           playlists
@@ -43,7 +43,7 @@
 
   <div class="smart-split">
     <div class="checkbox-container">
-      <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit">Smart Split on</mat-checkbox>
+      <mat-checkbox class="smart-split-checkbox" formControlName="smartSplit" appKeyboardClick>Smart Split on</mat-checkbox>
       <mat-form-field appearance="standard">
         <mat-select formControlName="smartSplitType">
           <mat-option value="albums">
@@ -64,7 +64,7 @@
 
   <mat-grid-list class="playlist-details-grid" cols="{{gridCols}}" rows="2" rowHeight="70px" gutterSize="{{gutterSize}}">
     <mat-grid-tile colspan="1" rowspan="1">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" (keydown.enter)="$event.preventDefault()">
         <div *ngIf="selectedNumberingPlacement === 'before' && selectedNumberingStyle"
           class="prefix" matPrefix>{{numberingStyleDisplays[selectedNumberingStyle][0]}}.</div>
         <mat-label>Name</mat-label>
@@ -121,6 +121,6 @@
   </mat-grid-list>
 
   <div class="checkbox-container">
-    <mat-checkbox class="make-secret-checkbox" formControlName="isSecret">Make secret</mat-checkbox>
+    <mat-checkbox class="make-secret-checkbox" formControlName="isSecret" appKeyboardClick>Make secret</mat-checkbox>
   </div>
 </form>
