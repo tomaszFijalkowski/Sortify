@@ -15,12 +15,11 @@
 
 .filter-field .mat-icon-button
   margin: 0 -3px 0 8px
-  opacity: 1  
-  transition: opacity 400ms
+  opacity: 1
+  transition: opacity $transition-time-slow $transition-curve, color $transition-time-fast $transition-curve
 
 .filter-field .mat-icon-button:disabled
   opacity: 0  
-  transition: opacity 400ms
 
 .filter-field .mat-icon-button:not(:disabled)
   color: $gray-light
@@ -73,8 +72,8 @@
   margin-bottom: 12px
   box-shadow: $subtle-shadow
   background-color: $gray-dark-row
+  transition: background-color $transition-time-fast $transition-curve
   cursor: pointer
-  transition: background-color 0.2s
 
 .mat-row-short
   margin-right: 12px
@@ -103,7 +102,7 @@
 
 .mat-column-playlist-image
   border-radius: 5px 0 0 5px
-  background: $gray-dark-row
+  background-color: $gray-dark-row
   max-width: 100px
   min-height: 100px
 

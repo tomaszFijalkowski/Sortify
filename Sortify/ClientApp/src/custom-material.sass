@@ -10,8 +10,6 @@
   padding: 1.125em 3em 1em
   margin: 2.5em 1em 0 1em
   border-radius: 31.25em
-  transition-property: background-color, border-color, color, box-shadow, filter
-  transition-duration: 0.2s
   border-width: 0
   letter-spacing: 0.125em
   min-width: 10em
@@ -19,6 +17,9 @@
   white-space: normal
   box-shadow: $subtle-shadow
   background-color: $green
+  transition-property: background-color, border-color, color, box-shadow
+  transition-duration: $transition-time-fast
+  transition-timing-function: $transition-curve
   outline: 0
 
 @media(max-width: $breakpoint-tablet)
@@ -43,12 +44,12 @@
   background-color: $gray-dark-background
   border-radius: 5px
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12)
-  transition: width 0.25s
   width: inherit
+  transition: width $transition-time-slow $transition-curve
 
 .app-container .mat-horizontal-content-container
-  transition: height 0.25s
   height: 784.875px
+  transition: height $transition-time-slow $transition-curve
 
 .app-container .mat-horizontal-stepper-header
   font-family: "CircularSpotifyTxT-Black"
@@ -62,6 +63,7 @@
   background-color: $gray
 
 .app-container .mat-step-header
+  transition: background-color $transition-time-fast $transition-curve
   border-radius: 500px
   height: 48px
   margin: 24px
@@ -95,13 +97,13 @@
 
 @media(min-width: $breakpoint-tablet + 1)
   .app-container .shrink-window .mat-stepper-horizontal
-    transition: width 0.25s
     width: 650px
+    transition: width $transition-time-slow $transition-curve
 
   .app-container .shrink-window .mat-horizontal-content-container
     align-items: center
-    transition: height 0.25s
     height: 477.75px
+    transition: height $transition-time-slow $transition-curve
 
 
 @media(max-width: $breakpoint-phone)
@@ -199,11 +201,6 @@
 // mat-select-panel
 
 .app-container .mat-select-panel
-  transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1)
-  transition-property: color
-  transition-duration: 400ms
-  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1)
-  transition-delay: 0s
   background: none
   user-select: none
 
@@ -212,16 +209,19 @@
   color: $white
 
 .app-container .mat-select-panel .mat-option
-  background: $gray
+  background-color: $gray
 
 .app-container .mat-select-panel .mat-option:hover
-  background: $gray-hover
+  background-color: $gray-hover
 
-.app-container .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple),
-  background: $gray-selected
+.app-container .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple)
+  background-color: $gray-selected
 
 .app-container .mat-icon-button[disabled][disabled],
   color: $gray
+
+.cdk-overlay-pane .mat-option
+  transition: background-color $transition-time-fast $transition-curve
 
 .cdk-overlay-pane .mat-option-text
   user-select: none
@@ -233,6 +233,18 @@
   margin: 6px -4px 24px -4px
   text-align: left
 
+.app-container .mat-chip.mat-standard-chip .mat-chip-remove
+  opacity: 1
+  color: $gray-light
+  transition: color $transition-time-fast $transition-curve
+
+.app-container .mat-chip.mat-standard-chip .mat-chip-remove:hover
+  opacity: 1
+  color: $white-dim
+
+.app-container .mat-standard-chip::after
+  transition: opacity $transition-time-fast $transition-curve
+
 
 // mat-icon
 
@@ -241,7 +253,7 @@
   height: 35px
   line-height: 35px
   margin: 0 2.5px
-
+  transition: color $transition-time-fast $transition-curve
 
 // mat-tooltip
 
@@ -298,7 +310,7 @@
   height: 100%
 
 .app-container .mat-form-field-appearance-fill .mat-form-field-flex
-  background: $gray-dark-row-hover
+  background-color: $gray-dark-row-hover
   box-shadow: $subtle-shadow
   border-radius: 5px
   height: 100%
@@ -320,6 +332,7 @@
   padding: 0px 10.5px
   border-radius: 5px
   color: $gray-light
+  transition: background-color $transition-time-fast $transition-curve
 
 .app-container .mat-button-toggle-group-appearance-standard .mat-button-toggle,
 .app-container .mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle
@@ -332,6 +345,12 @@
 
 .app-container .mat-button-toggle-group-appearance-standard:not(.ng-valid)
   opacity: 0.5
+
+.app-container .mat-button-toggle .mat-button-toggle-ripple
+  border-radius: 5px
+
+.app-container .mat-button-toggle-focus-overlay
+  transition: opacity $transition-time-fast $transition-curve
 
 
 // mat-checkbox

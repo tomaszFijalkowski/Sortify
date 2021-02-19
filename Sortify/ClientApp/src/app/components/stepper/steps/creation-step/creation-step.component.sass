@@ -31,6 +31,7 @@ h1
   border: 2px solid $gray-dark-row-hover
   border-radius: 5px
   background-color: $gray-dark-row-hover
+  transition: background-color $transition-time-fast $transition-curve, border-color $transition-time-fast $transition-curve
   box-shadow: $subtle-shadow
   width: 100%
 
@@ -41,6 +42,7 @@ h1
   padding: 24px 12px 4px 12px
   border-radius: 5px
   background-color: $gray-dark-row-hover
+  transition: background-color $transition-time-fast $transition-curve
   width: 100%
 
 .big-button:hover, .big-button:focus
@@ -50,7 +52,7 @@ h1
 .big-button-selected
   color: $white
   border-color: $green
-  background-color-color: $gray
+  background-color: $gray
 
 .big-button-input
   cursor: pointer !important

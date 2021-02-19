@@ -153,7 +153,7 @@ export class SelectionStepComponent implements OnInit {
     if (elementToFocus) {
       elementToFocus.tabIndex = 0;
       elementToFocus.focus();
-    } else {
+    } else if (defaultFocus) {
       defaultFocus.tabIndex = 0;
     }
   }
