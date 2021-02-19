@@ -2,7 +2,8 @@
 
 // mat-button
 
-.app-container .mat-button
+.app-container .mat-button,
+.cdk-overlay-container .mat-button
   color: $white
   font-family: "CircularSpotifyTxT-Med"
   font-size: 1em
@@ -22,19 +23,29 @@
   transition-timing-function: $transition-curve
   outline: 0
 
+.app-container .mat-button:hover:not(:disabled),
+.app-container .mat-button:focus:not(:disabled)
+  background-color: $green-hover
+
+.app-container .mat-button.cdk-keyboard-focused .mat-button-focus-overlay,
+.cdk-overlay-container .mat-button.cdk-keyboard-focused .mat-button-focus-overlay,
+.app-container .mat-button.cdk-keyboard-focused:hover .mat-button-focus-overlay,
+.cdk-overlay-container .mat-button.cdk-keyboard-focused:hover .mat-button-focus-overlay,
+.app-container .mat-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay,
+.cdk-overlay-container .mat-button:hover:not(.mat-button-disabled) .mat-button-focus-overlay,
+.app-container .mat-button.cdk-program-focused .mat-button-focus-overlay,
+.cdk-overlay-container .mat-button.cdk-program-focused .mat-button-focus-overlay
+  opacity: 0
+
+
 @media(max-width: $breakpoint-tablet)
   .app-container .mat-button
     margin: 2.5em 0.8em 0 0.8em
 
+
 @media(max-width: $breakpoint-phone)
   .app-container .mat-button
     margin: 2.5em 0.6em 0 0.6em
-
-.app-container .mat-button:hover:not(:disabled)
-  background-color: $green-hover
-
-.app-container .mat-button:focus:not(:disabled)
-  background-color: $green-hover
 
 
 // mat-stepper
@@ -266,6 +277,7 @@
 // mat-card
 
 .app-container .mat-card
+  font-size: 14px
   font-family: "CircularSpotifyTxT-Light"
   margin-bottom: 24px
   border-radius: 5px
@@ -280,9 +292,11 @@
   color: $gray-light
   margin-right: 16px
 
+
 @media(max-width: $breakpoint-tablet)
   .app-container .mat-card
     margin-bottom: 20px
+
 
 @media(max-width: $breakpoint-phone)
   .app-container .mat-card
@@ -291,15 +305,59 @@
 
 // mat-dialog
 
+.cdk-overlay-container .mat-dialog-container h1,
+.cdk-overlay-container .mat-dialog-container p
+  margin-bottom: 16px
+
 .cdk-overlay-container .mat-dialog-container
   background-color: $gray-dark-row-hover
+  border-radius: 5px
+
+.cdk-overlay-container .mat-dialog-actions
+  margin-bottom: -24px
+  padding: 24px 0
+  min-height: auto
+
+
+@media(max-width: $breakpoint-tablet)
+  .cdk-overlay-container .mat-dialog-container h1,
+  .cdk-overlay-container .mat-dialog-container p
+    margin-bottom: 13.333px
+
+  .cdk-overlay-container .mat-dialog-container
+    padding: 20px
+
+  .cdk-overlay-container .mat-dialog-content
+    margin: 0 -20px
+    padding: 0 20px
+
+  .cdk-overlay-container .mat-dialog-actions
+    margin-bottom: -20px
+    padding: 20px 0
+
+
+@media(max-width: $breakpoint-phone)
+  .cdk-overlay-container .mat-dialog-container h1,
+  .cdk-overlay-container .mat-dialog-container p
+    margin-bottom: 10.666px
+
+  .cdk-overlay-container .mat-dialog-container
+    padding: 16px
+
+  .cdk-overlay-container .mat-dialog-content
+    margin: 0 -16px
+    padding: 0 16px
+
+  .cdk-overlay-container .mat-dialog-actions
+    margin-bottom: -16px
+    padding: 16px 0
 
 
 // mat-snackbar
 
 .cdk-overlay-container .mat-snack-bar-container
   color: $white
-  background-color: #28282822
+  background-color: #fff1
   backdrop-filter: blur(50px)
   box-shadow: $subtle-shadow
   border-radius: 31.25em
@@ -371,6 +429,10 @@
 
 .app-container .mat-button-toggle-focus-overlay
   transition: opacity $transition-time-fast $transition-curve
+
+.app-container .mat-button-toggle-appearance-standard.cdk-keyboard-focused:not(.mat-button-toggle-disabled) .mat-button-toggle-focus-overlay,
+.app-container .mat-button-toggle-appearance-standard:not(.mat-button-toggle-disabled):hover .mat-button-toggle-focus-overlay
+  opacity: 0.13
 
 
 // mat-checkbox
