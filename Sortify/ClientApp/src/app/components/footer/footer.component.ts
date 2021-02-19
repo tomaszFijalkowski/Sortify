@@ -22,11 +22,11 @@ export class FooterComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
-  logout(): void {
-    this.authService.logoff();
-  }
-
   login(): void {
     this.authService.login();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

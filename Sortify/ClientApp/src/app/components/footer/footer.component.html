@@ -6,8 +6,8 @@
   <div class="section">
     <div class="link" [routerLink]="'about'" appKeyboardClick>About</div>
     <div class="link" [routerLink]="'privacy'" appKeyboardClick>Privacy</div>
-    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick>Logout</div>
     <div *ngIf="isLoggedIn === false" class="link" [routerLink]="''" (click)="login()" appKeyboardClick>Login</div>
+    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick>Logout</div>
   </div>
   <div class="section">
     <div class="social-links">

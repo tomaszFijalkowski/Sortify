@@ -1,6 +1,7 @@
 import { AuthConfig, JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
 
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AppSettingsService } from './app-settings.service';
 
@@ -9,7 +10,8 @@ import { AppSettingsService } from './app-settings.service';
 })
 export class AuthService {
   constructor(private oauthService: OAuthService,
-    private settingsService: AppSettingsService) {
+    private settingsService: AppSettingsService,
+    private snackBar: MatSnackBar) {
     this.configure();
   }
 
@@ -40,8 +42,9 @@ export class AuthService {
     this.oauthService.initLoginFlow();
   }
 
-  logoff(): void {
+  logout(): void {
     this.oauthService.logOut();
+    this.snackBar.open('Successfully logged out');
   }
 
   isLoggedIn(): boolean {

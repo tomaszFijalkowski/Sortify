@@ -20,6 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipModule } from '@angular/material/tooltip';
@@ -98,6 +99,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     FontAwesomeModule,
     MatCardModule,
     MatDialogModule,
+    MatSnackBarModule,
     SortablejsModule.forRoot({
       animation: 150,
       ghostClass: 'ghost-chip'
@@ -122,6 +124,9 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     },
     {
       provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { position: 'above' }
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { verticalPosition: 'top', duration: 2500 }
     },
     AuthService,
     AuthGuardService,
