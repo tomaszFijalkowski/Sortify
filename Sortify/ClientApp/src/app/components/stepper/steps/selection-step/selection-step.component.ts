@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/internal/operators/finalize';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
 import { OperationResult } from 'src/app/models/operation-result';
@@ -22,6 +23,8 @@ export class SelectionStepComponent implements OnInit {
   dataSource = new MatTableDataSource<Playlist>();
   dataSourceLoading: boolean;
   selection = new SelectionModel<Playlist>(true, []);
+
+  errorOccurred = false;
 
   @ViewChild('filterInputRef', { read: ElementRef }) filterInput: ElementRef;
   @ViewChild('tableContainerRef', { read: ElementRef }) tableContainer: ElementRef;
@@ -51,6 +54,14 @@ export class SelectionStepComponent implements OnInit {
     });
   }
 
+  get showErrorMessage(): boolean {
+    return !this.dataSourceLoading && this.errorOccurred;
+  }
+
+  get showNoResultsFound(): boolean {
+    return !this.dataSourceLoading && this.dataSource.filteredData.length === 0 && !this.errorOccurred;
+  }
+
   get imgSize(): number {
     return window.innerWidth > BREAKPOINT_TABLET ? 100 : window.innerWidth > BREAKPOINT_PHONE ? 90 : 80;
   }
@@ -77,11 +88,21 @@ export class SelectionStepComponent implements OnInit {
 
   refreshSelection(): void {
     const ownerId = this.limitByOwner ? this.userService.currentUserDetails.id : null;
-    this.playlistService.getPlaylists(ownerId).subscribe((response: OperationResult<GetPlaylistsResponse>) => {
-      this.dataSource.data = response.result.playlists;
-      this.dataSourceLoading = false;
-      this.setDefaultTabIndex();
-    });
+
+    this.playlistService.getPlaylists(ownerId)
+      .pipe(finalize(() => this.dataSourceLoading = false))
+      .subscribe((response: OperationResult<GetPlaylistsResponse>) => {
+        if (response.successful) {
+          this.dataSource.data = response.result.playlists;
+          this.errorOccurred = false;
+          this.setDefaultTabIndex();
+        } else {
+          this.errorOccurred = true;
+        }
+      }, () => {
+        this.errorOccurred = true;
+      });
+
     this.dataSource.data = [];
     this.dataSourceLoading = true;
     this.clearSelection();

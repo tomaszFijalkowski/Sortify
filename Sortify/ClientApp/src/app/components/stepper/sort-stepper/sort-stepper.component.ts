@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/internal/operators/finalize';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { RequestDetails } from 'src/app/models/request-details';
@@ -93,12 +94,16 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
       this.sortByAudioFeatures
     );
 
-    this.requestSubscription = this.playlistService.sortPlaylists(request).subscribe(response => {
-      this.request = response.successful
-        ? new RequestDetails(RequestState.Successful, 100, 'Complete')
-        : new RequestDetails(RequestState.Error, 0, response.errorMessage);
+    this.requestSubscription = this.playlistService.sortPlaylists(request)
+      .pipe(finalize(() => this.hubConnection?.stop()))
+      .subscribe(response => {
+        this.request = response.successful
+          ? new RequestDetails(RequestState.Successful, 100, 'Complete')
+          : new RequestDetails(RequestState.Error, 0, response.errorMessage);
 
-      this.hubConnection?.stop();
-    });
+        this.hubConnection?.stop();
+      }, () => {
+        this.request = new RequestDetails(RequestState.Error, 0, 'Something went wrong. Please try again later.');
+      });
   }
 }

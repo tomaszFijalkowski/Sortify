@@ -22,7 +22,11 @@
 </div>
 
 <div #tableContainerRef class="table-container">
-  <div *ngIf="!dataSourceLoading && dataSource.filteredData.length === 0" class="no-results-found">
+  <div *ngIf="showErrorMessage" class="error-message">
+    An error occurred while fetching the playlists.
+  </div>
+
+  <div *ngIf="showNoResultsFound" class="no-results-found">
     <ng-container *ngIf="dataSource.filter.length === 0">
       No results found
     </ng-container>

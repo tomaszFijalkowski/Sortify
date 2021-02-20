@@ -1,3 +1,4 @@
+import { finalize } from 'rxjs/internal/operators/finalize';
 import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
@@ -106,12 +107,14 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
       this.creationForm.splitByPlaylistsNumber
     );
 
-    this.requestSubscription = this.playlistService.createPlaylists(request).subscribe(response => {
-      this.request = response.successful
-        ? new RequestDetails(RequestState.Successful, 100, 'Complete')
-        : new RequestDetails(RequestState.Error, 0, response.errorMessage);
-
-      this.hubConnection?.stop();
-    });
+    this.requestSubscription = this.playlistService.createPlaylists(request)
+      .pipe(finalize(() => this.hubConnection?.stop()))
+      .subscribe(response => {
+        this.request = response.successful
+          ? new RequestDetails(RequestState.Successful, 100, 'Complete')
+          : new RequestDetails(RequestState.Error, 0, response.errorMessage);
+      }, () => {
+        this.request = new RequestDetails(RequestState.Error, 0, 'Something went wrong. Please try again later.');
+      });
   }
 }
