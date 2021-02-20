@@ -39,7 +39,9 @@ export class AuthService {
   }
 
   login(): void {
-    this.oauthService.initLoginFlow();
+    this.oauthService.initLoginFlow(undefined, {
+      show_dialog: true
+    });
   }
 
   logout(): void {
