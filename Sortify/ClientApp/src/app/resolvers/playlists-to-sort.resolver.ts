@@ -1,4 +1,5 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/internal/Observable';
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
@@ -15,7 +16,9 @@ export class PlaylistsToSortResolver implements Resolve<OperationResult<GetPlayl
   }
 
   resolve(): Observable<OperationResult<GetPlaylistsResponse>> {
-    const ownerId = this.userService.currentUserDetails.id;
-    return this.playlistService.getPlaylists(ownerId);
+    return this.userService.getUserDetails().pipe(mergeMap(response => {
+      const ownerId = response.result.userDetails.id;
+      return this.playlistService.getPlaylists(ownerId);
+    }));
   }
 }
