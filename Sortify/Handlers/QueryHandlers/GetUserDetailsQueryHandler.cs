@@ -30,7 +30,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (query?.AccessToken == null)
                 {
-                    result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(ErrorMessages.MissingParemeters);
+                    result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(StatusCodes.BadRequest, ErrorMessages.MissingParemeters);
                     return await Task.FromResult(result);
                 }
 
@@ -50,13 +50,13 @@ namespace Sortify.Handlers.QueryHandlers
             }
             catch (APIUnauthorizedException)
             {
-                result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(ErrorMessages.SessionExpired);
+                result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(StatusCodes.Unauthorized, ErrorMessages.SessionExpired);
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(ErrorMessages.UnexpectedError);
+                result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(StatusCodes.InternalServerError, ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }

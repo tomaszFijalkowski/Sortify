@@ -33,7 +33,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (query?.AccessToken == null)
                 {
-                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.MissingParemeters);
+                    result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(StatusCodes.BadRequest, ErrorMessages.MissingParemeters);
                     return await Task.FromResult(result);
                 }
 
@@ -53,13 +53,13 @@ namespace Sortify.Handlers.QueryHandlers
             }
             catch (APIUnauthorizedException)
             {
-                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.SessionExpired);
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(StatusCodes.Unauthorized, ErrorMessages.SessionExpired);
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(ErrorMessages.UnexpectedError);
+                result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Failure(StatusCodes.InternalServerError, ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }

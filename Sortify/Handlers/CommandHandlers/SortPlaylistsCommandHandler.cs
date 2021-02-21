@@ -50,7 +50,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 if (HasNoRequiredParameters(command))
                 {
-                    result = OperationResult.Failure(ErrorMessages.MissingParemeters);
+                    result = OperationResult.Failure(StatusCodes.BadRequest, ErrorMessages.MissingParemeters);
                     return await Task.FromResult(result);
                 }
 
@@ -73,18 +73,18 @@ namespace Sortify.Handlers.QueryHandlers
             }
             catch (OperationCanceledException)
             {
-                result = OperationResult.Failure(ErrorMessages.RequestCancelled);
+                result = OperationResult.Failure(StatusCodes.Ok, ErrorMessages.RequestCancelled);
                 return await Task.FromResult(result);
             }
             catch (APIUnauthorizedException)
             {
-                result = OperationResult.Failure(ErrorMessages.SessionExpired);
+                result = OperationResult.Failure(StatusCodes.Unauthorized, ErrorMessages.SessionExpired);
                 return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult.Failure(ErrorMessages.UnexpectedError);
+                result = OperationResult.Failure(StatusCodes.InternalServerError, ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }

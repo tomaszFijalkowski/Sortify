@@ -43,7 +43,7 @@ namespace Sortify.Handlers.QueryHandlers
             catch (Exception ex)
             {
                 logger.LogError(ex, "An unexpected error occurred.");
-                result = OperationResult<GetAppSettingsQuery, GetAppSettingsResponse>.Failure(ErrorMessages.UnexpectedError);
+                result = OperationResult<GetAppSettingsQuery, GetAppSettingsResponse>.Failure(StatusCodes.InternalServerError, ErrorMessages.UnexpectedError);
                 return await Task.FromResult(result);
             }
         }
