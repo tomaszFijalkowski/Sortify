@@ -6,9 +6,9 @@
 
         public static string RequestCancelled { get => "Request has been cancelled."; }
 
-        public static string SessionExpired { get => "Your session has expired. Please log in again."; }
+        public static string SessionExpired { get => "Your\u00A0session\u00A0has\u00A0expired. Please\u00A0log\u00A0in\u00A0again."; }
 
-        public static string UnexpectedError { get => "Something went wrong. Please try again later."; }
+        public static string UnexpectedError { get => "Something\u00A0went\u00A0wrong. Please\u00A0try\u00A0again\u00A0later."; }
 
         public static string PlaylistTooBig(int maxPlaylistSize) => $"One of the created playlists exceeds the limit of {maxPlaylistSize} tracks allowed." +
                                                                     $"\nTry splitting into more playlists.";

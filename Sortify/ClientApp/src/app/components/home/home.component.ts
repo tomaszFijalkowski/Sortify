@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.isLoggedIn) {
       const data = this.activatedRoute.snapshot.data;
       this.userDetails = data.userDetails.result.userDetails;

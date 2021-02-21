@@ -30,6 +30,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -52,7 +53,6 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
 import { ConfirmationGuardService } from './services/guards/confirmation-guard.service';
 import { AuthInterceptor } from './services/interceptors/auth-interceptor.service';
-import { ErrorInterceptor } from './services/interceptors/error-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -67,6 +67,7 @@ import { ErrorInterceptor } from './services/interceptors/error-interceptor.serv
     CreationStepComponent,
     SmartSplitHelpComponent,
     EndStepComponent,
+    ErrorPageComponent,
     NotFoundComponent,
     FooterComponent,
     KeyboardClickDirective

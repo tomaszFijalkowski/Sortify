@@ -11,7 +11,7 @@ export class LandingPageComponent implements OnInit {
   constructor(private authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
   login(): void {

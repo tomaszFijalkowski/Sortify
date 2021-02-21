@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
@@ -38,6 +39,9 @@ const routes: Routes = [
     resolve: {
       playlists: PlaylistsToCreateResolver
     }
+  },
+  {
+    path: 'error', component: ErrorPageComponent
   },
   {
     path: 'not-found', component: NotFoundComponent
