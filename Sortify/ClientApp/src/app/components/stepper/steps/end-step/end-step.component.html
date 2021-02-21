@@ -7,7 +7,7 @@
   <div class="progress-percentage">
     <span *ngIf="request.state === State.InProgress || request.state === State.Successful">{{request.progress | number : '1.0-0'}}%</span>
     <mat-icon *ngIf="request.state === State.Cancelled" class="cancelled-icon">clear</mat-icon>
-    <mat-icon *ngIf="request.state === State.Error" class="error-icon">warning</mat-icon>
+    <mat-icon *ngIf="request.state === State.Error" class="error-icon">priority_high</mat-icon>
   </div>
 </div>
 

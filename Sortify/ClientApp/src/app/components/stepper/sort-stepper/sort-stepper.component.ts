@@ -99,11 +99,9 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
       .subscribe(response => {
         this.request = response.successful
           ? new RequestDetails(RequestState.Successful, 100, 'Complete')
-          : new RequestDetails(RequestState.Error, 0, response.errorMessage);
-
-        this.hubConnection?.stop();
+          : new RequestDetails(RequestState.Error, 100, response.errorMessage);
       }, () => {
-        this.request = new RequestDetails(RequestState.Error, 0, 'Something went wrong. Please try again later.');
+        this.request = new RequestDetails(RequestState.Error, 100, 'Something went wrong. Please try again later.');
       });
   }
 }
