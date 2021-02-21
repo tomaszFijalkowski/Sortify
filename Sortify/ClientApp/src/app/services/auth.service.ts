@@ -2,6 +2,7 @@ import { AuthConfig, JwksValidationHandler, OAuthService } from 'angular-oauth2-
 
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 import { AppSettingsService } from './app-settings.service';
 
@@ -9,10 +10,13 @@ import { AppSettingsService } from './app-settings.service';
   providedIn: 'root'
 })
 export class AuthService {
+  invalidConfiguration = false;
+
   constructor(private oauthService: OAuthService,
     private settingsService: AppSettingsService,
-    private snackBar: MatSnackBar) {
-    this.configure();
+    private snackBar: MatSnackBar,
+    private router: Router) {
+      this.configure();
   }
 
   private configure(): void {
@@ -26,19 +30,26 @@ export class AuthService {
   private createAuthConfig(): AuthConfig {
     const appSettings = this.settingsService.appSettings;
 
-    return {
-      loginUrl: appSettings.loginUrl,
-      redirectUri: appSettings.redirectUri,
-      silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
-      clientId: appSettings.clientId,
-      scope: appSettings.clientScope,
-      strictDiscoveryDocumentValidation: false,
-      responseType: `token`,
-      oidc: false
-    };
+    if (appSettings) {
+      return {
+        loginUrl: appSettings.loginUrl,
+        redirectUri: appSettings.redirectUri,
+        silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
+        clientId: appSettings.clientId,
+        scope: appSettings.clientScope,
+        strictDiscoveryDocumentValidation: false,
+        responseType: `token`,
+        oidc: false
+      };
+    }
+    this.invalidConfiguration = true;
   }
 
   login(): void {
+    if (this.invalidConfiguration) {
+      this.router.navigate(['/error']);
+    }
+
     this.oauthService.initLoginFlow(undefined, {
       show_dialog: true
     });

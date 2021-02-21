@@ -1,3 +1,6 @@
+import { EMPTY } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
@@ -16,20 +19,23 @@ export class AppSettingsService {
       this.http = new HttpClient(handler);
   }
 
-  getAppSettings() {
-    return this.http.get<OperationResult<GetAppSettingsResponse>>(this.baseUrl + 'appSettings')
-      .toPromise()
-      .then(response => {
-        const appSettings = response.result.appSettings;
-        this._appSettings = {
-          loginUrl: appSettings.loginUrl,
-          redirectUri: appSettings.redirectUri,
-          silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
-          clientId : appSettings.clientId,
-          clientScope: appSettings.clientScope,
-          progressHubUrl: appSettings.progressHubUrl
-        };
-    });
+  getAppSettings(): Promise<OperationResult<GetAppSettingsResponse>> {
+    return this.http.get<OperationResult<GetAppSettingsResponse>>(this.baseUrl + 'appSettings').pipe(
+      map((response: OperationResult<GetAppSettingsResponse>) => {
+        if (response.successful) {
+          const appSettings = response.result.appSettings;
+          this._appSettings = {
+            loginUrl: appSettings.loginUrl,
+            redirectUri: appSettings.redirectUri,
+            silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
+            clientId : appSettings.clientId,
+            clientScope: appSettings.clientScope,
+            progressHubUrl: appSettings.progressHubUrl
+          };
+          return response;
+        }
+      }),
+      catchError(() => EMPTY)).toPromise();
   }
 
   get appSettings(): AppSettings {

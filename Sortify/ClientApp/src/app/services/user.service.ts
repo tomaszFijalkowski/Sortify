@@ -20,7 +20,9 @@ export class UserService {
   getUserDetails(): Observable<OperationResult<GetUserDetailsResponse>> {
     return this.http.get<OperationResult<GetUserDetailsResponse>>(this.baseUrl + 'user').pipe(
       map((response: OperationResult<GetUserDetailsResponse>) => {
-        this.userDetails = response.result.userDetails;
+        if (response.successful) {
+          this.userDetails = response.result.userDetails;
+        }
         return response;
       })
     );

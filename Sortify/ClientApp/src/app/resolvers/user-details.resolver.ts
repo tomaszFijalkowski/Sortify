@@ -1,7 +1,8 @@
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
+import { Resolve, Router } from '@angular/router';
 
 import { GetUserDetailsResponse } from '../models/get-user-details.response';
 import { OperationResult } from '../models/operation-result';
@@ -11,12 +12,23 @@ import { UserService } from '../services/user.service';
 @Injectable({ providedIn: 'root' })
 export class UserDetailsResolver implements Resolve<OperationResult<GetUserDetailsResponse>> {
   constructor(private authService: AuthService,
-    private userService: UserService) {
+    private userService: UserService,
+    private router: Router) {
   }
 
   resolve(): Observable<OperationResult<GetUserDetailsResponse>> {
     if (this.authService.isLoggedIn()) {
-      return this.userService.getUserDetails();
+      return this.userService.getUserDetails().pipe(
+        map((response: OperationResult<GetUserDetailsResponse>) => {
+          if (response.successful) {
+            return response;
+          }
+          this.router.navigate(['/error'], { state: { statusCode: response.statusCode, errorMessage: response.errorMessage } });
+        }),
+        catchError(() => {
+          this.router.navigate(['/error']);
+          return EMPTY;
+        }));
     }
   }
 }
