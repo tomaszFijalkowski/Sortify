@@ -1,4 +1,4 @@
-import { finalize } from 'rxjs/internal/operators/finalize';
+import { finalize } from 'rxjs/operators';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
 import { OperationResult } from 'src/app/models/operation-result';

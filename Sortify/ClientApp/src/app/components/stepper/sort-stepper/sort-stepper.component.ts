@@ -1,4 +1,4 @@
-import { finalize } from 'rxjs/internal/operators/finalize';
+import { finalize } from 'rxjs/operators';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { RequestDetails } from 'src/app/models/request-details';

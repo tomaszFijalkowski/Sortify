@@ -1,4 +1,4 @@
-import { finalize } from 'rxjs/internal/operators/finalize';
+import { finalize } from 'rxjs/operators';
 import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
