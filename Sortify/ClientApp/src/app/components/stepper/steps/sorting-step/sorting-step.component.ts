@@ -47,9 +47,8 @@ export class SortingStepComponent implements OnInit {
       name: 'sortBy',
       put: ['basicProperties', 'audioFeatures'],
     },
-    onUpdate: () => {
-      this.emitSortByChanged();
-    },
+    onAdd: () => this.emitSortByChanged(),
+    onUpdate: () => this.emitSortByChanged(),
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
     onSpill: event => this.deselectChipOnSpill(event),
