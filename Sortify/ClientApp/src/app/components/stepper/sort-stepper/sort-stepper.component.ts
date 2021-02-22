@@ -6,7 +6,7 @@ import { SortPlaylistsRequest } from 'src/app/models/sort-playlists.request';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
@@ -17,7 +17,7 @@ import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
   styleUrls: ['./sort-stepper.component.sass']
 })
 
-export class SortStepperComponent extends BaseStepperComponent implements OnInit, OnDestroy {
+export class SortStepperComponent extends BaseStepperComponent implements OnInit, AfterViewInit, OnDestroy {
   private sortingMultiplePlaylists: boolean;
 
   blockCancellation = false;
@@ -31,6 +31,10 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
 
   ngOnInit() {
     this.onInit();
+  }
+
+  ngAfterViewInit() {
+    this.afterViewInit();
   }
 
   ngOnDestroy() {

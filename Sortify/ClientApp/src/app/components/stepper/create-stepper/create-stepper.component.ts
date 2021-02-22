@@ -7,7 +7,7 @@ import { BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
@@ -18,7 +18,7 @@ import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
   styleUrls: ['./create-stepper.component.sass']
 })
 
-export class CreateStepperComponent extends BaseStepperComponent implements OnInit, OnDestroy {
+export class CreateStepperComponent extends BaseStepperComponent implements OnInit, AfterViewInit, OnDestroy {
   creationForm: CreationForm;
   creationFormValid: boolean;
 
@@ -33,6 +33,10 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
 
   ngOnInit() {
     this.onInit();
+  }
+
+  ngAfterViewInit() {
+    this.afterViewInit();
   }
 
   ngOnDestroy() {

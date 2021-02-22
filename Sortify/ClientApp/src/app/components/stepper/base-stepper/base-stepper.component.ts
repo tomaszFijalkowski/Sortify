@@ -10,7 +10,8 @@ import { BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 import { SortableItem } from 'src/app/models/sortable-item';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 
-import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
@@ -37,6 +38,8 @@ export class BaseStepperComponent {
 
   shrinkWindow = false;
 
+  @ViewChild('stepper') private stepper: MatStepper;
+
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
     private settingsService: AppSettingsService) {
@@ -46,6 +49,14 @@ export class BaseStepperComponent {
     const data = this.activatedRoute.snapshot.data;
     this.playlists = data['playlists'].result.playlists;
     this.progressHubUrl = this.settingsService.appSettings.progressHubUrl;
+  }
+
+  afterViewInit(): void {
+    this.removeEndStepHeader();
+  }
+
+  private removeEndStepHeader(): void {
+    this.stepper._stepHeader.reset([...this.stepper._stepHeader].slice(0, -1));
   }
 
   onDestroy(): void {
@@ -71,6 +82,29 @@ export class BaseStepperComponent {
   onWindowResize(): void {
     this.changeDetector.detectChanges();
   }
+
+  // @HostListener('document:keydown', ['$event'])
+  // onKeydown(event: KeyboardEvent) {
+  //   console.log(event.key);
+
+  //   const firstStepIndex = 0;
+  //   const lastStepIndex = this.stepper.steps.length - 2;
+  //   const focusedStepIndex = this.stepper._getFocusIndex();
+
+  //   console.log('co to?', this.stepper.);
+
+  //   console.log('focusedstep', focusedStepIndex);
+
+  //   if (focusedStepIndex === firstStepIndex && event.key === 'ArrowLeft') {
+  //     event.preventDefault();
+  //     console.log('to blokujemy');
+  //   }
+
+  //   if (focusedStepIndex === lastStepIndex && event.key === 'ArrowRight') {
+  //     event.preventDefault();
+  //     console.log('to blokujemy');
+  //   }
+  // }
 
   get selectionStepHeader(): string {
     return window.innerWidth > BREAKPOINT_TABLET ? 'Select the playlists' : 'Playlists';
