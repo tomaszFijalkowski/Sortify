@@ -14,9 +14,26 @@ h1
   h1
     font-size: 3em
 
+
+.outer-container
+  display: flex
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  position: relative
+
+.inner-container
+  text-align: center
+  position: absolute
+  padding: 1.25em
+  color: $white
+
+@media(min-height: $breakpoint-phone)
+  .inner-container
+    top: 25%
+
+
 .progress-spinner-wrapper
-  position: fixed
-  top: 50%
-  left: 50%
-  margin-top: -17.5px
-  margin-left: -25px
+  display: flex
+  align-items: center
+  justify-content: center

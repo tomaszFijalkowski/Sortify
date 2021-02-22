@@ -1,6 +1,2 @@
-<div class="outer-container">
-  <div class="inner-container">
-    <app-start [userDetails]="userDetails" *ngIf="isLoggedIn"></app-start>
-    <app-landing-page *ngIf="isLoggedIn === false"></app-landing-page>
-  </div>
-</div>
+<app-start [userDetails]="userDetails" *ngIf="isLoggedIn"></app-start>
+<app-landing-page *ngIf="isLoggedIn === false"></app-landing-page>

@@ -107,6 +107,18 @@
 
 
 @media(min-width: $breakpoint-tablet + 1)
+  .app-container .mat-stepper-horizontal
+    animation: fadein $transition-time-medium $transition-curve
+
+  @keyframes fadein
+    from
+      opacity: 0
+      transform: scale(1.1)
+
+    to
+      opacity: 1
+      transform: scale(1)
+
   .app-container .shrink-window .mat-stepper-horizontal
     width: 650px
     transition: width $transition-time-slow $transition-curve
