@@ -46,5 +46,10 @@ namespace Sortify.Extensions
                 yield return i < rem ? div + 1 : div;
             }
         }
+
+        public static IEnumerable<int> AdjustWithSmartSplit(this HashSet<int> splitIndices, Track[] tracks, SmartSplitType type)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
