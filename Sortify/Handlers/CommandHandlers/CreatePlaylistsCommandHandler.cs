@@ -232,6 +232,11 @@ namespace Sortify.Handlers.QueryHandlers
                 splitIndices = tracks.GetSplitIndicesByPlaylists(command.SplitByPlaylistsNumber.GetValueOrDefault());
             }
 
+            if (command.SmartSplit)
+            {
+                splitIndices.AdjustWithSmartSplit(tracks, command.SmartSplitType.GetValueOrDefault());
+            }
+
             return splitIndices.ToList();
         }
 

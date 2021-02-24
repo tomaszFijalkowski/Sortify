@@ -47,9 +47,64 @@ namespace Sortify.Extensions
             }
         }
 
-        public static IEnumerable<int> AdjustWithSmartSplit(this HashSet<int> splitIndices, Track[] tracks, SmartSplitType type)
+        public static void AdjustWithSmartSplit(this HashSet<int> splitIndices, IEnumerable<Track> tracks, SmartSplitType type)
         {
-            throw new NotImplementedException();
+            var availableSplitIndices = GetAvailableSplitIndices(tracks.ToArray(), type);
+            var tempSplitIndices = new HashSet<int>(splitIndices);
+            var favorLowerIndex = false;
+
+            splitIndices.Clear();
+
+            foreach (var index in tempSplitIndices)
+            {
+                if (availableSplitIndices.Contains(index) == false || splitIndices.Contains(index))
+                {
+                    var lowerIndex = availableSplitIndices.OrderBy(x => Math.Abs(x - index))
+                                                          .Where(x => x < index && !splitIndices.Contains(x))
+                                                          .FirstOrDefault();
+
+                    var higherIndex = availableSplitIndices.OrderBy(x => Math.Abs(x - index))
+                                                           .Where(x => x > index && !splitIndices.Contains(x))
+                                                           .FirstOrDefault();
+
+                    var chooseLowerIndex = (index - lowerIndex < higherIndex - index) || (index - lowerIndex == higherIndex - index && favorLowerIndex);
+
+                    if (chooseLowerIndex && lowerIndex > 0)
+                    {
+                        splitIndices.Add(lowerIndex);
+                        favorLowerIndex = true;
+                    }
+                    else if (higherIndex > 0)
+                    {
+                        splitIndices.Add(higherIndex);
+                        favorLowerIndex = false;
+                    }
+                }
+                else
+                {
+                    splitIndices.Add(index);
+                }
+            }
+        }
+
+        private static HashSet<int> GetAvailableSplitIndices(Track[] tracks, SmartSplitType type)
+        {
+            var tracksLength = tracks.Count();
+            var availableSplitIndices = new HashSet<int>();
+
+            for (int i = 1; i < tracksLength; i++)
+            {
+                var currentValue = type == SmartSplitType.Albums ? tracks[i].AlbumId : tracks[i].ArtistId;
+                var previousValue = type == SmartSplitType.Albums ? tracks[i - 1].AlbumId : tracks[i - 1].ArtistId;
+
+                if (currentValue != previousValue)
+                {
+                    availableSplitIndices.Add(i);
+                }
+            }
+            availableSplitIndices.Add(tracksLength);
+
+            return availableSplitIndices;
         }
     }
 }
