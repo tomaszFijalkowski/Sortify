@@ -17,7 +17,7 @@ namespace Sortify.Tests
         }
 
         [Test]
-        [TestCaseSource(typeof(SmartSplitTestData), "AlbumsTestCases")]
+        [TestCaseSource(typeof(SmartSplitTestData), "AdjustConsideringAlbums_TestCases")]
         public HashSet<int> AdjustConsideringAlbums(HashSet<int> splitIndices)
         {
             splitIndices.AdjustWithSmartSplit(tracks, SmartSplitType.Albums);
@@ -26,10 +26,21 @@ namespace Sortify.Tests
         }
 
         [Test]
-        [TestCaseSource(typeof(SmartSplitTestData), "ArtistsTestCases")]
+        [TestCaseSource(typeof(SmartSplitTestData), "AdjustConsideringArtists_TestCases")]
         public HashSet<int> AdjustConsideringArtists(HashSet<int> splitIndices)
         {
             splitIndices.AdjustWithSmartSplit(tracks, SmartSplitType.Artists);
+
+            return splitIndices;
+        }
+
+        [Test]
+        [TestCaseSource(typeof(SmartSplitTestData), "FavorHigherIndexOnStart_TestCases")]
+        public HashSet<int> FavorHigherIndexOnStart(HashSet<int> splitIndices, SmartSplitType type)
+        {
+            var tracks = SmartSplitTestData.GetFavorHigherIndexOnStartTestTracks();
+
+            splitIndices.AdjustWithSmartSplit(tracks, type);
 
             return splitIndices;
         }
