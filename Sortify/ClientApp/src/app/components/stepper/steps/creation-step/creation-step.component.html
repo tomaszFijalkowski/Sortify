@@ -7,7 +7,7 @@
     <h1>Split the playlist</h1>
   
     <div class="buttons">
-      <button mat-icon-button (click)="resetForm()" matTooltip="Reset form" disabled="{{isFormPristine}}">
+      <button mat-icon-button (click)="resetForm()" matTooltip="Reset form" disabled="{{isFormPristine}}" aria-label="Reset form">
         <mat-icon>clear</mat-icon>
       </button>
     </div>
@@ -16,7 +16,7 @@
   <mat-grid-list class="split-the-playlist-grid" cols="{{gridCols}}" rows="1" rowHeight="82px" gutterSize="{{gutterSize}}">
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByTracksSelected}">
-        <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')" appKeyboardClick tabindex="0">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('tracks')" appKeyboardClick tabindex="0" aria-label="Split every n tracks">
           Split every
           <mat-form-field class="big-button-input">
             <input matInput #splitByTracksInput formControlName="splitByTracksNumber" type="number" tabindex="{{splitByTracksSelected ? 0 : -1}}" (click)="onSplitByTracksInputClick($event)"
@@ -29,7 +29,7 @@
 
     <mat-grid-tile colspan="1" rowspan="1">
       <div class="big-button-wrapper" [ngClass]="{'big-button-selected': splitByPlaylistsSelected}">
-        <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')" appKeyboardClick tabindex="0">
+        <div matRipple class="big-button" (click)="selectSplitOnClick('playlists')" appKeyboardClick tabindex="0" aria-label="Split into n playlists">
           Split into
           <mat-form-field class="big-button-input">
             <input matInput #splitByPlaylistsInput formControlName="splitByPlaylistsNumber" type="number" tabindex="{{splitByPlaylistsSelected ? 0 : -1}}" (click)="onSplitByPlaylistsInputClick($event)"
@@ -55,7 +55,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <button mat-icon-button (click)="openSmartSplitHelp()" matTooltip="What is this?">
+    <button mat-icon-button (click)="openSmartSplitHelp()" matTooltip="What is this?" aria-label="Help">
       <mat-icon>help</mat-icon>
     </button>
   </div>

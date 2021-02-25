@@ -1,18 +1,18 @@
 <div class="container">
   <div class="section">
-    <h1><span class="link" [routerLink]="''" appKeyboardClick>Sortify<span class="green-color">.</span>it</span></h1>
+    <h1><span class="link" [routerLink]="''" appKeyboardClick aria-label="Sortify">Sortify<span class="green-color">.</span>it</span></h1>
     <h2>Tomasz&nbsp;Fijałkowski</h2>
   </div>
   <div class="section">
-    <div class="link" [routerLink]="'about'" appKeyboardClick>About</div>
-    <div class="link" [routerLink]="'privacy'" appKeyboardClick>Privacy</div>
-    <div *ngIf="isLoggedIn === false" class="link" [routerLink]="''" (click)="login()" appKeyboardClick>Login</div>
-    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick>Logout</div>
+    <div class="link" [routerLink]="'about'" appKeyboardClick aria-label="About">About</div>
+    <div class="link" [routerLink]="'privacy'" appKeyboardClick aria-label="Privacy">Privacy</div>
+    <div *ngIf="isLoggedIn === false" class="link" [routerLink]="''" (click)="login()" appKeyboardClick aria-label="Login">Login</div>
+    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick aria-label="Logout">Logout</div>
   </div>
   <div class="section">
     <div class="social-links">
-      <a href="//linkedin.com/in/fijalkowski-tomasz/"><fa-icon class="link" [icon]="linkedin" size="2x"></fa-icon></a>
-      <a href="//github.com/tomaszFijalkowski/sortify"><fa-icon class="link" [icon]="github" size="2x"></fa-icon></a>
+      <a href="//linkedin.com/in/fijalkowski-tomasz/" aria-label="LinkedIn"><fa-icon class="link" [icon]="linkedin" size="2x"></fa-icon></a>
+      <a href="//github.com/tomaszFijalkowski/sortify" aria-label="GitHub"><fa-icon class="link" [icon]="github" size="2x"></fa-icon></a>
     </div>
   </div>
 </div>

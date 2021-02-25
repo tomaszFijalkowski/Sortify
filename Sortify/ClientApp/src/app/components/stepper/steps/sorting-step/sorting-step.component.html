@@ -6,11 +6,11 @@
   <h1>Basic properties</h1>
 
   <div class="buttons">
-    <button mat-icon-button (click)="setRecommendedSorting()" matTooltip="Recommended sorting" disabled="{{recommendedSorting}}">
+    <button mat-icon-button (click)="setRecommendedSorting()" matTooltip="Recommended sorting" disabled="{{recommendedSorting}}" aria-label="Recommended sorting">
       <mat-icon>star</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="clearSorting()" matTooltip="Clear sorting" disabled="{{sortBy.length === 0}}">
+    <button mat-icon-button (click)="clearSorting()" matTooltip="Clear sorting" disabled="{{sortBy.length === 0}}" aria-label="Clear sorting">
       <mat-icon>clear</mat-icon>
     </button>
   </div>

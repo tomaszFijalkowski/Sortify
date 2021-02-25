@@ -3,18 +3,18 @@
     <mat-icon matPrefix class="search-icon">search</mat-icon>
     <mat-label>Filter</mat-label>
     <input matInput #filterInputRef (keyup)="applyFilter()">
-    <button mat-icon-button matSuffix (click)="clearFilter()" disabled="{{dataSource.filter === ''}}">
+    <button mat-icon-button matSuffix (click)="clearFilter()" disabled="{{dataSource.filter === ''}}" aria-label="Clear filter">
       <mat-icon>clear</mat-icon>
     </button>
   </mat-form-field>
 
   <div class="buttons">
-    <button mat-icon-button (click)="refreshSelection()"
+    <button mat-icon-button (click)="refreshSelection()" aria-label="Refresh playlists"
       matTooltip="Refresh playlists" disabled="{{dataSourceLoading === true}}">
       <mat-icon>refresh</mat-icon>
     </button>
 
-    <button mat-icon-button (click)="clearSelection()"
+    <button mat-icon-button (click)="clearSelection()" aria-label="Clear selected playlists"
       matTooltip="Clear selected playlists" disabled="{{selection.selected.length === 0}}">
       <mat-icon>clear</mat-icon>
     </button>
