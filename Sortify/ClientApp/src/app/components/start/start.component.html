@@ -3,8 +3,10 @@
     <h3>Currently logged in as:</h3>
     <h1>{{userDetails?.displayName || 'unknown'}}</h1>
     <h2>What would you like to do with your playlists?</h2>
-    <button mat-button color="primary" (click)="sort()">Sort</button>
-    <button mat-button color="primary" (click)="create()">Create</button>
+    <div class="start-buttons">
+      <button mat-button color="primary" class="left-button" (click)="sort()">Sort</button>
+      <button mat-button color="primary" class="right-button" (click)="create()">Create</button>
+    </div>
   </div>
 
   <div *ngIf="stepperLoading" class="progress-spinner-wrapper">

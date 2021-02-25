@@ -6,13 +6,36 @@ h3
 h1
   font-size: 4em
 
+.start-buttons
+  animation: start-buttons-fade-in $transition-time-medium $transition-curve
+
+.left-button
+  animation: left-button-entrance 650ms $transition-curve
+
+.right-button
+  animation: right-button-entrance 650ms $transition-curve
+
+
 @media(max-width: $breakpoint-tablet)
   h1
     font-size: 3.5em
 
+  .left-button
+    animation: left-button-entrance-tablet 650ms $transition-curve
+
+  .right-button
+    animation: right-button-entrance-tablet 650ms $transition-curve
+
+
 @media(max-width: $breakpoint-phone)
   h1
     font-size: 3em
+
+  .left-button
+    animation: left-button-entrance-phone 650ms $transition-curve
+
+  .right-button
+    animation: right-button-entrance-phone 650ms $transition-curve
 
 
 .outer-container
