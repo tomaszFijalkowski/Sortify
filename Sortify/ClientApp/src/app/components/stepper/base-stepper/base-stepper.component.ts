@@ -83,29 +83,6 @@ export class BaseStepperComponent {
     this.changeDetector.detectChanges();
   }
 
-  // @HostListener('document:keydown', ['$event'])
-  // onKeydown(event: KeyboardEvent) {
-  //   console.log(event.key);
-
-  //   const firstStepIndex = 0;
-  //   const lastStepIndex = this.stepper.steps.length - 2;
-  //   const focusedStepIndex = this.stepper._getFocusIndex();
-
-  //   console.log('co to?', this.stepper.);
-
-  //   console.log('focusedstep', focusedStepIndex);
-
-  //   if (focusedStepIndex === firstStepIndex && event.key === 'ArrowLeft') {
-  //     event.preventDefault();
-  //     console.log('to blokujemy');
-  //   }
-
-  //   if (focusedStepIndex === lastStepIndex && event.key === 'ArrowRight') {
-  //     event.preventDefault();
-  //     console.log('to blokujemy');
-  //   }
-  // }
-
   get selectionStepHeader(): string {
     return window.innerWidth > BREAKPOINT_TABLET ? 'Select the playlists' : 'Playlists';
   }

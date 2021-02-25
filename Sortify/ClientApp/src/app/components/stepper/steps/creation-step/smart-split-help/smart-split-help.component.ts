@@ -6,11 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./smart-split-help.component.sass']
 })
 export class SmartSplitHelpComponent implements OnInit {
-
   constructor() {
   }
 
   ngOnInit() {
   }
-
 }

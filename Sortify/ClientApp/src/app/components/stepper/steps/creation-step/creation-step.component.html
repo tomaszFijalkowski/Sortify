@@ -83,8 +83,8 @@
     <mat-grid-tile colspan="1" rowspan="2">
       <mat-form-field appearance="fill">
         <mat-label>Description</mat-label>
-        <textarea #description matTextareaAutosize="true" matAutosizeMinRows="7" matAutosizeMaxRows="7"
-          matInput formControlName="description" [maxLength]="descriptionMaxLength"></textarea>
+        <textarea #description class="description" formControlName="description"
+           [maxLength]="descriptionMaxLength" matInput rows="7"></textarea>
         <mat-hint *ngIf="description.value?.length >= descriptionMaxLength - 70" align="end">
           {{description.value?.length || 0}}/{{descriptionMaxLength}}
         </mat-hint>
