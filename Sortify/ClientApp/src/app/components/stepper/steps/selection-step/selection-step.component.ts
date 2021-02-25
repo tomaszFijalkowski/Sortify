@@ -25,6 +25,7 @@ export class SelectionStepComponent implements OnInit {
   selection = new SelectionModel<Playlist>(true, []);
 
   errorOccurred = false;
+  fadeIn = false;
 
   @ViewChild('filterInputRef', { read: ElementRef }) filterInput: ElementRef;
   @ViewChild('tableContainerRef', { read: ElementRef }) tableContainer: ElementRef;
@@ -78,12 +79,14 @@ export class SelectionStepComponent implements OnInit {
     const filterValue = this.filterInput.nativeElement.value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.setDefaultTabIndex();
+    this.fadeIn = false;
   }
 
   clearFilter(): void {
     this.filterInput.nativeElement.value = '';
     this.dataSource.filter = '';
     this.setDefaultTabIndex();
+    this.fadeIn = false;
   }
 
   refreshSelection(): void {
@@ -96,6 +99,7 @@ export class SelectionStepComponent implements OnInit {
           this.dataSource.data = response.result.playlists;
           this.errorOccurred = false;
           this.setDefaultTabIndex();
+          this.fadeIn = true;
         } else {
           this.errorOccurred = true;
         }
@@ -110,11 +114,13 @@ export class SelectionStepComponent implements OnInit {
 
   clearSelection(): void {
     this.selection.clear();
+    this.fadeIn = false;
   }
 
   onPageChanged(): void {
     this.setDefaultTabIndex();
     this.tableContainer.nativeElement.scrollTo(0, 0);
+    this.fadeIn = false;
   }
 
   private setDefaultTabIndex(): void {

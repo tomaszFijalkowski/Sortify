@@ -63,10 +63,10 @@
     </ng-container>
 
     <mat-row *matRowDef="let row; columns: displayedColumns; let i = index" tabindex="-1"
-      [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5}"
+      [ngClass]="{'mat-row-selected': this.selection.selected.includes(row), 'mat-row-short': this.paginator.pageSize > 5, 'fade-in': fadeIn}"
       (click)="$event.stopPropagation(); $event ? selectTableRow($event, row) : null" (keydown)="tableKeydown($event, row)"></mat-row>
   </mat-table>
 </div>
 
-<mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0}"
+<mat-paginator [ngClass]="{'paginator-hidden': dataSource.filteredData.length === 0, 'fade-in': fadeIn}"
   [pageSizeOptions]="pageSizeOptions" showFirstLastButtons (page)="onPageChanged()"></mat-paginator>
