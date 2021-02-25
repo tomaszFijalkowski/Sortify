@@ -21,7 +21,14 @@ namespace Sortify
                     opt => opt.MapFrom(src => src.Tracks.Total))
                 .ForMember(
                     dest => dest.Image,
-                    opt => opt.MapFrom(src => src.Images.FirstOrDefault()));
+                    opt => opt.MapFrom((src, dest) =>
+                    {
+                        var selectedImage = src.Images.OrderBy(x => x.Width * x.Height)
+                                                     .Where(x => x.Width >= 100 && x.Height >= 100)
+                                                     .FirstOrDefault();
+
+                        return selectedImage ?? src.Images.FirstOrDefault();
+                    }));
 
             CreateMap<FullTrack, Track>()
                 .ForMember(
