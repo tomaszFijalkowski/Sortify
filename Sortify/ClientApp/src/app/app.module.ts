@@ -36,6 +36,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
 import { StartComponent } from './components/start/start.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import { SortStepperComponent } from './components/stepper/sort-stepper/sort-stepper.component';
@@ -71,6 +72,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     ErrorPageComponent,
     NotFoundComponent,
     AboutComponent,
+    PrivacyComponent,
     FooterComponent,
     KeyboardClickDirective
   ],

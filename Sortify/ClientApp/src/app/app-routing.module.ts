@@ -46,6 +46,9 @@ const routes: Routes = [
     path: 'about', component: AboutComponent
   },
   {
+    path: 'privacy', component: PrivacyComponent
+  },
+  {
     path: 'error', component: ErrorPageComponent
   },
   {
