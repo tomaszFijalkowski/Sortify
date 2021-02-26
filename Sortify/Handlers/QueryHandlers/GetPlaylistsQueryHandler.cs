@@ -39,7 +39,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var config = SpotifyClientConfig
                   .CreateDefault(query.AccessToken)
-                  .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 3, RetryAfter = TimeSpan.FromMilliseconds(500) });
+                  .WithRetryHandler(new SimpleRetryHandler() { RetryTimes = 30, RetryAfter = TimeSpan.FromSeconds(1), TooManyRequestsConsumesARetry = false });
 
                 spotify = new SpotifyClient(config);
 
