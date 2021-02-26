@@ -1,0 +1,80 @@
+@import '../../../styles/variables.sass'
+
+.outer-container
+  display: flex
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  padding: 24px
+
+.inner-container
+  max-width: 620px
+  text-align: center
+  color: $white
+  animation: container-fade-in $transition-time-medium $transition-curve
+  background-color: #fff1
+  backdrop-filter: blur(50px)
+  box-shadow: $subtle-shadow
+  border-radius: 10px
+  padding: 24px
+
+h1
+  font-size: 3em
+  margin-bottom: 0
+
+h2
+  font-size: 2em
+  font-family: "CircularSpotifyTxT-Black"
+  text-align: left
+  margin-bottom: 12px
+  padding-top: 24px
+
+p
+  font-size: 16px
+  font-family: "CircularSpotifyTxT-Light"
+  text-align: justify
+  margin-bottom: 12px
+
+.mat-button
+  margin: 24px 24px 0 24px
+
+
+@media(max-width: $breakpoint-tablet)
+  .outer-container,
+  .inner-container
+    padding: 20px
+
+  h2
+    padding-top: 20px
+
+  p
+    font-size: 15px
+
+  .mat-button
+    margin: 20px 20px 0 20px
+
+
+@media(max-width: $breakpoint-phone)
+  .outer-container,
+  .inner-container
+    padding: 16px
+
+  h2
+    padding-top: 16px
+
+  p
+    font-size: 14px
+
+  .mat-button
+    margin: 16px 16px 0 16px
+
+
+a, .bold
+  font-family: "CircularSpotifyTxT-Med"
+
+a
+  color: $green
+
+a:hover
+  color: $green-hover
+  font-style: none

@@ -30,6 +30,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AboutComponent } from './components/about/about.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
@@ -69,6 +70,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     EndStepComponent,
     ErrorPageComponent,
     NotFoundComponent,
+    AboutComponent,
     FooterComponent,
     KeyboardClickDirective
   ],

@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AboutComponent } from './components/about/about.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import { SortStepperComponent } from './components/stepper/sort-stepper/sort-stepper.component';
 import { PlaylistsToCreateResolver } from './resolvers/playlists-to-create.resolver';
@@ -39,6 +41,9 @@ const routes: Routes = [
     resolve: {
       playlists: PlaylistsToCreateResolver
     }
+  },
+  {
+    path: 'about', component: AboutComponent
   },
   {
     path: 'error', component: ErrorPageComponent
