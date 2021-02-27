@@ -1,6 +1,9 @@
 @import 'variables.sass'
 @import 'animations.sass'
 
+html
+  scroll-behavior: smooth
+
 h1
   font-family: "CircularSpotifyTxT-Black"
   font-size: 5em
@@ -43,6 +46,14 @@ body
   body
     font-size: 0.75rem
 
+
+// footer-icon
+
+.footer-icon-wrapper
+  transition: opacity $transition-time-medium $transition-curve
+
+.dim-footer-icon
+  opacity: 0.5
 
 // router wrapper
 

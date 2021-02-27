@@ -32,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { FooterIconComponent } from './components/footer/footer-icon/footer-icon.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -74,6 +75,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     AboutComponent,
     PrivacyComponent,
     FooterComponent,
+    FooterIconComponent,
     KeyboardClickDirective
   ],
   imports: [

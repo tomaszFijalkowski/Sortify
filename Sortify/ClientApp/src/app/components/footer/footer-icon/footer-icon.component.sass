@@ -1,0 +1,32 @@
+@import '../../../../styles/variables.sass'
+
+.footer-icon
+  position: absolute
+  bottom: 1.25em
+  left: 50%
+  margin-left: -24px
+  animation: footer-icon-entrance 1.2s $transition-curve
+
+
+@media(max-width: $breakpoint-tablet)
+  .footer-icon
+    display: none
+
+
+.footer-icon .mat-icon-button,
+.footer-icon .mat-icon
+  transition: color $transition-time-fast $transition-curve,
+  transform $transition-time-medium $transition-curve,
+  opacity $transition-time-slow $transition-curve
+  color: $white
+  font-size: 48px
+  width: 48px
+  height: 48px
+  line-height: 48px
+
+.footer-icon .mat-icon:hover
+  color: $white-dim
+
+.hide-footer-icon
+  transform: (rotate(180deg))
+  opacity: 0

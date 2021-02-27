@@ -7,12 +7,12 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'app';
-  hideBackgroundImg: boolean;
+  isOnStepper: boolean;
 
   constructor(router: Router) {
     router.events.subscribe((route) => {
       if (route instanceof NavigationEnd) {
-        this.hideBackgroundImg = route.url === '/sort' || route.url === '/create';
+        this.isOnStepper = route.url === '/sort' || route.url === '/create';
       }
     });
   }
