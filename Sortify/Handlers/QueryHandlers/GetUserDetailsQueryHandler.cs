@@ -30,8 +30,7 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 if (query?.AccessToken == null)
                 {
-                    result = OperationResult<GetUserDetailsQuery, GetUserDetailsResponse>.Failure(StatusCodes.BadRequest, ErrorMessages.MissingParemeters);
-                    return await Task.FromResult(result);
+                    throw new APIUnauthorizedException();
                 }
 
                 var config = SpotifyClientConfig

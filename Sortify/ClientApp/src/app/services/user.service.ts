@@ -34,6 +34,11 @@ export class UserService {
     );
   }
 
+  clearCache(): void {
+    this.userDetails = undefined;
+    this.cachedResponse = undefined;
+  }
+
   get currentUserDetails(): UserDetails {
     return this.userDetails;
   }

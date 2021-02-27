@@ -7,7 +7,7 @@
     <div class="link" [routerLink]="'about'" appKeyboardClick aria-label="About">About</div>
     <div class="link" [routerLink]="'privacy'" appKeyboardClick aria-label="Privacy">Privacy</div>
     <div *ngIf="isLoggedIn === false" class="link" (click)="login()" appKeyboardClick aria-label="Login">Login</div>
-    <div *ngIf="isLoggedIn" class="link" [routerLink]="''" (click)="logout()" appKeyboardClick aria-label="Logout">Logout</div>
+    <div *ngIf="isLoggedIn" class="link" (click)="logout()" appKeyboardClick aria-label="Logout">Logout</div>
   </div>
   <div class="section">
     <div class="social-links">

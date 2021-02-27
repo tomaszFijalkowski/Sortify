@@ -90,7 +90,7 @@ export class SelectionStepComponent implements OnInit {
   }
 
   refreshSelection(): void {
-    const ownerId = this.limitByOwner ? this.userService.currentUserDetails.id : null;
+    const ownerId = this.limitByOwner ? this.userService.currentUserDetails?.id : null;
 
     this.playlistService.getPlaylists(ownerId)
       .pipe(finalize(() => this.dataSourceLoading = false))

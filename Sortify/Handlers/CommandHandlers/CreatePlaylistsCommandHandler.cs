@@ -50,6 +50,11 @@ namespace Sortify.Handlers.QueryHandlers
             {
                 this.cancellationToken = cancellationToken;
 
+                if (command.AccessToken == null)
+                {
+                    throw new APIUnauthorizedException();
+                }
+
                 if (HasNoRequiredParameters(command))
                 {
                     result = OperationResult.Failure(StatusCodes.BadRequest, ErrorMessages.MissingParemeters);
@@ -102,7 +107,7 @@ namespace Sortify.Handlers.QueryHandlers
 
         private bool HasNoRequiredParameters(CreatePlaylistsCommand command)
         {
-            return command.AccessToken == null || command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
+            return command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
         }
 
         private void SetupProgressManager(CreatePlaylistsCommand command)

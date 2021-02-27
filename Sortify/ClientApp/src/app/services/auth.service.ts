@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 import { AppSettingsService } from './app-settings.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class AuthService {
 
   constructor(private oauthService: OAuthService,
     private settingsService: AppSettingsService,
+    private userService: UserService,
     private snackBar: MatSnackBar,
     private router: Router) {
       this.configure();
@@ -56,8 +58,15 @@ export class AuthService {
   }
 
   logout(): void {
-    this.oauthService.logOut();
-    this.snackBar.open('Successfully logged out');
+    this.router.navigate(['']).then(successful => {
+      const isOnStepper = this.router.url === '/sort' || this.router.url === '/create';
+
+      if (successful || !isOnStepper) {
+        this.oauthService.logOut();
+        this.userService.clearCache();
+        this.snackBar.open('Successfully logged out');
+      }
+    });
   }
 
   isLoggedIn(): boolean {
