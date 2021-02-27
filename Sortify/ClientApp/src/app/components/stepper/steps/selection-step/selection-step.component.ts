@@ -47,6 +47,13 @@ export class SelectionStepComponent implements OnInit {
   private setupDataSource(): void {
     this.dataSource.data = this.playlists;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.filterPredicate = function(playlist, filter: string): boolean {
+      filter = filter.toLowerCase().trim();
+
+      return playlist.name.toLowerCase().includes(filter)
+          || playlist.ownerName.toLowerCase().includes(filter)
+          || playlist.size.toString().toLowerCase().includes(filter);
+    };
   }
 
   private onSelectionChanged(): void {
@@ -77,7 +84,7 @@ export class SelectionStepComponent implements OnInit {
 
   applyFilter(): void {
     const filterValue = this.filterInput.nativeElement.value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
     this.setDefaultTabIndex();
     this.fadeIn = false;
   }
