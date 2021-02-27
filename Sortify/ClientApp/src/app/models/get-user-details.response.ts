@@ -1,5 +1,3 @@
-import { Image } from './image';
-
 export interface GetUserDetailsResponse {
   userDetails: UserDetails;
 }
@@ -7,5 +5,4 @@ export interface GetUserDetailsResponse {
 export interface UserDetails {
   displayName: string;
   id: string;
-  image: Image;
 }

@@ -58,10 +58,7 @@ namespace Sortify
 
             CreateMap<TrackAudioFeatures, AudioFeatures>();
 
-            CreateMap<PrivateUser, UserDetails>()
-                .ForMember(
-                    dest => dest.Image,
-                    opt => opt.MapFrom(src => src.Images.FirstOrDefault()));
+            CreateMap<PrivateUser, UserDetails>();
         }
     }
 }

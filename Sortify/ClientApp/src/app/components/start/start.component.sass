@@ -1,13 +1,13 @@
 @import '../../../styles/variables.sass'
 
-h3
-  color: $white-dim
-
 h1
   font-size: 4em
 
 .start-buttons
   animation: start-buttons-fade-in $transition-time-medium $transition-curve
+
+.start-buttons .mat-button
+  width: 145px
 
 .left-button
   animation: left-button-entrance 650ms $transition-curve
@@ -18,7 +18,10 @@ h1
 
 @media(max-width: $breakpoint-tablet)
   h1
-    font-size: 3.5em
+    font-size: 3em
+
+  .start-buttons .mat-button
+    width: 135px
 
   .left-button
     animation: left-button-entrance-tablet 650ms $transition-curve
@@ -29,7 +32,10 @@ h1
 
 @media(max-width: $breakpoint-phone)
   h1
-    font-size: 3em
+    font-size: 2em
+
+  .start-buttons .mat-button
+    width: 125px
 
   .left-button
     animation: left-button-entrance-phone 650ms $transition-curve

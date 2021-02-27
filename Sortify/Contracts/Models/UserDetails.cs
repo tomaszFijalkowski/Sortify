@@ -7,7 +7,5 @@ namespace Sortify.Contracts.Models
         public string DisplayName { get; set; }
 
         public string Id { get; set; }
-
-        public Image Image { get; set; }
     }
 }
