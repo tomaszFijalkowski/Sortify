@@ -1,9 +1,8 @@
 import { UserDetails } from 'src/app/models/get-user-details.response';
+import { AuthService } from 'src/app/services/auth.service';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',

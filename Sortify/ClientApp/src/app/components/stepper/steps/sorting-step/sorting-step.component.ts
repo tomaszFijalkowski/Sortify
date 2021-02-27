@@ -1,13 +1,10 @@
-import 'lodash';
-
+import { cloneDeep } from 'lodash';
 import { Options, SortableEvent } from 'sortablejs';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
 import { SortableItem } from 'src/app/models/sortable-item';
 
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
-
-declare const _: any;
 
 @Component({
   selector: 'app-sorting-step',
@@ -204,7 +201,7 @@ export class SortingStepComponent implements OnInit {
   }
 
   private emitSortByChanged(recommendedSorting = false): void {
-    this.sortBy = _.cloneDeep(this.sortBy); // Perform deep clone to fix issues with SortableJS display order.
+    this.sortBy = cloneDeep(this.sortBy); // Perform deep clone to fix issues with SortableJS display order.
 
     this.sortByChanged.next(new SortByChangedEvent(
       this.sortBy,

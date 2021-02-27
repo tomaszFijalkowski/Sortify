@@ -1,5 +1,4 @@
-import 'lodash';
-
+import { clamp } from 'lodash';
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
 import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 
@@ -10,8 +9,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 
 import { SmartSplitHelpComponent } from './smart-split-help/smart-split-help.component';
-
-declare const _: any;
 
 @Component({
   selector: 'app-creation-step',
@@ -209,7 +206,7 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   onSplitByTracksInputBlur(value: number): void {
     this.form.patchValue({
-      splitByTracksNumber: _.clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
+      splitByTracksNumber: clamp(value, this.splitByTracksMinNumber, this.splitByTracksMaxNumber)
     });
   }
 
@@ -221,7 +218,7 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
 
   onSplitByPlaylistsInputBlur(value: number): void {
     this.form.patchValue({
-      splitByPlaylistsNumber: _.clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
+      splitByPlaylistsNumber: clamp(value, this.splitByPlaylistsMinNumber, this.splitByPlaylistsMaxNumber)
     });
   }
 

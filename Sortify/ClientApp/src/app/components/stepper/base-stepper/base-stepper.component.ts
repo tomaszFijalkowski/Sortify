@@ -1,5 +1,4 @@
-import 'lodash';
-
+import { sum } from 'lodash';
 import { Subscription } from 'rxjs';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
@@ -15,8 +14,6 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
-
-declare const _: any;
 
 @Component({
   selector: 'app-base-stepper',
@@ -127,6 +124,6 @@ export class BaseStepperComponent {
     const playlistWeights = this.selectedPlaylists.map(x =>
       Math.max(Math.ceil(x.size / maxItemsPerRequest), 1));
 
-    return _.sum(playlistWeights);
+    return sum(playlistWeights);
   }
 }
