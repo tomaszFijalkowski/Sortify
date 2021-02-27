@@ -3,7 +3,7 @@
     <div class="router-wrapper">
       <router-outlet></router-outlet>
     </div>
-    <span class="footer-icon-wrapper" [ngClass]="{'dim-footer-icon': isOnStepper}">
+    <span [ngClass]="{'hide-footer-icon': isOnStepper, 'footer-icon-transition': showFooterIconTransitions}">
       <app-footer-icon></app-footer-icon>
     </span>
     <app-footer></app-footer>

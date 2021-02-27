@@ -121,11 +121,11 @@ export class SortingStepComponent implements OnInit {
     const dropzoneRect = dropzone.getBoundingClientRect();
 
     const isCursorInsideDropzone = (dragEvent.x >= dropzoneRect.left && dragEvent.x <= dropzoneRect.right &&
-                                    dragEvent.y >= dropzoneRect.top && dragEvent.y <= dropzoneRect.bottom);
+                                    dragEvent.y - 2 > dropzoneRect.top && dragEvent.y <= dropzoneRect.bottom);
 
     const itemRect = sortableEvent.item.getBoundingClientRect();
     const isItemInsideDropzone = (itemRect.left >= dropzoneRect.left && itemRect.left <= dropzoneRect.right &&
-                                  itemRect.top >= dropzoneRect.top && itemRect.top <= dropzoneRect.bottom);
+                                  itemRect.top - 2 > dropzoneRect.top && itemRect.top <= dropzoneRect.bottom);
 
     this.dropzoneIsHighlightedGreen = (isCursorInsideDropzone || isItemInsideDropzone);
 
