@@ -43,7 +43,7 @@
 <h1>Sort by</h1>
 
 <mat-chip-list>
-  <div class="sortable-group" [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
+  <div #sortByGroup class="sortable-group" [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"
     [ngClass]="{'dropzone': dropzoneIsVisible, 'dropzone-highlight-green': dropzoneIsHighlightedGreen,
       'dropzone-highlight-red': dropzoneIsHighlightedRed}">
 

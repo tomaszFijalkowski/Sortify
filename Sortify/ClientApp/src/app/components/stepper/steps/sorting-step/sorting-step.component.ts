@@ -4,7 +4,7 @@ import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
 import { SortableItem } from 'src/app/models/sortable-item';
 
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-sorting-step',
@@ -15,6 +15,8 @@ export class SortingStepComponent implements OnInit {
   basicProperties: SortableItem[];
   audioFeatures: SortableItem[];
   sortBy: SortableItem[];
+
+  @ViewChild('sortByGroup', { read: ElementRef }) sortByGroup: ElementRef;
 
   initialAudioFeaturesLength: number;
 
@@ -117,12 +119,14 @@ export class SortingStepComponent implements OnInit {
     const dropzone = document.getElementById('dropzone');
     const dropzoneRect = dropzone.getBoundingClientRect();
 
+    const offsetY = sortableEvent.from === this.sortByGroup.nativeElement ? -1 : 8;
+
     const isCursorInsideDropzone = (dragEvent.x >= dropzoneRect.left && dragEvent.x <= dropzoneRect.right &&
-                                    dragEvent.y - 2 > dropzoneRect.top && dragEvent.y <= dropzoneRect.bottom);
+                                    dragEvent.y - offsetY >= dropzoneRect.top && dragEvent.y <= dropzoneRect.bottom);
 
     const itemRect = sortableEvent.item.getBoundingClientRect();
     const isItemInsideDropzone = (itemRect.left >= dropzoneRect.left && itemRect.left <= dropzoneRect.right &&
-                                  itemRect.top - 2 > dropzoneRect.top && itemRect.top <= dropzoneRect.bottom);
+                                  itemRect.top >= dropzoneRect.top && itemRect.top <= dropzoneRect.bottom);
 
     this.dropzoneIsHighlightedGreen = (isCursorInsideDropzone || isItemInsideDropzone);
 
