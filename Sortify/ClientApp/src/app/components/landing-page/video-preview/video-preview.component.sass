@@ -1,0 +1,44 @@
+@import '../../../../styles/variables.sass'
+
+.video-loaded
+  opacity: 1
+
+.video-wrapper
+  outline: 0
+  display: flex
+  align-items: center
+  width: 100%
+  max-width: 1104px
+  height: calc((870 / 1104) * 100vw)
+  max-height: calc(100vh - 48px)
+
+video
+  max-width: calc(100vw - 48px)
+  max-height: 100%
+  opacity: 0
+  transition: opacity $transition-time-medium $transition-curve
+  border-radius: 10px
+
+
+@media(max-width: $breakpoint-tablet)
+  .video-wrapper
+    max-height: calc(100vh - 40px)
+
+  video
+    max-width: calc(100vw - 40px)
+
+
+@media(max-width: $breakpoint-phone)
+  .video-wrapper
+    max-height: calc(100vh - 32px)
+
+  video
+    max-width: calc(100vw - 32px)
+
+
+.progress-spinner-wrapper
+  position: fixed
+  top: 50%
+  left: 50%
+  margin-top: -17.5px
+  margin-left: -25px

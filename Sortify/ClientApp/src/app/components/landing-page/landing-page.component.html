@@ -3,5 +3,10 @@
     <h1>Sortify</h1>
     <h2>A&nbsp;simple way to organize your playlists as desired.</h2>
     <button mat-button color="primary" (click)="login()">Log in with Spotify</button>
+    <div class="preview">
+      <div class="preview-link" (click)="openVideoPreview()" appKeyboardClick aria-label="Preview" tabindex="0">
+        Or&nbsp;watch&nbsp;a&nbsp;preview<mat-icon>smart_display</mat-icon>
+      </div>
+    </div>
   </div>
 </div>

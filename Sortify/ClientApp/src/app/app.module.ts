@@ -36,6 +36,7 @@ import { FooterIconComponent } from './components/footer/footer-icon/footer-icon
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { VideoPreviewComponent } from './components/landing-page/video-preview/video-preview.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { StartComponent } from './components/start/start.component';
@@ -76,6 +77,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     PrivacyComponent,
     FooterComponent,
     FooterIconComponent,
+    VideoPreviewComponent,
     KeyboardClickDirective
   ],
   imports: [

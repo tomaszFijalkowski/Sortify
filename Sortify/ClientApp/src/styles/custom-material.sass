@@ -310,54 +310,85 @@
     margin-bottom: 16px
 
 
-// mat-dialog
+// smart-split-help mat-dialog
 
-.cdk-overlay-container .mat-dialog-container h1,
-.cdk-overlay-container .mat-dialog-container p
+.smart-split-help .mat-dialog-container h1,
+.smart-split-help .mat-dialog-container p
   margin-bottom: 16px
 
-.cdk-overlay-container .mat-dialog-container
+.smart-split-help .mat-dialog-container
   background-color: $gray-dark-row-hover
   border-radius: 10px
+  margin: 24px
 
-.cdk-overlay-container .mat-dialog-actions
+.smart-split-help .mat-dialog-actions
   margin-bottom: -24px
   padding: 24px 0
   min-height: auto
 
 
 @media(max-width: $breakpoint-tablet)
-  .cdk-overlay-container .mat-dialog-container h1,
-  .cdk-overlay-container .mat-dialog-container p
+  .smart-split-help .mat-dialog-container h1,
+  .smart-split-help .mat-dialog-container p
     margin-bottom: 13.333px
 
-  .cdk-overlay-container .mat-dialog-container
+  .smart-split-help .mat-dialog-container
     padding: 20px
+    margin: 20px
 
-  .cdk-overlay-container .mat-dialog-content
+  .smart-split-help .mat-dialog-content
     margin: 0 -20px
     padding: 0 20px
 
-  .cdk-overlay-container .mat-dialog-actions
+  .smart-split-help .mat-dialog-actions
     margin-bottom: -20px
     padding: 20px 0
 
 
 @media(max-width: $breakpoint-phone)
-  .cdk-overlay-container .mat-dialog-container h1,
-  .cdk-overlay-container .mat-dialog-container p
+  .smart-split-help .mat-dialog-container h1,
+  .smart-split-help .mat-dialog-container p
     margin-bottom: 10.666px
 
-  .cdk-overlay-container .mat-dialog-container
+  .smart-split-help .mat-dialog-container
     padding: 16px
+    margin: 16px
 
-  .cdk-overlay-container .mat-dialog-content
+  .smart-split-help .mat-dialog-content
     margin: 0 -16px
     padding: 0 16px
 
-  .cdk-overlay-container .mat-dialog-actions
+  .smart-split-help .mat-dialog-actions
     margin-bottom: -16px
     padding: 16px 0
+
+
+// video-preview mat-dialog
+
+.video-preview.cdk-overlay-pane
+  max-width: 100vw !important
+
+.video-preview-backdrop
+  background-color: rgba(0, 0, 0, 0.64)
+
+.video-preview .mat-dialog-container
+  margin: 24px
+  padding: 0
+  line-height: 0
+  border-radius: 0
+  overflow: hidden
+  background: none
+  box-shadow: none
+
+
+@media(max-width: $breakpoint-tablet)
+  .video-preview .mat-dialog-container
+    margin: 20px
+
+
+@media(max-width: $breakpoint-phone)
+  .video-preview .mat-dialog-container
+    margin: 16px
 
 
 // mat-snackbar

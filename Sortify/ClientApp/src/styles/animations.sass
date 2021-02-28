@@ -1,6 +1,14 @@
 @import 'variables.sass'
 
 
+@keyframes fade-in
+  from
+    opacity: 0
+
+  to
+    opacity: 1
+
+
 @keyframes container-fade-in
   from
     opacity: 0
@@ -21,14 +29,6 @@
     transform: scale(1)
 
 
-@keyframes selection-fade-in
-  from
-    opacity: 0
-
-  to
-    opacity: 1
-
-
 @keyframes start-buttons-fade-in
   from
     transform: scale(0)
@@ -46,7 +46,7 @@
     border-top-right-radius: 0
     border-bottom-right-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -67,7 +67,7 @@
     border-top-right-radius: 0
     border-bottom-right-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -88,7 +88,7 @@
     border-top-right-radius: 0
     border-bottom-right-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -109,7 +109,7 @@
     border-top-left-radius: 0
     border-bottom-left-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -130,7 +130,7 @@
     border-top-left-radius: 0
     border-bottom-left-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -151,7 +151,7 @@
     border-top-left-radius: 0
     border-bottom-left-radius: 0
 
-  66%
+  67%
     pointer-events: none
     box-shadow: none
     color: #0000
@@ -183,4 +183,21 @@
     pointer-events: all
     transform: (rotate(0deg))
     bottom: 1.25em
+    opacity: 1
+
+
+@keyframes preview-link-entrance
+  0%
+    pointer-events: none
+    transform: translate3d(-10px, 0, 0)
+    opacity: 0
+
+  25%
+    pointer-events: none
+    transform: translate3d(-10px, 0, 0)
+    opacity: 0
+
+  67%
+    pointer-events: all
+    transform: translate3d(0, 0, 0)
     opacity: 1

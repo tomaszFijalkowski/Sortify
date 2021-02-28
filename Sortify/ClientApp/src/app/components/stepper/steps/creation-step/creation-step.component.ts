@@ -225,8 +225,9 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
   openSmartSplitHelp(): void {
     this.dialog.open(SmartSplitHelpComponent, {
       width: '520px',
-      maxWidth: '95vw',
-      maxHeight: '95vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'smart-split-help'
     });
   }
 }
