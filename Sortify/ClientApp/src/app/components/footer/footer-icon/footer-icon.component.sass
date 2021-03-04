@@ -1,17 +1,32 @@
 @import '../../../../styles/variables.sass'
 
+.footer-icon-wrapper
+  transition: opacity $transition-time-medium $transition-curve
+
+.footer-icon-wrapper-hidden
+  opacity: 0
+
+
+@media(max-width: $breakpoint-tablet)
+  .footer-icon-wrapper
+    display: none
+
+
 .footer-icon
   left: 50%
   bottom: 1.25em
   margin-left: -24px
   position: absolute
-  animation: footer-icon-entrance $transition-time-entrance $transition-curve
+  transition: opacity $transition-time-entrance $transition-curve
 
+.footer-icon-slow-entrance
+  animation: footer-icon-slow-entrance $transition-time-entrance $transition-curve
 
-@media(max-width: $breakpoint-tablet)
-  .footer-icon
-    display: none
+.footer-icon-fast-entrance
+  animation: footer-icon-fast-entrance $transition-time-entrance $transition-curve
 
+.footer-icon-on-dialog
+  bottom: 8.25em
 
 .footer-icon .mat-icon-button,
 .footer-icon .mat-icon
@@ -28,6 +43,6 @@
 .footer-icon .mat-icon:hover
   color: $white-dim
 
-.hide-footer-icon
+.icon-hidden
   transform: (rotate(180deg))
   opacity: 0

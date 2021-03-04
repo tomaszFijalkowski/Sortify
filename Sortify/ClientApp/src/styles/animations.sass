@@ -163,25 +163,42 @@
     color: $white
 
 
-@keyframes footer-icon-entrance
+@keyframes footer-icon-slow-entrance
   0%
     pointer-events: none
-    transform: (rotate(180deg))
     bottom: -2.5em
     opacity: 0
 
   50%
-    transform: (rotate(180deg))
     bottom: -2.5em
     opacity: 0
 
   83%
     pointer-events: none
-    bottom: 1.75em
+    bottom: 2em
 
   100%
     pointer-events: all
-    transform: (rotate(0deg))
+    bottom: 1.25em
+    opacity: 1
+
+
+@keyframes footer-icon-fast-entrance
+  0%
+    pointer-events: none
+    bottom: -2.5em
+    opacity: 0
+
+  25%
+    bottom: -2.5em
+    opacity: 0
+
+  58%
+    pointer-events: none
+    bottom: 2em
+
+  75%
+    pointer-events: all
     bottom: 1.25em
     opacity: 1
 

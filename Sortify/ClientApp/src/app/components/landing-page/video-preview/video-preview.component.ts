@@ -9,7 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class VideoPreviewComponent implements OnInit {
   videoLoading: boolean;
 
-  constructor(private dialog: MatDialogRef<VideoPreviewComponent>) {
+  constructor(private dialogRef: MatDialogRef<VideoPreviewComponent>) {
   }
 
   ngOnInit() {
@@ -24,6 +24,6 @@ export class VideoPreviewComponent implements OnInit {
   }
 
   closePreview(): void {
-    this.dialog.close();
+    this.dialogRef.close();
   }
 }

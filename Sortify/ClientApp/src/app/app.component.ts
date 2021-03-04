@@ -10,7 +10,6 @@ import { BREAKPOINT_TABLET } from './models/resolution-breakpoints';
 export class AppComponent {
   title = 'app';
   isOnStepper: boolean;
-  showFooterIconTransitions = false;
 
   constructor(router: Router) {
     router.events.subscribe((route) => {
@@ -18,7 +17,6 @@ export class AppComponent {
         this.isOnStepper = route.url === '/sort' || route.url === '/create';
       }
     });
-    setTimeout(() => this.showFooterIconTransitions = true, 600);
   }
 
   get hideBackgroundImage(): boolean {
