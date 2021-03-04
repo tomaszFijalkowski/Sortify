@@ -2,7 +2,8 @@
 using Castle.Windsor;
 using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using Sortify.Handlers.QueryHandlers;
+using Sortify.Handlers.CommandHandlers.Base;
+using Sortify.Handlers.QueryHandlers.Base;
 using System;
 
 namespace Sortify

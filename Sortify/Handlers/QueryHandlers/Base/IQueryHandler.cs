@@ -1,8 +1,8 @@
-﻿using Sortify.Contracts.Requests;
-using Sortify.Contracts.Responses;
+﻿using Sortify.Contracts.Requests.Queries.Base;
+using Sortify.Contracts.Responses.Base;
 using System.Threading.Tasks;
 
-namespace Sortify.Handlers.QueryHandlers
+namespace Sortify.Handlers.QueryHandlers.Base
 {
     /// <summary>
     /// Handler responsible for given <see cref="TQuery"/>

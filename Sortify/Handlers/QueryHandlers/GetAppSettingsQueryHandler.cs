@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
+using Sortify.Contracts.Responses.Base;
+using Sortify.Handlers.QueryHandlers.Base;
 using Sortify.Helpers;
 using System;
 using System.Threading.Tasks;

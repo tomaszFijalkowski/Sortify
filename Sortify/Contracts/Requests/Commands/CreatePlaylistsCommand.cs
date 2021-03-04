@@ -1,4 +1,5 @@
 ﻿using Sortify.Contracts.Enums;
+using Sortify.Contracts.Requests.Commands.Base;
 using System.Collections.Generic;
 
 namespace Sortify.Contracts.Requests.Commands

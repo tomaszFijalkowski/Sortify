@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Sortify.Contracts.Requests.Queries;
 using Sortify.Contracts.Responses;
-using Sortify.Handlers.QueryHandlers;
+using Sortify.Contracts.Responses.Base;
+using Sortify.Handlers.QueryHandlers.Base;
 
 namespace Sortify.Controllers
 {

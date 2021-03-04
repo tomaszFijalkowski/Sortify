@@ -1,7 +1,7 @@
-﻿using Sortify.Contracts.Requests;
+﻿using Sortify.Contracts.Requests.Base;
 using System;
 
-namespace Sortify.Contracts.Responses
+namespace Sortify.Contracts.Responses.Base
 {
     /// <summary>
     /// Result of system processing a request of <see cref="TRequest"/> with corresponding response of <see cref="TResponse"/> 

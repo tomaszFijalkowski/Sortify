@@ -1,9 +1,9 @@
-﻿using Sortify.Contracts.Requests;
-using Sortify.Contracts.Responses;
+﻿using Sortify.Contracts.Requests.Commands.Base;
+using Sortify.Contracts.Responses.Base;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sortify.Handlers.QueryHandlers
+namespace Sortify.Handlers.CommandHandlers.Base
 {
     /// <summary>
     /// Handler responsible for give <see cref="TCommand"/>

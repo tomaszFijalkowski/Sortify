@@ -1,4 +1,6 @@
-﻿namespace Sortify.Contracts.Requests
+﻿using Sortify.Contracts.Requests.Base;
+
+namespace Sortify.Contracts.Requests.Commands.Base
 {
     /// <summary>
     /// Modify information in system

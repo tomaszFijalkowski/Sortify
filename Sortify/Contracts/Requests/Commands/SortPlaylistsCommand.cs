@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Sortify.Contracts.Requests.Commands.Base;
+using System.Collections.Generic;
 
 namespace Sortify.Contracts.Requests.Commands
 {

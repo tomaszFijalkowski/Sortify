@@ -1,4 +1,4 @@
-﻿namespace Sortify.Contracts.Requests
+﻿namespace Sortify.Contracts.Requests.Base
 {
     /// <summary>
     /// Marker interface for request to the system
