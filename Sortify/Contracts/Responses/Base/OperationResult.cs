@@ -4,25 +4,25 @@ using System;
 namespace Sortify.Contracts.Responses.Base
 {
     /// <summary>
-    /// Result of system processing a request of <see cref="TRequest"/> with corresponding response of <see cref="TResponse"/> 
+    /// Result of system processing a request of <see cref="TRequest"/> with corresponding response of <see cref="TResponse"/>.
     /// </summary>
-    /// <typeparam name="TRequest">Request for which system returned result</typeparam>
-    /// <typeparam name="TResponse">Provided response to result</typeparam>
+    /// <typeparam name="TRequest">Request for which system returned result.</typeparam>
+    /// <typeparam name="TResponse">Provided response to result.</typeparam>
     public class OperationResult<TRequest, TResponse>
         where TResponse : IResponse<TRequest> where TRequest : IRequest
     {
         /// <summary>
-        /// Result data - default(TResponse) if failed
+        /// Result data - default(TResponse) if failed.
         /// </summary>
         public TResponse Result { get; set; }
 
         /// <summary>
-        /// Status code
+        /// Status code.
         /// </summary>
         public int StatusCode { get; set; }
 
         /// <summary>
-        /// Error message - if failed
+        /// Error message - if failed.
         /// </summary>
         public string ErrorMessage { get; set; }
 
@@ -43,7 +43,7 @@ namespace Sortify.Contracts.Responses.Base
         }
 
         /// <summary>
-        /// Operation failed
+        /// Operation failed.
         /// </summary>
         /// <param name="statusCode">Status code</param>
         /// <param name="errorMessage">Error message</param>
@@ -52,7 +52,7 @@ namespace Sortify.Contracts.Responses.Base
             new OperationResult<TRequest, TResponse>(default, statusCode, errorMessage);
 
         /// <summary>
-        /// Operation succeeded
+        /// Operation succeeded.
         /// </summary>
         /// <param name="result">Result for user</param>
         /// <returns></returns>
@@ -61,17 +61,17 @@ namespace Sortify.Contracts.Responses.Base
     }
 
     /// <summary>
-    /// Result of system processing a request of with no response except success indicator
+    /// Result of system processing a request with no response except success indicator.
     /// </summary>
     public class OperationResult
     {
         /// <summary>
-        /// Status code
+        /// Status code.
         /// </summary>
         public int StatusCode { get; set; }
 
         /// <summary>
-        /// Error message - if failed
+        /// Error message - if failed.
         /// </summary>
         public string ErrorMessage { get; set; }
 
@@ -87,7 +87,7 @@ namespace Sortify.Contracts.Responses.Base
         }
 
         /// <summary>
-        /// Operation failed
+        /// Operation failed.
         /// </summary>
         /// <param name="statusCode">Status code</param>
         /// <param name="errorMessage">Error message</param>
@@ -96,7 +96,7 @@ namespace Sortify.Contracts.Responses.Base
             new OperationResult(statusCode, errorMessage);
 
         /// <summary>
-        /// Operation succeeded
+        /// Operation succeeded.
         /// </summary>
         /// <returns></returns>
         public static OperationResult Success() =>

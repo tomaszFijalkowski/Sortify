@@ -3,7 +3,7 @@
 namespace Sortify.Contracts.Requests.Commands.Base
 {
     /// <summary>
-    /// Modify information in system
+    /// Modify information in the system.
     /// </summary>
     public interface ICommand : IRequest
     {
