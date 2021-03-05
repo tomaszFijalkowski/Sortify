@@ -1,8 +1,8 @@
 import { finalize } from 'rxjs/operators';
+import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
-import { GetPlaylistsResponse, Playlist } from 'src/app/models/get-playlists.response';
-import { OperationResult } from 'src/app/models/operation-result';
-import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
+import { OperationResult } from 'src/app/models/responses/base/operation-result';
+import { GetPlaylistsResponse, Playlist } from 'src/app/models/responses/get-playlists.response';
 import { PlaylistService } from 'src/app/services/playlist.service';
 import { UserService } from 'src/app/services/user.service';
 

@@ -1,9 +1,9 @@
 import { finalize } from 'rxjs/operators';
-import { CreatePlaylistsRequest } from 'src/app/models/create-playlists.request';
+import { BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
 import { RequestDetails } from 'src/app/models/request-details';
-import { BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
+import { CreatePlaylistsRequest } from 'src/app/models/requests/create-playlists.request';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 

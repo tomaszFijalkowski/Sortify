@@ -1,4 +1,4 @@
-import { UserDetails } from 'src/app/models/get-user-details.response';
+import { UserDetails } from 'src/app/models/responses/get-user-details.response';
 
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';

@@ -16,7 +16,8 @@ export class VideoPreviewComponent implements OnInit {
   }
 
   onLoadStart(): void {
-    setTimeout(() => this.videoLoading = this.videoLoading !== false, 150);
+    const progressSpinnerDelay = 150;
+    setTimeout(() => this.videoLoading = this.videoLoading !== false, progressSpinnerDelay);
   }
 
   onLoadEnd(): void {

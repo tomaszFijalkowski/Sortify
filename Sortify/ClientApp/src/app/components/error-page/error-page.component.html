@@ -2,7 +2,9 @@
   <div class="inner-container">
     <h1>{{statusCode}}</h1>
     <h2>{{errorMessage}}</h2>
+
     <button *ngIf="showLoginButton; else homeButton" mat-button color="primary" (click)="login()">Log in with Spotify</button>
+
     <ng-template #homeButton>
       <button mat-button color="primary" [routerLink]="['']">Go home</button>
     </ng-template>

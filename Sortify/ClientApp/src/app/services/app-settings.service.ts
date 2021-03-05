@@ -4,8 +4,8 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { AppSettings, GetAppSettingsResponse } from '../models/get-app-settings.response';
-import { OperationResult } from '../models/operation-result';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { AppSettings, GetAppSettingsResponse } from '../models/responses/get-app-settings.response';
 
 @Injectable({
   providedIn: 'root'

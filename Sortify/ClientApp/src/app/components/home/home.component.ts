@@ -1,4 +1,4 @@
-import { UserDetails } from 'src/app/models/get-user-details.response';
+import { UserDetails } from 'src/app/models/responses/get-user-details.response';
 import { AuthService } from 'src/app/services/auth.service';
 
 import { Component, OnInit } from '@angular/core';

@@ -1,4 +1,4 @@
-import { Playlist } from '../get-playlists.response';
+import { Playlist } from '../responses/get-playlists.response';
 
 export class SelectionChangedEvent {
   constructor(

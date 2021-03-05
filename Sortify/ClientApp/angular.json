@@ -25,7 +25,7 @@
               "src/silent-refresh.html"
             ],
             "styles": [
-              "src/styles/custom-theme.scss",
+              "src/styles/custom-theme.sass",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles/styles.sass",
               "src/styles/custom-material.sass"

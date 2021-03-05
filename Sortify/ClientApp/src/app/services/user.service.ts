@@ -4,8 +4,8 @@ import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { GetUserDetailsResponse, UserDetails } from '../models/get-user-details.response';
-import { OperationResult } from '../models/operation-result';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { GetUserDetailsResponse, UserDetails } from '../models/responses/get-user-details.response';
 
 @Injectable({
   providedIn: 'root'

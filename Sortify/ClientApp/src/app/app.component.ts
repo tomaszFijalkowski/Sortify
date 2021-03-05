@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { BREAKPOINT_TABLET } from './models/resolution-breakpoints';
+import { BREAKPOINT_TABLET } from './models/constants/resolution-breakpoints';
 
 @Component({
   selector: 'app-root',

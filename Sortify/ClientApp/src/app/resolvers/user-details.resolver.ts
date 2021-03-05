@@ -4,8 +4,8 @@ import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 
-import { GetUserDetailsResponse } from '../models/get-user-details.response';
-import { OperationResult } from '../models/operation-result';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { GetUserDetailsResponse } from '../models/responses/get-user-details.response';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 

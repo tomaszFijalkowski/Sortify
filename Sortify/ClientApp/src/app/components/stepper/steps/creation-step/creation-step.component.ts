@@ -1,6 +1,6 @@
 import { clamp } from 'lodash';
+import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { CreationForm, CreationFormChangedEvent } from 'src/app/models/events/creation-form-changed.event';
-import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
 
 import {
     AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild

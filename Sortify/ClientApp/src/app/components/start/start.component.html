@@ -2,6 +2,7 @@
   <div class="inner-container" *ngIf="!stepperLoading">
     <h1>Hi, {{userDetails?.displayName || 'unknown'}}</h1>
     <h2>What would you like to do with your playlists?</h2>
+
     <div class="start-buttons">
       <button mat-button color="primary" class="left-button" (click)="sort()">Sort</button>
       <button mat-button color="primary" class="right-button" (click)="create()">Create</button>

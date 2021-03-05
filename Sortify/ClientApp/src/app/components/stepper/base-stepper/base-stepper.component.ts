@@ -1,11 +1,11 @@
 import { sum } from 'lodash';
 import { Subscription } from 'rxjs';
+import { BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
-import { Playlist } from 'src/app/models/get-playlists.response';
 import { RequestDetails } from 'src/app/models/request-details';
-import { BREAKPOINT_TABLET } from 'src/app/models/resolution-breakpoints';
+import { Playlist } from 'src/app/models/responses/get-playlists.response';
 import { SortableItem } from 'src/app/models/sortable-item';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 

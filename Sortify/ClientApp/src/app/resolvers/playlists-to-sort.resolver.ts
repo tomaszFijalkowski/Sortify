@@ -4,9 +4,9 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 
-import { GetPlaylistsResponse } from '../models/get-playlists.response';
-import { GetUserDetailsResponse } from '../models/get-user-details.response';
-import { OperationResult } from '../models/operation-result';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { GetPlaylistsResponse } from '../models/responses/get-playlists.response';
+import { GetUserDetailsResponse } from '../models/responses/get-user-details.response';
 import { PlaylistService } from '../services/playlist.service';
 import { UserService } from '../services/user.service';
 

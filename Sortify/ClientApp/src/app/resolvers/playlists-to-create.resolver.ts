@@ -4,8 +4,8 @@ import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 
-import { GetPlaylistsResponse } from '../models/get-playlists.response';
-import { OperationResult } from '../models/operation-result';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { GetPlaylistsResponse } from '../models/responses/get-playlists.response';
 import { PlaylistService } from '../services/playlist.service';
 
 @Injectable({ providedIn: 'root' })

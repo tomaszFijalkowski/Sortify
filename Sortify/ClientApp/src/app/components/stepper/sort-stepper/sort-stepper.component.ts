@@ -2,7 +2,7 @@ import { finalize } from 'rxjs/operators';
 import { RequestState } from 'src/app/models/enums/request-state.enum';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { RequestDetails } from 'src/app/models/request-details';
-import { SortPlaylistsRequest } from 'src/app/models/sort-playlists.request';
+import { SortPlaylistsRequest } from 'src/app/models/requests/sort-playlists.request';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 

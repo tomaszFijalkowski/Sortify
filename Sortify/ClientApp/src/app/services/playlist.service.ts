@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
-import { CreatePlaylistsRequest } from '../models/create-playlists.request';
-import { GetPlaylistsResponse } from '../models/get-playlists.response';
-import { Nothing } from '../models/nothing';
-import { OperationResult } from '../models/operation-result';
-import { SortPlaylistsRequest } from '../models/sort-playlists.request';
+import { CreatePlaylistsRequest } from '../models/requests/create-playlists.request';
+import { SortPlaylistsRequest } from '../models/requests/sort-playlists.request';
+import { OperationResult } from '../models/responses/base/operation-result';
+import { GetPlaylistsResponse } from '../models/responses/get-playlists.response';
+import { Nothing } from '../models/responses/nothing';
 
 @Injectable({
   providedIn: 'root'

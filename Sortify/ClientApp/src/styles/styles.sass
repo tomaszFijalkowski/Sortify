@@ -1,10 +1,6 @@
 @import 'variables.sass'
 @import 'animations.sass'
 
-@media(min-width: $breakpoint-tablet + 1)
-  html
-    scroll-behavior: smooth
-
 h1
   font-family: "CircularSpotifyTxT-Black"
   font-size: 5em
@@ -51,6 +47,7 @@ body
   pointer-events: none
   opacity: 0
 
+
 // router wrapper
 
 .router-wrapper
@@ -92,11 +89,16 @@ input[type=number]
 ::-webkit-scrollbar
   width: 5px
 
-// ::-webkit-scrollbar-track
-
 ::-webkit-scrollbar-thumb
   background-color: $gray-light
   border-radius: 5px
 
 ::-webkit-scrollbar-thumb:hover
   background-color: $white-dim
+
+
+// smooth scroll
+
+@media(min-width: $breakpoint-tablet + 1)
+  html
+    scroll-behavior: smooth
