@@ -90,7 +90,7 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
           this.sendRequest(connectionId);
         }
       })
-      .catch(() => this.request = new RequestDetails(RequestState.Error, 0, 'Could not establish connection to the server.'));
+      .catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
   }
 
   private sendRequest(connectionId: string): void {
