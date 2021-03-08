@@ -4,8 +4,8 @@
 
 ## About the project
 
-Sortify is a single-page application that aims to help people organize their Spotify libraries.
-It uses **Spotify Web API** to sort existing playlists or create new ones while being very simple and friendly to use.
+Sortify is a **single-page application** that aims to help people organize their Spotify libraries.
+It uses **Spotify Web API** to fetch, sort and create playlists. All that, while being very simple and friendly to use.
 
 **Try it now on [sortify.it](https://www.sortify.it)** :point_left:
 
