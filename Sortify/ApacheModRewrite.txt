@@ -1,0 +1,3 @@
+﻿RewriteCond %{HTTP_HOST} ^www.sortify.it [OR]
+RewriteCond %{HTTP_HOST} ^sortify.azurewebsites.net
+RewriteRule (.*) https://sortify.it$1 [R=301,L]

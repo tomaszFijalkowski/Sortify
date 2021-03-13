@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sortify.Extensions;
 using Sortify.Hubs;
 using System;
-using System.Net;
+using System.IO;
 using System.Text.Json.Serialization;
 
 namespace Sortify
@@ -56,8 +56,16 @@ namespace Sortify
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            using (StreamReader apacheModRewriteStreamReader = File.OpenText("ApacheModRewrite.txt"))
+            {
+                var options = new RewriteOptions()
+                    .AddApacheModRewrite(apacheModRewriteStreamReader)
+                    .AddRedirectToHttpsPermanent();
+                app.UseRewriter(options);
+            }
+
             app.UseStaticFiles();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
