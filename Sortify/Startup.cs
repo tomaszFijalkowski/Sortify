@@ -40,22 +40,12 @@ namespace Sortify
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.Configure<ForwardedHeadersOptions>(options =>
-            {
-                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-            });
-
             return new ServiceResolver(services).GetServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (Configuration.GetValue<bool>("UseReverseProxy"))
-            {
-                app.UseForwardedHeaders();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
