@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="app-container" [ngClass]="{'gray-background': hideBackgroundImage}">
   <div class="background-img" [ngClass]="{'hide-background-img': hideBackgroundImage}">
     <div class="router-wrapper">
       <router-outlet></router-outlet>

@@ -2,7 +2,7 @@
   <mat-icon>info</mat-icon>Drag and drop or click the properties you want to sort by.
 </mat-card>
 
-<div class="top-row">
+<div class="header-row">
   <h1>Basic properties</h1>
 
   <div class="buttons">
@@ -26,7 +26,9 @@
   </div>
 </mat-chip-list>
 
-<h1>Audio features</h1>
+<div class="header-row">
+  <h1>Audio features</h1>
+</div>
 
 <mat-chip-list disabled="{{audioFeatureSelected}}">
   <div class="sortable-group" [sortablejs]="audioFeatures" [sortablejsOptions]="audioFeaturesOptions">
@@ -40,7 +42,9 @@
   </div>
 </mat-chip-list>
 
-<h1>Sort by</h1>
+<div class="header-row">
+  <h1>Sort by</h1>
+</div>
 
 <mat-chip-list>
   <div #sortByGroup class="sortable-group" [sortablejs]="sortBy" [sortablejsOptions]="sortByOptions" id="dropzone"

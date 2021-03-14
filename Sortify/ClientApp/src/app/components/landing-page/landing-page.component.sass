@@ -15,6 +15,14 @@
   animation: container-fade-in $transition-time-medium $transition-curve
 
 
+@media(max-width: $breakpoint-tablet)
+  .outer-container
+    min-height: calc(100vh - #{$footer-height})
+
+  .inner-container
+    position: relative
+
+
 @media(min-height: $breakpoint-phone)
   .inner-container
     top: 25%
@@ -24,7 +32,7 @@
   margin-bottom: 0.5rem
 
 .preview
-  margin-top: 2.5em
+  margin: 2.5em 0 0.5em 0
   display: flex
   align-items: center
   justify-content: center

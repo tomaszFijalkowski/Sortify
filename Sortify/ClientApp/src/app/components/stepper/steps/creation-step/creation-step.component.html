@@ -3,7 +3,7 @@
 </mat-card>
 
 <form [formGroup]="form" #formDirective="ngForm">
-  <div class="top-row">
+  <div class="header-row">
     <h1>Split the playlist</h1>
   
     <div class="buttons">
@@ -60,7 +60,9 @@
     </button>
   </div>
 
-  <h1>Playlist details</h1>
+  <div class="header-row">
+    <h1>Playlist details</h1>
+  </div>
 
   <mat-grid-list class="playlist-details-grid" cols="{{gridCols}}" rows="2" rowHeight="70px" gutterSize="{{gutterSize}}">
     <mat-grid-tile colspan="1" rowspan="1">

@@ -13,9 +13,12 @@ h3
 
 body
   margin: 0
-  background: $gray-dark-background
+  background: $gray-dark-row
   font-family: "CircularSpotifyTxT-Med"
   font-size: 0.875rem
+
+.gray-background
+  background: $gray-dark-background
 
 .background-img:not(.hide-background-img)
   background: url('../assets/background.jpg') no-repeat center center fixed
@@ -52,6 +55,11 @@ body
 
 .router-wrapper
   min-height: 100vh
+
+
+@media(max-width: $breakpoint-tablet)
+  .router-wrapper
+    min-height: calc(100vh - #{$footer-height})
 
 
 // images and icons
