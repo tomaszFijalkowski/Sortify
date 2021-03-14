@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Sortify.Extensions;
 using Sortify.Hubs;
 using System;
@@ -64,12 +66,19 @@ namespace Sortify
                 app.UseRewriter(options);
             }
 
-            app.UseStaticFiles();
-
-            if (!env.IsDevelopment())
+            app.UseSpaStaticFiles(new StaticFileOptions
             {
-                app.UseSpaStaticFiles();
-            }
+                OnPrepareResponse = (context) =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+
+                    headers.CacheControl = new CacheControlHeaderValue
+                    {
+                        Public = true,
+                        MaxAge = TimeSpan.FromDays(365)
+                    };
+                }
+            });
 
             #if DEBUG
             app.UseSwagger();
