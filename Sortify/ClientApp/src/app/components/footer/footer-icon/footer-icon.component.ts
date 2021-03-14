@@ -1,4 +1,4 @@
-import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 import { ViewportScroller } from '@angular/common';
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
@@ -19,7 +19,7 @@ export class FooterIconComponent implements OnInit {
   @ViewChild('icon', {static: true}) icon: HTMLElement;
 
   constructor(private viewportScroller: ViewportScroller,
-    private authService: AuthService,
+    private userService: UserService,
     private dialog: MatDialog) {
   }
 
@@ -66,10 +66,10 @@ export class FooterIconComponent implements OnInit {
   }
 
   get useSlowFooterIconEntrance(): boolean {
-    return !this.hidden && !this.authService.isLoggedIn();
+    return !this.hidden && !this.userService.currentUserDetails;
   }
 
   get useFastFooterIconEntrance(): boolean {
-    return !this.hidden && this.authService.isLoggedIn();
+    return !this.hidden && (this.userService.currentUserDetails ? true : false);
   }
 }
