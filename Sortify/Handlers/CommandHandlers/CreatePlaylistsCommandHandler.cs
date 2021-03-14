@@ -192,7 +192,7 @@ namespace Sortify.Handlers.QueryHandlers
 
             foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
             {
-                track.AudioFeatures = mapper.Map<AudioFeatures>(audioFeatures);
+                track.AudioFeatures = track.IsEpisode ? new AudioFeatures() : mapper.Map<AudioFeatures>(audioFeatures);
             }
 
             return tracks;
@@ -200,6 +200,8 @@ namespace Sortify.Handlers.QueryHandlers
 
         private List<Track> SortTracks(IEnumerable<Track> tracks, IEnumerable<string> sortBy)
         {
+            sortBy = sortBy.Prepend("IsEpisode asc");
+
             var sortByPhrase = string.Join(",", sortBy);
             var sortedTracks = tracks.AsQueryable()
                                      .OrderBy(sortByPhrase)

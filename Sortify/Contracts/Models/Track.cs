@@ -29,5 +29,7 @@
         public string Uri { get; set; }
 
         public bool IsLocal { get; set; }
+
+        public bool IsEpisode { get; set; }
     }
 }

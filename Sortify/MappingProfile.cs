@@ -30,6 +30,11 @@ namespace Sortify
                         return selectedImage ?? src.Images.FirstOrDefault();
                     }));
 
+            CreateMap<FullEpisode, Track>()
+                .ForMember(
+                    dest => dest.IsEpisode,
+                    opt => opt.MapFrom(src => src.Type == ItemType.Episode));
+
             CreateMap<FullTrack, Track>()
                 .ForMember(
                     dest => dest.ArtistId,
@@ -54,7 +59,10 @@ namespace Sortify
                     opt => opt.MapFrom(src => src.DurationMs))
                 .ForMember(
                     dest => dest.AudioFeatures,
-                    opt => opt = null);
+                    opt => opt = null)
+                .ForMember(
+                    dest => dest.IsEpisode,
+                    opt => opt.MapFrom(src => src.Type == ItemType.Episode));
 
             CreateMap<TrackAudioFeatures, AudioFeatures>();
 
