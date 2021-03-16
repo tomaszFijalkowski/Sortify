@@ -1,3 +1,5 @@
+import { BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
+
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,5 +12,8 @@ export class PrivacyComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (window.innerWidth <= BREAKPOINT_TABLET) {
+      window.scroll(0, 0);
+    }
   }
 }

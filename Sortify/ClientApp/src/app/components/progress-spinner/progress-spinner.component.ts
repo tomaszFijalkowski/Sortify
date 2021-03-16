@@ -11,5 +11,4 @@ export class ProgressSpinnerComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
