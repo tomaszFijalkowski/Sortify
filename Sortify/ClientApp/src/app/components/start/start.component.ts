@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class StartComponent implements OnInit {
   @Input() userDetails: UserDetails;
-  stepperLoading: boolean;
 
   constructor(private router: Router) {
   }
@@ -19,12 +18,10 @@ export class StartComponent implements OnInit {
   }
 
   sort(): void {
-    this.stepperLoading = true;
     this.router.navigate(['/sort']);
   }
 
   create(): void {
-    this.stepperLoading = true;
     this.router.navigate(['/create']);
   }
 }

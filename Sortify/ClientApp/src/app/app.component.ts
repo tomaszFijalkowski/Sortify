@@ -1,22 +1,39 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { BREAKPOINT_TABLET } from './models/constants/resolution-breakpoints';
+import { LoadingService } from './services/loading.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
   isOnStepper: boolean;
+  isLoading: boolean;
 
-  constructor(router: Router) {
-    router.events.subscribe((route) => {
+  constructor(private router: Router,
+    private loadingService: LoadingService) {
+  }
+
+  ngOnInit() {
+    this.onRouteChange();
+    this.onLoadingChange();
+  }
+
+  private onRouteChange(): void {
+    this.router.events.subscribe((route) => {
       if (route instanceof NavigationEnd) {
         this.isOnStepper = route.url === '/sort' || route.url === '/create';
         this.setBodyBackground();
       }
+    });
+  }
+
+  private onLoadingChange(): void {
+    this.loadingService.isLoading.subscribe(isLoading => {
+      this.isLoading = isLoading;
     });
   }
 

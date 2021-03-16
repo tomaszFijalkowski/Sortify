@@ -39,6 +39,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { VideoPreviewComponent } from './components/landing-page/video-preview/video-preview.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { StartComponent } from './components/start/start.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import { SortStepperComponent } from './components/stepper/sort-stepper/sort-stepper.component';
@@ -52,6 +53,7 @@ import { SortingStepComponent } from './components/stepper/steps/sorting-step/so
 import { KeyboardClickDirective } from './directives/keyboard-click.directive';
 import { PlaylistsToCreateResolver } from './resolvers/playlists-to-create.resolver';
 import { PlaylistsToSortResolver } from './resolvers/playlists-to-sort.resolver';
+import { UserDetailsResolver } from './resolvers/user-details.resolver';
 import { AppSettingsService } from './services/app-settings.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/guards/auth-guard.service';
@@ -78,6 +80,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     FooterComponent,
     FooterIconComponent,
     VideoPreviewComponent,
+    ProgressSpinnerComponent,
     KeyboardClickDirective
   ],
   imports: [
@@ -136,7 +139,8 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     AuthGuardService,
     ConfirmationGuardService,
     PlaylistsToCreateResolver,
-    PlaylistsToSortResolver
+    PlaylistsToSortResolver,
+    UserDetailsResolver
   ],
   bootstrap: [
     AppComponent

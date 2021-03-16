@@ -1,9 +1,10 @@
 <div class="app-container">
   <div class="background-img" [ngClass]="{'hide-background-img': hideBackgroundImage}">
     <div class="router-wrapper">
-      <router-outlet></router-outlet>
+      <router-outlet *ngIf="!isLoading"></router-outlet>
+      <app-progress-spinner *ngIf="isLoading"></app-progress-spinner>
     </div>
-    <app-footer-icon [hidden]='isOnStepper'></app-footer-icon>
+    <app-footer-icon [hidden]='isOnStepper || isLoading'></app-footer-icon>
     <app-footer></app-footer>
   </div>
 </div>

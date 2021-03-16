@@ -1,0 +1,19 @@
+@import '../../../styles/variables.sass'
+
+.outer-container
+  display: flex
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  position: relative
+
+.inner-container
+  display: flex
+  align-items: center
+  justify-content: center
+  animation: progress-spinner-entrance $transition-time-slow $transition-curve
+
+
+@media(max-width: $breakpoint-tablet)
+  .outer-container
+    min-height: calc(100vh - #{$footer-height})
