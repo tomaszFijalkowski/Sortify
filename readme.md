@@ -5,7 +5,8 @@
 ## About the project
 
 Sortify is a **single-page application** that aims to help people organize their Spotify libraries.
-It uses **Spotify Web API** to fetch, sort and create playlists. All that, while being very simple and friendly to use.
+It uses **Spotify Web API** to fetch, sort and create playlists. When creating, you have an option to merge or split the playlists.
+It also removes any track duplicates from them. All that, while being very simple and friendly to use.
 
 **Try it now on [sortify.it](https://www.sortify.it)** :point_left:
 
@@ -30,7 +31,7 @@ Sortify was made with **ASP&#46;NET Core 3.1** and **Angular 11.** It connects t
 - [SpotifyAPI.Web](https://www.nuget.org/packages/SpotifyAPI.Web/6.0.0-beta.12) for communication with Spotify Web API.
 - [Swagger](https://www.nuget.org/packages/Swashbuckle.AspNetCore/5.6.3) for documenting API.
 
-**If you like this project, consider giving it a :star: or... 😄**
+**If you like this project, consider giving it a :star: or...**
 
 <a href="//www.buymeacoffee.com/sortify">
   <img class="buy-me-a-coffee" src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=sortify&button_colour=1db954&font_colour=FFFFFF&font_family=Cookie&outline_colour=FFFFFF&coffee_colour=6F4E37">
