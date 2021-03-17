@@ -55,7 +55,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <button mat-icon-button (click)="openSmartSplitHelp()" matTooltip="What is this?" aria-label="Help">
+    <button mat-icon-button (click)="openSmartSplitHelp()" matTooltip="What is this?" aria-label="Smart Split help">
       <mat-icon>help</mat-icon>
     </button>
   </div>
@@ -123,6 +123,7 @@
   </mat-grid-list>
 
   <div class="checkbox-container">
-    <mat-checkbox class="make-secret-checkbox" formControlName="isSecret" appKeyboardClick>Make secret</mat-checkbox>
+    <mat-checkbox matTooltip="Hide playlist{{splitByTracksSelected || splitByPlaylistsSelected ? 's' : ''}} from your profile"
+      [matTooltipClass]="'make-secret-tooltip'" class="make-secret-checkbox" formControlName="isSecret" appKeyboardClick>Make secret</mat-checkbox>
   </div>
 </form>
