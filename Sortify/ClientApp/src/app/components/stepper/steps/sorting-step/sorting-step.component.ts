@@ -5,6 +5,10 @@ import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event'
 import { SortableItem } from 'src/app/models/sortable-item';
 
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { AudioFeaturesHelpComponent } from './audio-features-help/audio-features-help.component';
+import { SortByHelpComponent } from './sort-by-help/sort-by-help.component';
 
 @Component({
   selector: 'app-sorting-step',
@@ -62,7 +66,8 @@ export class SortingStepComponent implements OnInit {
 
   @Output() sortByChanged = new EventEmitter();
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private dialog: MatDialog,
+    private changeDetector: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -255,5 +260,23 @@ export class SortingStepComponent implements OnInit {
   clearSorting(): void {
     this.setInitialSorting();
     this.emitSortByChanged();
+  }
+
+  openAudioFeaturesHelp(): void {
+    this.dialog.open(AudioFeaturesHelpComponent, {
+      width: '720px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'help'
+    });
+  }
+
+  openSortByHelp(): void {
+    this.dialog.open(SortByHelpComponent, {
+      width: '540px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'help'
+    });
   }
 }

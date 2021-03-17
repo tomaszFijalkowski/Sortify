@@ -28,6 +28,12 @@
 
 <div class="header-row">
   <h1>Audio features</h1>
+
+  <div class="help-button">
+    <button mat-icon-button (click)="openAudioFeaturesHelp()" matTooltip="What is this?" aria-label="Audio Features help">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
 </div>
 
 <mat-chip-list disabled="{{audioFeatureSelected}}">
@@ -44,6 +50,12 @@
 
 <div class="header-row">
   <h1>Sort by</h1>
+
+  <div class="help-button">
+    <button mat-icon-button (click)="openSortByHelp()" matTooltip="What is this?" aria-label="Sort By help">
+      <mat-icon>help</mat-icon>
+    </button>
+  </div>
 </div>
 
 <mat-chip-list class="last">
@@ -52,11 +64,11 @@
       'dropzone-highlight-red': dropzoneIsHighlightedRed}">
 
     <mat-chip [attr.data-name]="item.name" [attr.data-value]="item.value" [attr.data-initialIndex]="item.initialIndex"
-      [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy" selectable="false"
+      [attr.data-initialgroup]="item.initialGroup" *ngFor="let item of sortBy; let i=index" selectable="false"
         (keydown.enter)="changeOrder(item)" (keydown.space)="changeOrder(item)" (keydown.delete)="deselectChip($event)">
       <mat-icon class="order-icon" *ngIf="item.order === 'asc'" (click)="changeOrder(item)">arrow_upward</mat-icon>
       <mat-icon class="order-icon" *ngIf="item.order === 'desc'" (click)="changeOrder(item)">arrow_downward</mat-icon>
-      {{item.name}}
+        {{i+1}}. {{item.name}}
       <mat-icon matChipRemove (click)="deselectChip($event, true)">cancel</mat-icon>
     </mat-chip>
   </div>

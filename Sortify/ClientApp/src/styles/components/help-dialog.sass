@@ -1,0 +1,30 @@
+@import '../variables.sass'
+
+h1
+  font-size: 1.7em
+  font-family: "CircularSpotifyTxT-Black"
+  text-align: left
+
+.mat-dialog-content
+  font-family: "CircularSpotifyTxT-Light"
+  text-align: left
+  font-size: 14px
+
+.mat-button
+  background-color: $gray
+  font-size: 12px
+  margin: 0
+
+.mat-button:hover:not(:disabled),
+.mat-button:focus:not(:disabled)
+  background-color: $gray-hover
+
+
+@media(max-width: $breakpoint-tablet)
+  .mat-button
+    font-size: 11px
+
+
+@media(max-width: $breakpoint-phone)
+  .mat-button
+    font-size: 10px

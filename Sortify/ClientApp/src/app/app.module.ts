@@ -49,6 +49,10 @@ import {
 } from './components/stepper/steps/creation-step/smart-split-help/smart-split-help.component';
 import { EndStepComponent } from './components/stepper/steps/end-step/end-step.component';
 import { SelectionStepComponent } from './components/stepper/steps/selection-step/selection-step.component';
+import {
+    AudioFeaturesHelpComponent
+} from './components/stepper/steps/sorting-step/audio-features-help/audio-features-help.component';
+import { SortByHelpComponent } from './components/stepper/steps/sorting-step/sort-by-help/sort-by-help.component';
 import { SortingStepComponent } from './components/stepper/steps/sorting-step/sorting-step.component';
 import { KeyboardClickDirective } from './directives/keyboard-click.directive';
 import { PlaylistsToCreateResolver } from './resolvers/playlists-to-create.resolver';
@@ -70,6 +74,8 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     CreateStepperComponent,
     SelectionStepComponent,
     SortingStepComponent,
+    AudioFeaturesHelpComponent,
+    SortByHelpComponent,
     CreationStepComponent,
     SmartSplitHelpComponent,
     EndStepComponent,

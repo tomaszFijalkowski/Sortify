@@ -227,7 +227,7 @@ export class CreationStepComponent implements OnInit, AfterViewInit {
       width: '520px',
       maxWidth: '100vw',
       maxHeight: '100vh',
-      panelClass: 'smart-split-help'
+      panelClass: 'help'
     });
   }
 }
