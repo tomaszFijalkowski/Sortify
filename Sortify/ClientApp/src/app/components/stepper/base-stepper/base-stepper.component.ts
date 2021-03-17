@@ -35,7 +35,7 @@ export class BaseStepperComponent {
 
   shrinkWindow = false;
 
-  @ViewChild('stepper') private stepper: MatStepper;
+  @ViewChild('stepper') protected stepper: MatStepper;
 
   constructor(private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,

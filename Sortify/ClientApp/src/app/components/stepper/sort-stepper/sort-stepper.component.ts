@@ -7,9 +7,11 @@ import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
 import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
+import { SortConfirmationComponent } from './sort-confirmation/sort-confirmation.component';
 
 @Component({
   selector: 'app-sort-stepper',
@@ -25,7 +27,8 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
   constructor(activatedRoute: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
     settingsService: AppSettingsService,
-    private playlistService: PlaylistService) {
+    private playlistService: PlaylistService,
+    private dialog: MatDialog) {
       super(activatedRoute, changeDetector, settingsService);
   }
 
@@ -64,6 +67,23 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
   }
 
   onSortClick(): void {
+    const dialog = this.dialog.open(SortConfirmationComponent, {
+      data: { 'multiplePlaylists': this.sortingMultiplePlaylists },
+      width: '395px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'confirm'
+    });
+
+    const subscription = dialog.componentInstance.onConfirm.subscribe(() => {
+      this.onSortConfirm();
+    });
+
+    dialog.afterClosed().subscribe(() => subscription.unsubscribe());
+  }
+
+  private onSortConfirm(): void {
+    this.stepper.next();
     this.sortPlaylists();
     this.prepareEndScreen();
   }

@@ -28,7 +28,7 @@
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <span [matTooltipClass]="'button-tooltip'" matTooltipDisabled="{{!sortDisabled}}" matTooltip="{{sortDisabledTooltip}}">
-          <button mat-button matStepperNext (click)="onSortClick()" [disabled]="sortDisabled">Sort</button>
+          <button mat-button (click)="onSortClick()" [disabled]="sortDisabled">Sort</button>
         </span>
       </div>
     </mat-step>

@@ -1,0 +1,13 @@
+<h1>Confirm operation</h1>
+
+<mat-dialog-content>
+  <p>This operation will delete all existing tracks from selected playlist{{multiplePlaylists ? 's' : ''}} and add new ones with applied sorting.
+    It will also remove any duplicates.</p>
+
+  <p><span class="bold">This operation is irreversible.</span></p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close class="confirm-button" (click)="onConfirmClick()">Confirm</button>
+</mat-dialog-actions>

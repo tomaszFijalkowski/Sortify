@@ -337,58 +337,102 @@
     margin-bottom: 16px
 
 
-// help mat-dialog
+// confirm/help mat-dialog
 
+.confirm .mat-dialog-container h1,
+.confirm .mat-dialog-container p,
 .help .mat-dialog-container h1,
 .help .mat-dialog-container p
   margin-bottom: 16px
 
+.confirm .mat-dialog-container p:last-of-type,
+.help .mat-dialog-container p:last-of-type
+  margin-bottom: 0
+
+.confirm .mat-dialog-container,
 .help .mat-dialog-container
   background-color: $gray-dark-row-hover
   border-radius: 10px
   margin: 24px
 
+.confirm .mat-dialog-actions,
 .help .mat-dialog-actions
   margin-bottom: -24px
   padding: 24px 0
   min-height: auto
 
+.confirm .mat-dialog-actions .mat-button-base
+  margin: 0 12px 0 0
+
+.confirm .mat-dialog-actions .mat-button-base+.mat-button-base
+  margin: 0 0 0 12px
+
 
 @media(max-width: $breakpoint-tablet)
+  .confirm .mat-dialog-container h1,
+  .confirm .mat-dialog-container p,
   .help .mat-dialog-container h1,
   .help .mat-dialog-container p
     margin-bottom: 13.333px
 
+  .confirm .mat-dialog-container p:last-of-type,
+  .help .mat-dialog-container p:last-of-type
+    margin-bottom: 0
+
+  .confirm .mat-dialog-container,
   .help .mat-dialog-container
     padding: 20px
     margin: 20px
 
+  .confirm .mat-dialog-content,
   .help .mat-dialog-content
     max-height: 45vh
     margin: 0 -20px
     padding: 0 20px
 
+  .confirm .mat-dialog-actions,
   .help .mat-dialog-actions
     margin-bottom: -20px
     padding: 20px 0
 
+  .confirm .mat-dialog-actions .mat-button-base
+    margin: 0 10px 0 0
+
+  .confirm .mat-dialog-actions .mat-button-base+.mat-button-base
+    margin: 0 0 0 10px
+
 
 @media(max-width: $breakpoint-phone)
+  .confirm .mat-dialog-container h1,
+  .confirm .mat-dialog-container p,
   .help .mat-dialog-container h1,
   .help .mat-dialog-container p
     margin-bottom: 10.666px
 
+  .confirm .mat-dialog-container p:last-of-type,
+  .help .mat-dialog-container p:last-of-type
+    margin-bottom: 0
+
+  .confirm .mat-dialog-container,
   .help .mat-dialog-container
     padding: 16px
     margin: 16px
 
+  .confirm .mat-dialog-content,
   .help .mat-dialog-content
     margin: 0 -16px
     padding: 0 16px
 
+  .confirm .mat-dialog-actions,
   .help .mat-dialog-actions
     margin-bottom: -16px
     padding: 16px 0
+
+  .confirm .mat-dialog-actions .mat-button-base
+    margin: 0 8px 0 0
+
+  .confirm .mat-dialog-actions .mat-button-base+.mat-button-base
+    margin: 0 0 0 8px
 
 
 // video-preview mat-dialog

@@ -42,6 +42,9 @@ import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { StartComponent } from './components/start/start.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
+import {
+    SortConfirmationComponent
+} from './components/stepper/sort-stepper/sort-confirmation/sort-confirmation.component';
 import { SortStepperComponent } from './components/stepper/sort-stepper/sort-stepper.component';
 import { CreationStepComponent } from './components/stepper/steps/creation-step/creation-step.component';
 import {
@@ -71,6 +74,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     LandingPageComponent,
     StartComponent,
     SortStepperComponent,
+    SortConfirmationComponent,
     CreateStepperComponent,
     SelectionStepComponent,
     SortingStepComponent,
