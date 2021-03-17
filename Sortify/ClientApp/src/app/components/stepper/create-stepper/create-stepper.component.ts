@@ -7,6 +7,7 @@ import { CreatePlaylistsRequest } from 'src/app/models/requests/create-playlists
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { PlaylistService } from 'src/app/services/playlist.service';
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -117,8 +118,12 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
         this.request = response.successful
           ? new RequestDetails(RequestState.Successful, 100, 'Complete')
           : new RequestDetails(RequestState.Error, 100, response.errorMessage);
-      }, () => {
-        this.request = new RequestDetails(RequestState.Error, 100, 'Something went wrong. Please try again later.');
+      }, (error: HttpErrorResponse) => {
+        const errorMessage = error.status === 504
+          ? 'The\u00A0request\u00A0timed\u00A0out. Please\u00A0lower\u00A0the\u00A0total\u00A0amount\u00A0of\u00A0tracks.'
+          : 'Something\u00A0went\u00A0wrong. Please\u00A0try\u00A0again\u00A0later';
+
+        this.request = new RequestDetails(RequestState.Error, 100, errorMessage);
       });
   }
 }
