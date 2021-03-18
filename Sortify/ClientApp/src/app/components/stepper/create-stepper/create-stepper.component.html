@@ -41,7 +41,7 @@
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <span [matTooltipClass]="'button-tooltip'" matTooltipDisabled="{{!createDisabled}}" matTooltip="{{createDisabledTooltip}}">
-          <button mat-button matStepperNext (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
+          <button mat-button (click)="onCreateClick()" [disabled]="createDisabled">Create</button>
         </span>
       </div>
     </mat-step>

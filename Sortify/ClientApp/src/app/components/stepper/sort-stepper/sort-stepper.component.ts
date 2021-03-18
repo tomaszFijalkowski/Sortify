@@ -25,12 +25,12 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
 
   blockCancellation = false;
 
-  constructor(activatedRoute: ActivatedRoute,
+  constructor(dialog: MatDialog,
+    activatedRoute: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
     settingsService: AppSettingsService,
-    private playlistService: PlaylistService,
-    private dialog: MatDialog) {
-      super(activatedRoute, changeDetector, settingsService);
+    private playlistService: PlaylistService) {
+      super(dialog, activatedRoute, changeDetector, settingsService);
   }
 
   ngOnInit() {
@@ -76,20 +76,32 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
       panelClass: 'confirm'
     });
 
-    const subscription = dialog.componentInstance.onConfirm.subscribe(() => {
-      this.onSortConfirm();
+    dialog.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.onSortConfirm();
+      }
     });
-
-    dialog.afterClosed().subscribe(() => subscription.unsubscribe());
   }
 
   private onSortConfirm(): void {
-    this.stepper.next();
-    this.sortPlaylists();
-    this.prepareEndScreen();
+    const taskWeight = this.estimateTaskWeight();
+
+    if (taskWeight > this.timeoutWarningThreshold) {
+      setTimeout(() => {
+        const dialog = this.openTimeoutWarning(true);
+        dialog.afterClosed().subscribe(confirmed => {
+          if (confirmed) {
+            this.sortPlaylists(taskWeight);
+          }
+        });
+      }, 75);
+    } else {
+      this.sortPlaylists(taskWeight);
+    }
   }
 
-  private sortPlaylists(): void {
+  private sortPlaylists(taskWeight: number): void {
+    this.prepareEndScreen();
     this.establishHubConnection();
     this.handleCancellationBlock();
     this.hubConnection
@@ -97,10 +109,9 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
       .then(() => this.hubConnection.invoke('getConnectionId'))
       .then((connectionId: string) => {
         if (connectionId) {
-          this.sendRequest(connectionId);
+          this.sendRequest(connectionId, taskWeight);
         }
-      })
-      .catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
+      }).catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
   }
 
   private handleCancellationBlock(): void {
@@ -110,10 +121,10 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
     });
   }
 
-  private sendRequest(connectionId: string): void {
+  private sendRequest(connectionId: string, taskWeight: number): void {
     const request = new SortPlaylistsRequest(
       connectionId,
-      this.estimateTaskWeight(),
+      taskWeight,
       this.selectedPlaylists.map(x => x.id),
       this.sortBy.map(x => `${ x.value } ${ x.order }`),
       this.sortByAudioFeatures

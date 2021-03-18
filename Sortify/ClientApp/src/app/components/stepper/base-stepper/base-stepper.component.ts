@@ -10,10 +10,13 @@ import { SortableItem } from 'src/app/models/sortable-item';
 import { AppSettingsService } from 'src/app/services/app-settings.service';
 
 import { ChangeDetectorRef, Component, HostListener, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute } from '@angular/router';
 import { HubConnection } from '@aspnet/signalr/dist/esm/HubConnection';
 import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuilder';
+
+import { TimeoutWarningComponent } from './timeout-warning/timeout-warning.component';
 
 @Component({
   selector: 'app-base-stepper',
@@ -22,6 +25,7 @@ import { HubConnectionBuilder } from '@aspnet/signalr/dist/esm/HubConnectionBuil
 })
 export class BaseStepperComponent {
   protected progressHubUrl: string;
+  protected timeoutWarningThreshold: number;
 
   playlists: Playlist[];
   selectedPlaylists: Playlist[] = [];
@@ -37,7 +41,8 @@ export class BaseStepperComponent {
 
   @ViewChild('stepper') protected stepper: MatStepper;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(protected dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
     private changeDetector: ChangeDetectorRef,
     private settingsService: AppSettingsService) {
   }
@@ -46,6 +51,7 @@ export class BaseStepperComponent {
     const data = this.activatedRoute.snapshot.data;
     this.playlists = data['playlists'].result.playlists;
     this.progressHubUrl = this.settingsService.appSettings.progressHubUrl;
+    this.timeoutWarningThreshold = this.settingsService.appSettings.timeoutWarningThreshold;
   }
 
   afterViewInit(): void {
@@ -106,6 +112,7 @@ export class BaseStepperComponent {
   protected prepareEndScreen(): void {
     this.request.state = RequestState.InProgress;
     this.shrinkWindow = true;
+    this.stepper.next();
   }
 
   protected establishHubConnection(): void {
@@ -125,5 +132,15 @@ export class BaseStepperComponent {
       Math.max(Math.ceil(x.size / maxItemsPerRequest), 1));
 
     return sum(playlistWeights);
+  }
+
+  protected openTimeoutWarning(isSorting: boolean): MatDialogRef<TimeoutWarningComponent> {
+    return this.dialog.open(TimeoutWarningComponent, {
+      data: { 'isSorting': isSorting },
+      width: '415px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'confirm'
+    });
   }
 }

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-sort-confirmation',
@@ -8,9 +8,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class SortConfirmationComponent implements OnInit {
   multiplePlaylists: boolean;
-  onConfirm = new EventEmitter();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {multiplePlaylists: boolean}) {
+  constructor(public dialogRef: MatDialogRef<SortConfirmationComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {multiplePlaylists: boolean}) {
   }
 
   ngOnInit() {
@@ -18,6 +18,6 @@ export class SortConfirmationComponent implements OnInit {
   }
 
   onConfirmClick(): void {
-    this.onConfirm.emit();
+    this.dialogRef.close({confirmed: true});
   }
 }

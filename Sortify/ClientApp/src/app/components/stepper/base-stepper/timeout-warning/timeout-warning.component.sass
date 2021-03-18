@@ -1,0 +1,18 @@
+@import '../../../../../styles/variables.sass'
+@import '../../../../../styles/components/custom-dialog.sass'
+
+.mat-dialog-content
+  text-align: justify
+
+
+@media(max-width: $breakpoint-tablet)
+  .mat-dialog-content
+    text-align: left
+
+
+.confirm-button
+  background-color: $warning !important
+
+.confirm-button:hover,
+.confirm-button:focus
+  background-color: $warning-hover !important

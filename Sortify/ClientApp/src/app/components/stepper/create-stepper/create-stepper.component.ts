@@ -9,6 +9,7 @@ import { PlaylistService } from 'src/app/services/playlist.service';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 
 import { BaseStepperComponent } from '../base-stepper/base-stepper.component';
@@ -25,11 +26,12 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
 
   private creatingMultiplePlaylists: boolean;
 
-  constructor(activatedRoute: ActivatedRoute,
+  constructor(dialog: MatDialog,
+    activatedRoute: ActivatedRoute,
     changeDetector: ChangeDetectorRef,
     settingsService: AppSettingsService,
     private playlistService: PlaylistService) {
-      super(activatedRoute, changeDetector, settingsService);
+      super(dialog, activatedRoute, changeDetector, settingsService);
   }
 
   ngOnInit() {
@@ -77,27 +79,37 @@ export class CreateStepperComponent extends BaseStepperComponent implements OnIn
   }
 
   onCreateClick(): void {
-    this.createPlaylists();
-    this.prepareEndScreen();
+    const taskWeight = this.estimateTaskWeight();
+
+    if (taskWeight > this.timeoutWarningThreshold) {
+      const dialog = this.openTimeoutWarning(false);
+      dialog.afterClosed().subscribe(confirmed => {
+        if (confirmed) {
+          this.createPlaylists(taskWeight);
+        }
+      });
+    } else {
+      this.createPlaylists(taskWeight);
+    }
   }
 
-  private createPlaylists(): void {
+  private createPlaylists(taskWeight: number): void {
+    this.prepareEndScreen();
     this.establishHubConnection();
     this.hubConnection
       .start()
       .then(() => this.hubConnection.invoke('getConnectionId'))
       .then((connectionId: string) => {
         if (connectionId) {
-          this.sendRequest(connectionId);
+          this.sendRequest(connectionId, taskWeight);
         }
-      })
-      .catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
+      }).catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
   }
 
-  private sendRequest(connectionId: string): void {
+  private sendRequest(connectionId: string, taskWeight: number): void {
     const request = new CreatePlaylistsRequest(
       connectionId,
-      this.estimateTaskWeight(),
+      taskWeight,
       this.selectedPlaylists.map(x => x.id),
       this.sortBy.map(x => `${ x.value } ${ x.order }`),
       this.sortByAudioFeatures,

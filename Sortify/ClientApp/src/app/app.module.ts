@@ -41,6 +41,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
 import { StartComponent } from './components/start/start.component';
+import { TimeoutWarningComponent } from './components/stepper/base-stepper/timeout-warning/timeout-warning.component';
 import { CreateStepperComponent } from './components/stepper/create-stepper/create-stepper.component';
 import {
     SortConfirmationComponent
@@ -76,6 +77,7 @@ import { AuthInterceptor } from './services/interceptors/auth-interceptor.servic
     SortStepperComponent,
     SortConfirmationComponent,
     CreateStepperComponent,
+    TimeoutWarningComponent,
     SelectionStepComponent,
     SortingStepComponent,
     AudioFeaturesHelpComponent,

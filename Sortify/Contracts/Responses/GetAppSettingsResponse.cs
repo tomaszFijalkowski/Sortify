@@ -42,5 +42,10 @@ namespace Sortify.Contracts.Responses
         /// The URL used to connect with ProgressHub.
         /// </summary>
         public string ProgressHubUrl { get; set; }
+
+        /// <summary>
+        /// Task weight threshold after which the user will be warned about potential timeouts
+        /// </summary>
+        public int TimeoutWarningThreshold { get; set; }
     }
 }

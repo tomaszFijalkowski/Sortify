@@ -1,0 +1,12 @@
+<h1>Timeout warning</h1>
+
+<mat-dialog-content>
+  <p>You are trying to {{ isSorting ? 'sort' : 'create from'}} a lot of tracks. The request might result in a timeout error. Please lower the total amount of tracks.</p>
+
+  <p class="bold" *ngIf="isSorting">You might lose your tracks.</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close class="confirm-button" (click)="onConfirmClick()">Try anyway</button>
+</mat-dialog-actions>

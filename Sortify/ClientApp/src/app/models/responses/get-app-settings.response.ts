@@ -9,4 +9,5 @@ export interface AppSettings {
   clientId: string;
   clientScope: string;
   progressHubUrl: string;
+  timeoutWarningThreshold: number;
 }
