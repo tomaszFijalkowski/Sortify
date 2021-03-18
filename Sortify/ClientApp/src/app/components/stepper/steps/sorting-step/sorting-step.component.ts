@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { Options, SortableEvent } from 'sortablejs';
+import { BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { SortableGroup } from 'src/app/models/enums/sortable-group.enum';
 import { SortByChangedEvent } from 'src/app/models/events/sort-by-changed.event';
 import { SortableItem } from 'src/app/models/sortable-item';
@@ -31,7 +32,9 @@ export class SortingStepComponent implements OnInit {
     sort: false,
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
-    removeOnSpill: false
+    removeOnSpill: false,
+    fallbackTolerance: 2,
+    forceFallback: window.innerWidth <= BREAKPOINT_TABLET,
   };
 
   audioFeaturesOptions: Options = {
@@ -42,7 +45,9 @@ export class SortingStepComponent implements OnInit {
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
     removeOnSpill: false,
-    filter: '.disabled'
+    filter: '.disabled',
+    fallbackTolerance: 2,
+    forceFallback: window.innerWidth <= BREAKPOINT_TABLET,
   };
 
   sortByOptions: Options = {
@@ -55,7 +60,9 @@ export class SortingStepComponent implements OnInit {
     onStart: event => this.toggleDropzoneBorder(event, true),
     onEnd: event => this.toggleDropzoneBorder(event, false),
     onSpill: event => this.deselectChipOnSpill(event),
-    removeOnSpill: true
+    removeOnSpill: true,
+    fallbackTolerance: 2,
+    forceFallback: window.innerWidth <= BREAKPOINT_TABLET,
   };
 
   dropzoneIsVisible: boolean;
