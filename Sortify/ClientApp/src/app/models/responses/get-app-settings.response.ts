@@ -8,6 +8,6 @@ export interface AppSettings {
   silentRefreshRedirectUri: string;
   clientId: string;
   clientScope: string;
-  progressHubUrl: string;
+  taskHubUrl: string;
   timeoutWarningThreshold: number;
 }

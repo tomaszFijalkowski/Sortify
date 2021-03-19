@@ -30,7 +30,7 @@ export class AppSettingsService {
             silentRefreshRedirectUri: appSettings.silentRefreshRedirectUri,
             clientId : appSettings.clientId,
             clientScope: appSettings.clientScope,
-            progressHubUrl: appSettings.progressHubUrl,
+            taskHubUrl: appSettings.taskHubUrl,
             timeoutWarningThreshold: appSettings.timeoutWarningThreshold
           };
           return response;

@@ -39,9 +39,9 @@ namespace Sortify.Contracts.Responses
         public string ClientScope { get; set; }
 
         /// <summary>
-        /// The URL used to connect with ProgressHub.
+        /// The URL used to connect with TaskHub.
         /// </summary>
-        public string ProgressHubUrl { get; set; }
+        public string TaskHubUrl { get; set; }
 
         /// <summary>
         /// Task weight threshold after which the user will be warned about potential timeouts

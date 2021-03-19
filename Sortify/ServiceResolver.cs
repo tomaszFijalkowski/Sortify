@@ -4,6 +4,8 @@ using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Sortify.Handlers.CommandHandlers.Base;
 using Sortify.Handlers.QueryHandlers.Base;
+using Sortify.Services;
+using Sortify.Services.Interfaces;
 using System;
 
 namespace Sortify
@@ -26,6 +28,9 @@ namespace Sortify
             container.Register(Classes.FromAssemblyNamed(assemblyName)
                 .IncludeNonPublicTypes()
                 .BasedOn(typeof(IQueryHandler)).WithServiceAllInterfaces().LifestyleTransient());
+
+            container.Register(Component.For<IConnectionService>()
+                .ImplementedBy<ConnectionService>().LifeStyle.Singleton);
 
             serviceProvider = WindsorRegistrationHelper.CreateServiceProvider(container, services);
         }

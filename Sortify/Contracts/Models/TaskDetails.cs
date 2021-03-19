@@ -1,17 +1,17 @@
 ﻿namespace Sortify.Contracts.Models
 {
-    public class ProgressDetails
+    public class TaskDetails
     {
         public float Progress { get; set; }
 
         public string Description { get; set; }
 
-        public ProgressDetails(float progress)
+        public TaskDetails(float progress)
         {
             Progress = progress;
         }
 
-        public ProgressDetails(float progress, string description)
+        public TaskDetails(float progress, string description)
         {
             Progress = progress;
             Description = description;

@@ -24,7 +24,7 @@ import { TimeoutWarningComponent } from './timeout-warning/timeout-warning.compo
   styleUrls: ['./base-stepper.component.sass']
 })
 export class BaseStepperComponent {
-  protected progressHubUrl: string;
+  protected taskHubUrl: string;
   protected timeoutWarningThreshold: number;
 
   playlists: Playlist[];
@@ -50,7 +50,7 @@ export class BaseStepperComponent {
   onInit(): void {
     const data = this.activatedRoute.snapshot.data;
     this.playlists = data['playlists'].result.playlists;
-    this.progressHubUrl = this.settingsService.appSettings.progressHubUrl;
+    this.taskHubUrl = this.settingsService.appSettings.taskHubUrl;
     this.timeoutWarningThreshold = this.settingsService.appSettings.timeoutWarningThreshold;
   }
 
@@ -117,7 +117,7 @@ export class BaseStepperComponent {
 
   protected establishHubConnection(): void {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.progressHubUrl)
+      .withUrl(this.taskHubUrl)
       .build();
 
     this.hubConnection.on('progressUpdate', response => {

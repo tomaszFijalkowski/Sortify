@@ -23,7 +23,7 @@ import { SortConfirmationComponent } from './sort-confirmation/sort-confirmation
 export class SortStepperComponent extends BaseStepperComponent implements OnInit, AfterViewInit, OnDestroy {
   private sortingMultiplePlaylists: boolean;
 
-  blockCancellation = false;
+  preventCancellation = false;
 
   constructor(dialog: MatDialog,
     activatedRoute: ActivatedRoute,
@@ -103,7 +103,7 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
   private sortPlaylists(taskWeight: number): void {
     this.prepareEndScreen();
     this.establishHubConnection();
-    this.handleCancellationBlock();
+    this.handlePreventCancellation();
     this.hubConnection
       .start()
       .then(() => this.hubConnection.invoke('getConnectionId'))
@@ -114,10 +114,10 @@ export class SortStepperComponent extends BaseStepperComponent implements OnInit
       }).catch(() => this.request = new RequestDetails(RequestState.Error, 100, 'Could not establish connection to the server.'));
   }
 
-  private handleCancellationBlock(): void {
-    this.blockCancellation = false;
-    this.hubConnection.on('cancellationBlock', () => {
-      this.blockCancellation = true;
+  private handlePreventCancellation(): void {
+    this.preventCancellation = false;
+    this.hubConnection.on('preventCancellation', () => {
+      this.preventCancellation = true;
     });
   }
 

@@ -15,7 +15,7 @@ namespace Sortify.Contracts.Requests.Commands
         public string AccessToken { get; set; }
 
         /// <summary>
-        /// Connection id used to report back progress.
+        /// Connection id used for reporting back progress and handling cancellation.
         /// </summary>
         public string ConnectionId { get; set; }
 

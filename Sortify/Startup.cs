@@ -94,7 +94,7 @@ namespace Sortify
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ProgressHub>("/progress");
+                endpoints.MapHub<TaskHub>("/task");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");

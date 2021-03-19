@@ -15,7 +15,7 @@ export class EndStepComponent implements OnInit {
 
   @Input() request: RequestDetails;
   @Input() header: string;
-  @Input() blockCancellation = false;
+  @Input() preventCancellation = false;
   @Output() cancelRequest = new EventEmitter();
   @Output() backToStepper = new EventEmitter();
 
@@ -42,7 +42,7 @@ export class EndStepComponent implements OnInit {
   }
 
   get progressSpinnerCancel(): boolean {
-    const mouseOverCancel = this.mouseOverCancel && this.request.state === this.State.InProgress && !this.blockCancellation;
+    const mouseOverCancel = this.mouseOverCancel && this.request.state === this.State.InProgress && !this.preventCancellation;
     return mouseOverCancel || this.request.state === this.State.Cancelled;
   }
 

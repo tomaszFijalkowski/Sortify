@@ -9,12 +9,12 @@ using Sortify.Extensions;
 using Sortify.Handlers.CommandHandlers.Base;
 using Sortify.Helpers;
 using Sortify.Hubs;
+using Sortify.Services.Interfaces;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Sortify.Handlers.QueryHandlers
@@ -23,34 +23,34 @@ namespace Sortify.Handlers.QueryHandlers
     {
         private const int MaxItemsPerRequest = 100;
 
-        private readonly IHubContext<ProgressHub> progressHub;
+        private readonly IConnectionService connectionService;
+        private readonly IHubContext<TaskHub> taskHub;
         private readonly ILogger<CreatePlaylistsCommandHandler> logger;
         private readonly IMapper mapper;
 
-        private ProgressManager progressManager;
+        private TaskManager taskManager;
         private SpotifyClient spotify;
 
-        private CancellationToken cancellationToken;
         private readonly List<FullPlaylist> createdPlaylists = new List<FullPlaylist>();
 
         public CreatePlaylistsCommandHandler(
-            IHubContext<ProgressHub> progressHub,
+            IConnectionService connectionService,
+            IHubContext<TaskHub> taskHub,
             ILogger<CreatePlaylistsCommandHandler> logger,
             IMapper mapper)
         {
-            this.progressHub = progressHub;
+            this.connectionService = connectionService;
+            this.taskHub = taskHub;
             this.logger = logger;
             this.mapper = mapper;
         }
 
-        public async Task<OperationResult> HandleAsync(CreatePlaylistsCommand command, CancellationToken cancellationToken)
+        public async Task<OperationResult> HandleAsync(CreatePlaylistsCommand command)
         {
             OperationResult result;
 
             try
             {
-                this.cancellationToken = cancellationToken;
-
                 if (command.AccessToken == null)
                 {
                     throw new APIUnauthorizedException();
@@ -62,7 +62,7 @@ namespace Sortify.Handlers.QueryHandlers
                     return await Task.FromResult(result);
                 }
 
-                SetupProgressManager(command);
+                SetupTaskManager(command);
                 SetupSpotifyClient(command);
 
                 var tracks = await GetTracksFromAllPlaylists(command.PlaylistIds);
@@ -111,10 +111,10 @@ namespace Sortify.Handlers.QueryHandlers
             return command.PlaylistIds?.Count == 0 || command.SortBy?.Count == 0 || command.Name == null;
         }
 
-        private void SetupProgressManager(CreatePlaylistsCommand command)
+        private void SetupTaskManager(CreatePlaylistsCommand command)
         {
             var taskWeight = command.TaskWeight * (command.SortByAudioFeatures ? 3 : 2);
-            progressManager = new ProgressManager(progressHub, command.ConnectionId, taskWeight);
+            taskManager = new TaskManager(connectionService, taskHub, command.ConnectionId, taskWeight);
         }
 
         private void SetupSpotifyClient(CreatePlaylistsCommand command)
@@ -140,7 +140,7 @@ namespace Sortify.Handlers.QueryHandlers
                                        .Where(x => !x.IsLocal)
                                        .ToList();
 
-            progressManager.ProgressMultiplier = (float)tracks.Count / filteredTracks.Count;
+            taskManager.ProgressMultiplier = (float)tracks.Count / filteredTracks.Count;
 
             return filteredTracks;
         }
@@ -164,7 +164,7 @@ namespace Sortify.Handlers.QueryHandlers
                 playlistTracks.AddRange(requestedTracks.Items.Select(x => mapper.Map<Track>(x.Track)));
 
                 index++;
-                await CheckProgress("Preparing tracks");
+                await taskManager.ReportProgress("Preparing tracks");
             }
             while (playlistTracks.Count < playlistSize);
 
@@ -187,7 +187,7 @@ namespace Sortify.Handlers.QueryHandlers
                 audioFeaturesList.AddRange(requestedAudioFeatures.AudioFeatures);
 
                 index++;
-                await CheckProgress("Collecting audio features");
+                await taskManager.ReportProgress("Collecting audio features");
             }
 
             foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
@@ -299,10 +299,10 @@ namespace Sortify.Handlers.QueryHandlers
                                                                       .ToList());
 
                     await spotify.Playlists.AddItems(createdPlaylist.Id, request);
-                    await CheckProgress("Adding tracks");
+                    await taskManager.ReportProgress("Adding tracks");
                 }
             }
-            await CheckProgress("Complete", true);
+            await taskManager.ReportProgress("Complete", true);
         }
 
         private string GeneratePlaylistName(CreatePlaylistsCommand command, int number)
@@ -338,12 +338,6 @@ namespace Sortify.Handlers.QueryHandlers
             }
 
             return name;
-        }
-
-        private async Task CheckProgress(string description, bool complete = false)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            await progressManager.ReportProgress(description, complete);
         }
 
         private async Task ClearProgress()

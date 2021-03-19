@@ -17,7 +17,7 @@ namespace Sortify.Handlers.CommandHandlers.Base
         /// </summary>
         /// <param name="command">Command</param>
         /// <returns>Result of handling command</returns>
-        Task<OperationResult> HandleAsync(TCommand command, CancellationToken cancellationToken);
+        Task<OperationResult> HandleAsync(TCommand command);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace Sortify.Handlers.CommandHandlers.Base
         /// </summary>
         /// <param name="command">Command</param>
         /// <returns>Result with corresponding <see cref="TResponse"/></returns>
-        Task<OperationResult<TCommand, TResponse>> HandleAsync(TCommand command, CancellationToken cancellationToken);
+        Task<OperationResult<TCommand, TResponse>> HandleAsync(TCommand command);
     }
 
     /// <summary>

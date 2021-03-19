@@ -34,7 +34,7 @@ namespace Sortify.Handlers.QueryHandlers
                     SilentRefreshRedirectUri = configuration.GetValue<string>("AuthConfig:SilentRefreshRedirectUri"),
                     ClientId = configuration.GetValue<string>("AuthConfig:ClientId"),
                     ClientScope = configuration.GetValue<string>("AuthConfig:ClientScope"),
-                    ProgressHubUrl = configuration.GetValue<string>("ProgressHubUrl"),
+                    TaskHubUrl = configuration.GetValue<string>("TaskHubUrl"),
                     TimeoutWarningThreshold = configuration.GetValue<int>("TimeoutWarningThreshold")
                 };
 

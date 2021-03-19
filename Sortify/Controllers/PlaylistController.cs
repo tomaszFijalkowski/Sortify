@@ -38,18 +38,18 @@ namespace Sortify.Controllers
 
         [HttpPost]
         [Route("sort")]
-        public async Task<OperationResult> SortPlaylists(SortPlaylistsCommand command, CancellationToken cancellationToken)
+        public async Task<OperationResult> SortPlaylists(SortPlaylistsCommand command)
         {
             command.AccessToken = Request.Headers["Authorization"];
-            return await sortPlaylistsCommandHandler.HandleAsync(command, cancellationToken);
+            return await sortPlaylistsCommandHandler.HandleAsync(command);
         }
 
         [HttpPost]
         [Route("create")]
-        public async Task<OperationResult> CreatePlaylists(CreatePlaylistsCommand command, CancellationToken cancellationToken)
+        public async Task<OperationResult> CreatePlaylists(CreatePlaylistsCommand command)
         {
             command.AccessToken = Request.Headers["Authorization"];
-            return await createPlaylistsCommandHandler.HandleAsync(command, cancellationToken);
+            return await createPlaylistsCommandHandler.HandleAsync(command);
         }
     }
 }
