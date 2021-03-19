@@ -22,10 +22,10 @@ Sortify was made with **ASP&#46;NET Core 3.1** and **Angular 11.** It connects t
 
 ### Back-end libraries
 
+- [Application Insights](https://www.nuget.org/packages/Microsoft.ApplicationInsights.AspNetCore/2.17.0) for telemetry and error logging.
 - [AutoMapper](https://www.nuget.org/packages/AutoMapper/10.0.0) for convention-based object mapping.
 - [Castle Windsor](https://www.nuget.org/packages/Castle.Windsor/5.0.1) for inversion of control container.
 - [Dynamic LINQ](https://www.nuget.org/packages/System.Linq.Dynamic.Core/1.2.5) for advanced ordering.
-- [NLog](https://www.nuget.org/packages/NLog.Extensions.Logging/1.6.5) for server side logging.
 - [NUnit](https://www.nuget.org/packages/NUnit/3.13.1) for unit testing.
 - [SignalR](https://www.nuget.org/packages/Microsoft.AspNetCore.SignalR/1.1.0) for real-time bi-directional communication.
 - [SpotifyAPI.Web](https://www.nuget.org/packages/SpotifyAPI.Web/6.0.0-beta.12) for communication with Spotify Web API.
