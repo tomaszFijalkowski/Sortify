@@ -126,7 +126,7 @@ namespace Sortify.Handlers.QueryHandlers
 
                 var filteredTracks = tracks.GroupBy(x => x?.Id)
                                            .Select(x => x.First())
-                                           .Where(x => !x.IsLocal)
+                                           .Where(x => x?.IsLocal == false)
                                            .ToList();
                 filteredTrackCount += filteredTracks.Count();
 
