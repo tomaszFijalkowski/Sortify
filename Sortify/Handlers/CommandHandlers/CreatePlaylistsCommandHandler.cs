@@ -192,7 +192,7 @@ namespace Sortify.Handlers.QueryHandlers
 
             foreach (var (track, audioFeatures) in tracks.Zip(audioFeaturesList, (track, audioFeatures) => (track, audioFeatures)))
             {
-                track.AudioFeatures = track.IsEpisode ? new AudioFeatures() : mapper.Map<AudioFeatures>(audioFeatures);
+                track.AudioFeatures = mapper.Map<AudioFeatures>(audioFeatures ?? new TrackAudioFeatures());
             }
 
             return tracks;
