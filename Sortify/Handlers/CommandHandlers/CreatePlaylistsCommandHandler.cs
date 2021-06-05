@@ -245,7 +245,7 @@ namespace Sortify.Handlers.QueryHandlers
                 splitIndices.AdjustWithSmartSplit(tracks, command.SmartSplitType.GetValueOrDefault());
             }
 
-            return splitIndices.ToList();
+            return splitIndices.OrderBy(x => x).ToList();
         }
 
         private List<string> ValidatePlaylists(List<List<Track>> playlists)
