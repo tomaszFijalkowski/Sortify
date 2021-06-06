@@ -1,5 +1,5 @@
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, map } from 'rxjs/operators';
+import { catchError, expand, finalize, reduce } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
@@ -19,12 +19,23 @@ export class PlaylistsToCreateResolver implements Resolve<OperationResult<GetPla
   resolve(): Observable<OperationResult<GetPlaylistsResponse>> {
     this.loadingService.startLoading();
     return this.playlistService.getPlaylists().pipe(
-      map((response: OperationResult<GetPlaylistsResponse>) => {
+      expand(((response: OperationResult<GetPlaylistsResponse>) => {
         if (response.successful) {
+          const isFinished = response.result.isFinished;
+          const index = response.result.index;
+          return isFinished ? EMPTY : this.playlistService.getPlaylists(index);
+        }
+        return EMPTY;
+      })),
+      reduce((previous: OperationResult<GetPlaylistsResponse>, response: OperationResult<GetPlaylistsResponse>) => {
+        if (response.successful) {
+          const previousPlaylists = previous ? previous.result.playlists : [];
+          const combinedPlaylists = [...previousPlaylists, ...response.result.playlists];
+          response.result.playlists = combinedPlaylists;
           return response;
         }
         this.router.navigate(['/error'], { state: { statusCode: response.statusCode, errorMessage: response.errorMessage } });
-      }),
+      }, null),
       catchError(() => {
         this.router.navigate(['/error']);
         return EMPTY;

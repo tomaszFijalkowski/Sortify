@@ -1,5 +1,5 @@
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, finalize, map, mergeMap } from 'rxjs/operators';
+import { catchError, expand, finalize, mergeMap, reduce } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
@@ -25,14 +25,24 @@ export class PlaylistsToSortResolver implements Resolve<OperationResult<GetPlayl
       mergeMap((userDetailsResponse: OperationResult<GetUserDetailsResponse>) => {
         if (userDetailsResponse.successful) {
           const ownerId = userDetailsResponse.result.userDetails.id;
-          return this.playlistService.getPlaylists(ownerId).pipe(
-            map((playlistsResponse: OperationResult<GetPlaylistsResponse>) => {
-              if (playlistsResponse.successful) {
-                return playlistsResponse;
+          return this.playlistService.getPlaylists(0, ownerId).pipe(
+            expand(((response: OperationResult<GetPlaylistsResponse>) => {
+              if (response.successful) {
+                const isFinished = response.result.isFinished;
+                const index = response.result.index;
+                return isFinished ? EMPTY : this.playlistService.getPlaylists(index, ownerId);
               }
-              this.router.navigate(['/error'],
-                { state: { statusCode: playlistsResponse.statusCode, errorMessage: playlistsResponse.errorMessage } });
-            }));
+              return EMPTY;
+            })),
+            reduce((previous: OperationResult<GetPlaylistsResponse>, response: OperationResult<GetPlaylistsResponse>) => {
+              if (response.successful) {
+                const previousPlaylists = previous ? previous.result.playlists : [];
+                const combinedPlaylists = [...previousPlaylists, ...response.result.playlists];
+                response.result.playlists = combinedPlaylists;
+                return response;
+              }
+              this.router.navigate(['/error'], { state: { statusCode: response.statusCode, errorMessage: response.errorMessage } });
+            }, null));
         }
         this.router.navigate(['/error'],
           { state: { statusCode: userDetailsResponse.statusCode, errorMessage: userDetailsResponse.errorMessage } });

@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sortify.Contracts.Requests.Commands;
 using Sortify.Contracts.Requests.Queries;
@@ -29,10 +28,15 @@ namespace Sortify.Controllers
         }
 
         [HttpGet]
-        public async Task<OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>> GetPlaylists(string ownerId)
+        public async Task<OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>> GetPlaylists(string ownerId, int index)
         {
             var accessToken = Request.Headers["Authorization"];
-            var query = new GetPlaylistsQuery() { AccessToken = accessToken, OwnerId = ownerId };
+            var query = new GetPlaylistsQuery()
+            {
+                AccessToken = accessToken,
+                OwnerId = ownerId,
+                Index = index
+            };
             return await getPlaylistsQueryHandler.HandleAsync(query);
         }
 

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 import { CreatePlaylistsRequest } from '../models/requests/create-playlists.request';
@@ -17,9 +17,20 @@ export class PlaylistService {
     @Inject('BASE_URL') private baseUrl: string) {
   }
 
-  getPlaylists(ownerId: string = null): Observable<OperationResult<GetPlaylistsResponse>> {
-    const params = { params: ownerId ? {ownerId: ownerId} : null };
-    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist', params);
+  getPlaylists(index: number = 0, ownerId: string = null): Observable<OperationResult<GetPlaylistsResponse>> {
+    const params = this.createHttpParams({ index: index, ownerId: ownerId });
+    return this.http.get<OperationResult<GetPlaylistsResponse>>(this.baseUrl + 'playlist', { params: params });
+  }
+
+  private createHttpParams(params: {}): HttpParams {
+    let httpParams: HttpParams = new HttpParams();
+    Object.keys(params).forEach(param => {
+      if (params[param]) {
+        httpParams = httpParams.set(param, params[param]);
+      }
+    });
+
+    return httpParams;
   }
 
   sortPlaylists(request: SortPlaylistsRequest): Observable<OperationResult<Nothing>> {

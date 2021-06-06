@@ -16,5 +16,10 @@ namespace Sortify.Contracts.Requests.Queries
         /// Narrows the playlists by OwnerId if specified.
         /// </summary>
         public string OwnerId { get; set; }
+
+        /// <summary>
+        /// Index at which the request left off.
+        /// </summary>
+        public int Index { get; set; }
     }
 }

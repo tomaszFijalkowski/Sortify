@@ -1,4 +1,5 @@
-import { finalize } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { expand, finalize, reduce } from 'rxjs/operators';
 import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
 import { SelectionChangedEvent } from 'src/app/models/events/selection-changed.event';
 import { OperationResult } from 'src/app/models/responses/base/operation-result';
@@ -99,8 +100,25 @@ export class SelectionStepComponent implements OnInit {
   refreshSelection(): void {
     const ownerId = this.limitByOwner ? this.userService.currentUserDetails?.id : null;
 
-    this.playlistService.getPlaylists(ownerId)
-      .pipe(finalize(() => this.dataSourceLoading = false))
+    this.playlistService.getPlaylists(0, ownerId)
+      .pipe(
+        expand(((response: OperationResult<GetPlaylistsResponse>) => {
+          if (response.successful) {
+            const isFinished = response.result.isFinished;
+            const index = response.result.index;
+            return isFinished ? EMPTY : this.playlistService.getPlaylists(index, ownerId);
+          }
+          return EMPTY;
+        })),
+        reduce((previous: OperationResult<GetPlaylistsResponse>, response: OperationResult<GetPlaylistsResponse>) => {
+          if (response.successful) {
+            const previousPlaylists = previous ? previous.result.playlists : [];
+            const combinedPlaylists = [...previousPlaylists, ...response.result.playlists];
+            response.result.playlists = combinedPlaylists;
+          }
+          return response;
+        }, null),
+        finalize(() => this.dataSourceLoading = false))
       .subscribe((response: OperationResult<GetPlaylistsResponse>) => {
         if (response.successful) {
           this.dataSource.data = response.result.playlists;

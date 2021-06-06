@@ -1,5 +1,7 @@
 export interface GetPlaylistsResponse {
   playlists: Playlist[];
+  isFinished: boolean;
+  index: number;
 }
 
 export interface Playlist {

@@ -14,5 +14,15 @@ namespace Sortify.Contracts.Responses
         /// Current user's playlists.
         /// </summary>
         public IEnumerable<Playlist> Playlists { get; set; }
+
+        /// <summary>
+        /// Whether the whole request is finished.
+        /// </summary>
+        public bool IsFinished { get; set; }
+
+        /// <summary>
+        /// Index at which the request left off.
+        /// </summary>
+        public int Index { get; set; }
     }
 }

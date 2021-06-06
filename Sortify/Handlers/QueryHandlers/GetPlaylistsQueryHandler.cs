@@ -16,6 +16,7 @@ namespace Sortify.Handlers.QueryHandlers
 {
     public class GetPlaylistsQueryHandler : IQueryHandler<GetPlaylistsQuery, GetPlaylistsResponse>
     {
+        private const int MaxRequests = 40;
         private const int MaxItemsPerRequest = 50;
         private readonly ILogger<GetPlaylistsQueryHandler> logger;
         private readonly IMapper mapper;
@@ -44,9 +45,13 @@ namespace Sortify.Handlers.QueryHandlers
 
                 spotify = new SpotifyClient(config);
 
+                var playlistsTuple = await GetUserPlaylists(query.Index, query.OwnerId);
+
                 var response = new GetPlaylistsResponse
                 {
-                    Playlists = await GetUserPlaylists(query.OwnerId)
+                    Playlists = playlistsTuple.Item1,
+                    IsFinished = playlistsTuple.Item2,
+                    Index = playlistsTuple.Item3
                 };
 
                 result = OperationResult<GetPlaylistsQuery, GetPlaylistsResponse>.Success(response);
@@ -65,12 +70,14 @@ namespace Sortify.Handlers.QueryHandlers
             }
         }
 
-        private async Task<IEnumerable<Playlist>> GetUserPlaylists(string ownerId)
+        private async Task<(IEnumerable<Playlist>, bool, int)> GetUserPlaylists(int index, string ownerId)
         {
-            var index = 0;
+            var requestCount = 0;
+            var previousTotalCount = index * MaxItemsPerRequest;
+            var isFinished = false;
+
             var playlists = new List<Playlist>();
 
-            int totalCount;
             do
             {
                 var request = new PlaylistCurrentUsersRequest
@@ -80,16 +87,22 @@ namespace Sortify.Handlers.QueryHandlers
                 };
 
                 var requestedPlaylists = await spotify.Playlists.CurrentUsers(request);
-                totalCount = requestedPlaylists.Total.GetValueOrDefault();
+                var totalCount = requestedPlaylists.Total.GetValueOrDefault();
                 playlists.AddRange(requestedPlaylists.Items.Select(x => mapper.Map<Playlist>(x)));
 
                 index++;
+                requestCount++;
+
+                if (playlists.Count + previousTotalCount == totalCount)
+                {
+                    isFinished = true;
+                }
             }
-            while (playlists.Count < totalCount);
+            while (requestCount < MaxRequests && isFinished == false);
 
             playlists = playlists.Where(x => ownerId == null || x.OwnerId == ownerId).ToList();
 
-            return playlists;
+            return (playlists, isFinished, index);
         }
     }
 }
