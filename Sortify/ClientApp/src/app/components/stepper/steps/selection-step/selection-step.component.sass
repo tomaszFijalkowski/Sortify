@@ -28,12 +28,15 @@
   color: $white-dim
 
 
-.buttons
+.buttons,
+.buttons-right
   color: $gray-light
-  margin-left: auto
   padding-bottom: 1.34375em
   display: flex
   align-items: center
+
+.buttons-right
+  margin-left: auto
 
 .buttons button:hover:not(:disabled)
   color: $white-dim
@@ -151,6 +154,12 @@
 
 .songs-text
   min-width: fit-content
+
+.sort-label
+  color: #ffffff80
+
+.selected .sort-label
+  color: $green
 
 
 @media(max-width: $breakpoint-tablet)

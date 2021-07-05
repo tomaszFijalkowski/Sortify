@@ -182,6 +182,20 @@
   visibility: hidden
 
 
+// mat-menu
+
+.cdk-overlay-pane .mat-menu-content:not(:empty)
+  padding: 0
+
+.cdk-overlay-pane .mat-menu-item
+  height: 3em
+
+.cdk-overlay-pane .mat-menu-item.selected
+  color: $green
+  background-color: #595959
+  transition: background-color $transition-time-slow
+
+
 // mat-paginator
 
 .app-container .mat-paginator
@@ -218,23 +232,6 @@
 
 
 // mat-select-panel
-
-.app-container .mat-select-panel
-  background: none
-  user-select: none
-
-.app-container .mat-select:not(.mat-select-disabled) .mat-select-value,
-.app-container .mat-select-panel .mat-option
-  color: $white
-
-.app-container .mat-select-panel .mat-option
-  background-color: $gray
-
-.app-container .mat-select-panel .mat-option:hover
-  background-color: $gray-hover
-
-.app-container .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple)
-  background-color: $gray-selected
 
 .app-container .mat-icon-button[disabled][disabled],
   color: $gray

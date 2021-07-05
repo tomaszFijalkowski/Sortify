@@ -1,3 +1,4 @@
+import { orderBy } from 'lodash';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce } from 'rxjs/operators';
 import { BREAKPOINT_PHONE, BREAKPOINT_TABLET } from 'src/app/models/constants/resolution-breakpoints';
@@ -24,6 +25,8 @@ export class SelectionStepComponent implements OnInit {
   dataSource = new MatTableDataSource<Playlist>();
   dataSourceLoading: boolean;
   selection = new SelectionModel<Playlist>(true, []);
+
+  selectedSort: 'index' | 'name' | 'ownerName' | 'size' = 'index';
 
   errorOccurred = false;
   fadeIn = false;
@@ -97,6 +100,24 @@ export class SelectionStepComponent implements OnInit {
     this.fadeIn = false;
   }
 
+  sortBy(value: 'index' | 'name' | 'ownerName' | 'size' ): void {
+    this.fadeIn = true;
+    this.selectedSort = value;
+
+    switch (value) {
+      case 'index':
+        this.dataSource.data = orderBy(this.dataSource.data, value);
+        break;
+      case 'name':
+      case 'ownerName':
+        this.dataSource.data = orderBy(this.dataSource.data, x => x[value].toLowerCase());
+        break;
+      case 'size':
+        this.dataSource.data = orderBy(this.dataSource.data, value, 'desc');
+        break;
+    }
+  }
+
   refreshSelection(): void {
     const ownerId = this.limitByOwner ? this.userService.currentUserDetails?.id : null;
 
@@ -114,6 +135,10 @@ export class SelectionStepComponent implements OnInit {
           if (response.successful) {
             const previousPlaylists = previous ? previous.result.playlists : [];
             const combinedPlaylists = [...previousPlaylists, ...response.result.playlists];
+
+            let index = 0;
+            combinedPlaylists.forEach(x => x.index = index++);
+
             response.result.playlists = combinedPlaylists;
           }
           return response;
@@ -124,7 +149,7 @@ export class SelectionStepComponent implements OnInit {
           this.dataSource.data = response.result.playlists;
           this.errorOccurred = false;
           this.setDefaultTabIndex();
-          this.fadeIn = true;
+          this.sortBy(this.selectedSort);
         } else {
           this.errorOccurred = true;
         }

@@ -11,6 +11,7 @@ export interface Playlist {
   ownerName: string;
   size: number;
   image: Image;
+  index: number;
 }
 
 export interface Image {

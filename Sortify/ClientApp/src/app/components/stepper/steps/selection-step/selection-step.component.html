@@ -9,6 +9,28 @@
   </mat-form-field>
 
   <div class="buttons">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Sort playlists by"
+      matTooltip="Sort playlists by">
+      <mat-icon>sort</mat-icon>
+    </button>
+
+    <mat-menu #menu>
+      <button mat-menu-item [ngClass]="{'selected': selectedSort === 'index'}" (click)="sortBy('index')">
+        <span>Default</span>
+      </button>
+      <button mat-menu-item [ngClass]="{'selected': selectedSort === 'name'}" (click)="sortBy('name')">
+        <span>Name </span><span class="sort-label">(A-Z)</span>
+      </button>
+      <button mat-menu-item [ngClass]="{'selected': selectedSort === 'ownerName'}" (click)="sortBy('ownerName')" *ngIf="limitByOwner === false">
+        <span>Owner </span><span class="sort-label">(A-Z)</span>
+      </button>
+      <button mat-menu-item [ngClass]="{'selected': selectedSort === 'size'}" (click)="sortBy('size')">
+        <span>Size</span>
+      </button>
+    </mat-menu>
+  </div>
+
+  <div class="buttons-right">
     <button mat-icon-button (click)="refreshSelection()" aria-label="Refresh playlists"
       matTooltip="Refresh playlists" disabled="{{dataSourceLoading === true}}">
       <mat-icon>refresh</mat-icon>

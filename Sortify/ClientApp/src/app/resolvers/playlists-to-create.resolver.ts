@@ -31,6 +31,10 @@ export class PlaylistsToCreateResolver implements Resolve<OperationResult<GetPla
         if (response.successful) {
           const previousPlaylists = previous ? previous.result.playlists : [];
           const combinedPlaylists = [...previousPlaylists, ...response.result.playlists];
+
+          let index = 0;
+          combinedPlaylists.forEach(x => x.index = index++);
+
           response.result.playlists = combinedPlaylists;
           return response;
         }
