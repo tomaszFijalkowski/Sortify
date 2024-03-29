@@ -8,7 +8,7 @@ Sortify is a **single-page application** that aims to help people organize their
 It uses **Spotify Web API** to fetch, sort and create playlists. When creating, you have an option to merge or split the playlists.
 It also removes any track duplicates from them. All that, while being very simple and friendly to use.
 
-**After 3 years of operation, Sortify has been sunset due to breaking changes in Spotify Web API and increasing hosting costs.**\
+**After 3 years of operation, Sortify has been sunset due to breaking changes in Spotify Web API and increasing hosting costs.**
 **Thank you to everyone who has used Sortify while it lasted! :green_heart:**
 
 ## Technologies
